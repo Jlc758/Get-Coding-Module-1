@@ -21,11 +21,17 @@
 .main-header-title {
     font-size: x-large;
     font-family: 'Dosis', Arial, Helvetica, sans-serif;
-    text-shadow: 2px 2px 2px #6cb8dc;
+    text-shadow: 2px 2px 2px #83c5be;
     text-align: center;
     padding-top: 2em;
 }
 
+
+button {
+  border-color: transparent;
+}
+
+/**
 .accordion-button {
   background-color: #006d77;
   color: #ffddd2;
