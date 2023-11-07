@@ -30,28 +30,3 @@
 button {
   border-color: transparent;
 }
-
-/**
-.accordion-button {
-  background-color: #006d77;
-  color: #ffddd2;
-}
-
-
-
-/*
-.accordion-button {
-  background-color: black;
-}
-
-/*
-.top-bar {
-    display: flex;
-    justify-content: space-around;
-    background-color: #78a1a75e;
-    padding: 8px;   
-}
-
-.sections {
-  color: pink;
-}

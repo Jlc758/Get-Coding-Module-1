@@ -30,7 +30,7 @@
     </div>
 
     <div class="accordion">
-        <div class="accordion-item">
+        <div class="accordion-item">  <!--Journal (1)-->
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
               Journal Entry
@@ -43,7 +43,8 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item">
+
+        <div class="accordion-item"> <!--Emotion Tracker (2)-->
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
               Emotion Tracker
@@ -55,7 +56,8 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item">
+
+        <div class="accordion-item">  <!--Water Intake (3)-->
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
               Water Intake Tracker
@@ -67,23 +69,51 @@
             </div>
           </div>
         </div>
+
+        <div class="accordion-item">  <!--Medication (4)-->
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Medication Tracker
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                  <!--Insert pill icons as selectors-->
+              </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">  <!--Exercise Tracker (5)-->
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    Exercise Tracker
+                  </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <!--Fields w/ checkboxes-->
+                  </div>
+                </div>
+        </div>
+
+        <div class="accordion-item">  <!--Habit Tracker (6)-->
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                Habit Tracker
+              </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                  <!--Fields w/ checkboxes-->
+              </div>
+            </div>
+        </div>
+
+        <!--Maybe put all exercises and habits in menu dropdown to be pulled for accordion sections?  For consistency purposes? (if possible)-->
+
+        </div> 
       </div>
-  
 
-<!-- Removing to test Accordian element
-    <div class="sections">
-        <ul>
-        <li>Entry</li>
-        <li>Water Intake Tracker</li>
-        <li>Medication Tracker</li>
-        <li>Refill Tracker</li>
-        <li>Habit Tracker</li>
-        <li>Weekly & Monthly Summary</li>
-        <li>Flagged Journal Entries</li>
-        </ul>
-    </div>
-
-        -->
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
