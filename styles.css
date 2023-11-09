@@ -1,31 +1,43 @@
 /* Custom Font(s) */
 @font-face {
-    font-family: 'KayPhoDu';
-    src: url(fonts/KayPhoDu/KayPhoDu-Medium.ttf);
+  font-family: "KayPhoDu";
+  src: url(fonts/KayPhoDu/KayPhoDu-Medium.ttf);
 }
 
 @font-face {
-    font-family: 'Dosis';
-    src: url(fonts/Dosis/Dosis-Regular.ttf);
+  font-family: "Dosis";
+  src: url(fonts/Dosis/Dosis-Regular.ttf);
 }
 
+/* ! Just want to ensure this is meant to be applied everywhere ? It's generally best practice to target specific elements, but global selectors can be useful. */
 
+/* ! Background and font colors can be set on the body and then you can target other elements to inherit so they will get those values as well */
 
-*{
-    background-color: #feeafa;
-    font-family: 'KayPhoDu', 'Courier New', Courier, monospace;
-    color: #1b2043;
-
+/* ! EX:
+!    body {
+!        background-color: #feeafa;
+!        font-family: "KayPhoDu", "Courier New", Courier, monospace;
+!        color: #1b2043;
+!    }
+!
+!   button, input, select, textarea {
+!        font-family: inherit;
+!        color: inherit;
+!    }
+! } */
+* {
+  background-color: #feeafa;
+  font-family: "KayPhoDu", "Courier New", Courier, monospace;
+  color: #1b2043;
 }
 
 .main-header-title {
-    font-size: x-large;
-    font-family: 'Dosis', Arial, Helvetica, sans-serif;
-    text-shadow: 2px 2px 2px #83c5be;
-    text-align: center;
-    padding-top: 2em;
+  font-size: x-large;
+  font-family: "Dosis", Arial, Helvetica, sans-serif;
+  text-shadow: 2px 2px 2px #83c5be;
+  text-align: center;
+  padding-top: 2em;
 }
-
 
 button {
   border-color: transparent;
