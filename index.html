@@ -44,9 +44,8 @@
         <div class="accordion">
         <section class="accordion-item"> <!--Journal (1)-->
             <h2 class="accordion-header">
-                <!-- ! Accessibility: aria-label="Toggle journal entry section" -->
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
+                    aria-expanded="true" aria-controls="collapseOne" aria-label="Toggle journal entry section">
                     Journal Entry
                 </button>
             </h2>
@@ -54,10 +53,7 @@
                 <div class="accordion-body">
                     <div> <!--Insert free form--> </div>
                     <div class="mb-3">
-                        <!-- ! <!-- ! Accessibility: aria-label="Journal entry text area" --> -->
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-
-                        <!-- ! NOTE: inputs are often a good place for aria-label but this one has a label so it probably isn't necessary -->
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" aria-label="Journal entry text area"></textarea>
                         <input type="checkbox" class="btn-check" id="btn-check-5" checked autocomplete="off">
                         <label class="btn" for="btn-check-5">Flag for Doctor</label>
 
@@ -69,9 +65,8 @@
 
         <section class="accordion-item"> <!--Emotion Tracker (2)-->
             <h2 class="accordion-header">
-                <!-- ! Accessibility: aria-label="Toggl emotion tracker section" -->
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" aria-label="Toggl emotion tracker section">
                     Emotion Tracker
                 </button>
             </h2>
