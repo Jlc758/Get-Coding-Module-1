@@ -43,3 +43,12 @@ button {
   border-color: transparent;
   background-color: transparent;
 }
+
+ul {
+  text-align: center;
+  list-style-type: none;
+}
+
+#exampleFormControlTextarea1 {
+  border-width: 3px;
+}
