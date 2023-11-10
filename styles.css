@@ -9,13 +9,10 @@
     src: url(fonts/Dosis/Dosis-Regular.ttf);
 }
 
-
-
-*{
+body {
     background-color: #feeafa;
     font-family: 'KayPhoDu', 'Courier New', Courier, monospace;
     color: #1b2043;
-
 }
 
 .main-header-title {
@@ -40,3 +37,5 @@ ul {
 #exampleFormControlTextarea1 {
   border-width: 3px;
 }
+
+
