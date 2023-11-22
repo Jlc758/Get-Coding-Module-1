@@ -1,5 +1,5 @@
-const buttons = document.querySelectorAll("flag");
+const flags = document.querySelectorAll(".flag");
 
-for (const flag of buttons) {
-    flag.addEventListener('click', backgroundColor = "black")
-}
+for (const flag of flags)
+    flag.addEventListener('click', () => {
+        flag.style.backgroundColor = "black"})
