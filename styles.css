@@ -49,6 +49,15 @@ button {
   background-color: transparent;
 }
 
+button.flag {
+  background-color: #83c5be;
+  box-shadow: 0 0 40px #e5989b;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  border-color: #1b2043;
+}
+
 ul {
   text-align: center;
   list-style-type: none;
