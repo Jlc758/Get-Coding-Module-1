@@ -61,19 +61,11 @@ body {
 .accordion-content {
   background-color: pink;
   border-top: 4em;
-  min-height:calc(2*border-top);
+  display: none;
+  
 }
 
-/*
-.container-lg {
-  background-color: #e5989b;;
-}
 
-.accordionButton {
-  background-color: transparent;
-  border: transparent;
-}
-*/
 
 button.flag {
   background-color: #83c5be;
