@@ -44,9 +44,12 @@ body {
 }
 
 
-button {
-  border-color: transparent;
-  background-color: transparent;
+.container-lg {
+  background-color: #e5989b;;
+}
+
+.accordionButton {
+  background-color: green;
 }
 
 button.flag {
