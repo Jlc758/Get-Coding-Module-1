@@ -43,14 +43,37 @@ body {
     padding-top: 2em;
 }
 
+.accordion {
+  margin-left: 4em;
+  margin-right: 4em;
+  min-width:max-content;
+}
 
+.accordion-item {
+  padding: 20px;
+}
+
+.accordion-header {
+  background-color: rgb(188, 188, 244);
+  border-bottom: 4em;
+}
+
+.accordion-content {
+  background-color: pink;
+  border-top: 4em;
+  min-height:calc(2*border-top);
+}
+
+/*
 .container-lg {
   background-color: #e5989b;;
 }
 
 .accordionButton {
-  background-color: green;
+  background-color: transparent;
+  border: transparent;
 }
+*/
 
 button.flag {
   background-color: #83c5be;
