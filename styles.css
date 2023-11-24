@@ -17,36 +17,35 @@ body {
   }
 }
 
-
 /* Custom Font(s) */
 @font-face {
-    font-family: 'KayPhoDu';
-    src: url(fonts/KayPhoDu/KayPhoDu-Medium.ttf);
+  font-family: "KayPhoDu";
+  src: url(fonts/KayPhoDu/KayPhoDu-Medium.ttf);
 }
 
 @font-face {
-    font-family: 'Dosis';
-    src: url(fonts/Dosis/Dosis-Regular.ttf);
+  font-family: "Dosis";
+  src: url(fonts/Dosis/Dosis-Regular.ttf);
 }
 
 body {
-    background-color: #feeafa;
-    font-family: 'KayPhoDu', 'Courier New', Courier, monospace;
-    color: #1b2043;
+  background-color: #feeafa;
+  font-family: "KayPhoDu", "Courier New", Courier, monospace;
+  color: #1b2043;
 }
 
 .main-header-title {
-    font-size: x-large;
-    font-family: 'Dosis', Arial, Helvetica, sans-serif;
-    text-shadow: 2px 2px 2px #83c5be;
-    text-align: center;
-    padding-top: 2em;
+  font-size: x-large;
+  font-family: "Dosis", Arial, Helvetica, sans-serif;
+  text-shadow: 2px 2px 2px #83c5be;
+  text-align: center;
+  padding-top: 2em;
 }
 
 .accordion {
   margin-left: 4em;
   margin-right: 4em;
-  min-width:max-content;
+  min-width: max-content;
 }
 
 .accordion-item {
@@ -61,10 +60,7 @@ body {
 .accordion-content {
   background-color: pink;
   border-top: 4em;
-  
 }
-
-
 
 button.flag {
   background-color: #83c5be;
@@ -75,6 +71,10 @@ button.flag {
   border-color: #1b2043;
 }
 
+.btnClosed {
+  display: none;
+}
+
 ul {
   text-align: center;
   list-style-type: none;
@@ -83,5 +83,3 @@ ul {
 #exampleFormControlTextarea1 {
   border-width: 3px;
 }
-
-
