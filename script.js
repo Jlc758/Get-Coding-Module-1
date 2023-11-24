@@ -10,18 +10,17 @@ for (const flag of flags)
 ;
 
 function toggleCollapse() {
-    let element = document.getElementsByClassName("accordion-header");
-    if (element.style.display === ""){
-        element.style.display = 'block'; 
+    if (window.getComputedStyle = "none") {
+        window.getComputedStyle = "block"; 
     }
-    else element.style.display = "";
+    else window.getComputedStyle = "none";
     }
 
 
-function collapse () {
-    document.getElementsByClassName(accordionHeader).click(toggleCollapse);
+/*
+click.toggleCollapse() {
+    if true 
 }
-
 
 /*
 document.addEventListener('DOMContentLoaded', function () {
