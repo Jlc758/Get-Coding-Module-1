@@ -1,5 +1,6 @@
 const flags = document.querySelectorAll(".flag");
 let accordionHeader = document.querySelector(".accordion-header")
+let accordionContent = document.querySelector("accordion-content")
 
 for (const flag of flags) 
     flag.addEventListener ('click', () => {flag.style.backgroundColor = "#e5989b";
@@ -8,16 +9,19 @@ for (const flag of flags)
     }, 1000);} )
 ;
 
-
 function toggleCollapse() {
     let element = document.getElementsByClassName("accordion-header");
-    if (element.style.display === 'none'){
+    if (element.style.display === ""){
         element.style.display = 'block'; 
     }
-    else element.style.display ='none';
+    else element.style.display = "";
     }
 
-accordionHeader.addEventListener('click', toggleCollapse);
+
+function collapse () {
+    document.getElementsByClassName(accordionHeader).click(toggleCollapse);
+}
+
 
 /*
 document.addEventListener('DOMContentLoaded', function () {
