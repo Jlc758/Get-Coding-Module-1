@@ -60,6 +60,7 @@ body {
 .accordion-content {
   background-color: pink;
   border-top: 4em;
+  display: none;
 }
 
 button.flag {
