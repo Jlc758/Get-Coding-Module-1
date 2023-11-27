@@ -27,3 +27,10 @@ for (const item of accordionHeader)
       }
     });
   });
+
+let buttonSubmit = document.querySelectorAll(".button-submit");
+let fillableResults = document.getElementById("fillable").value;
+
+buttonSubmit.addEventListener("click", function () {
+  console.log("Entry", fillableResults);
+});
