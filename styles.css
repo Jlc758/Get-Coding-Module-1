@@ -1,6 +1,9 @@
 /* General styles for all devices */
 body {
-  font-size: 16px;
+  background-color: #feeafa;
+  font-family: "KayPhoDu", "Courier New", Courier, monospace;
+  color: #1b2043;
+  font-size: small;
 }
 
 /* Media query for devices with a maximum width of 600 pixels */
@@ -26,12 +29,6 @@ body {
 @font-face {
   font-family: "Dosis";
   src: url(fonts/Dosis/Dosis-Regular.ttf);
-}
-
-body {
-  background-color: #feeafa;
-  font-family: "KayPhoDu", "Courier New", Courier, monospace;
-  color: #1b2043;
 }
 
 .main-header-title {
@@ -63,7 +60,8 @@ body {
   display: none;
 }
 
-button.flag {
+button.flag,
+button.submit {
   background-color: #83c5be;
   box-shadow: 0 0 40px #e5989b;
   font-size: 14px;
@@ -72,8 +70,8 @@ button.flag {
   border-color: #1b2043;
 }
 
-.btnClosed {
-  display: none;
+button.submit {
+  text-align: center;
 }
 
 ul {

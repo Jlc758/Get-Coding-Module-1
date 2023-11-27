@@ -18,7 +18,6 @@ for (const item of accordionHeader)
       ? (content.style.display = "none")
       : (content.style.display = "block");
 
-    console.log("Hello World!");
     accordionHeader.forEach(function (otherItem) {
       if (otherItem !== item) {
         let otherContent = otherItem.firstElementChild;
