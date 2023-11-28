@@ -13,14 +13,14 @@ let accordionHeader = document.querySelectorAll(".accordion-header");
 
 for (const item of accordionHeader)
   item.addEventListener("click", () => {
-    let content = item.firstElementChild;
-    content.style.display === "block"
-      ? (content.style.display = "")
-      : (content.style.display = "block");
+    let content = item.accordionContent;
+    content.display.style === "block"
+      ? (content.display.style = "")
+      : (content.display.style = "block");
 
     accordionHeader.forEach(function (otherItem) {
       if (otherItem !== item) {
-        let otherContent = otherItem.firstElementChild;
+        let otherContent = otherItem.accordionContent;
         if (otherContent.style.display !== "") {
           otherContent.style.display = "";
         }
