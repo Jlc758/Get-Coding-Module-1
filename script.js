@@ -15,14 +15,14 @@ for (const item of accordionHeader)
   item.addEventListener("click", () => {
     let content = item.firstElementChild;
     content.style.display === "block"
-      ? (content.style.display = "none")
+      ? (content.style.display = "")
       : (content.style.display = "block");
 
     accordionHeader.forEach(function (otherItem) {
       if (otherItem !== item) {
         let otherContent = otherItem.firstElementChild;
-        if (otherContent.style.display !== "none") {
-          otherContent.style.display = "none";
+        if (otherContent.style.display !== "") {
+          otherContent.style.display = "";
         }
       }
     });
