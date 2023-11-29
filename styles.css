@@ -51,13 +51,13 @@ body {
 
 .accordion-header {
   background-color: rgb(188, 188, 244);
-  /*border-bottom: 4em;*/
+  border-bottom: 4em;
 }
 
 .accordion-content {
   background-color: pink;
   border-top: 4em;
-  display: block;
+  display: none;
 }
 
 button.flag,

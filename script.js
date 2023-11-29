@@ -1,5 +1,4 @@
 const flags = document.querySelectorAll(".flag");
-/* let accordionContent = document.querySelector(".accordion-content"); */
 
 for (const flag of flags)
   flag.addEventListener("click", () => {
@@ -10,39 +9,24 @@ for (const flag of flags)
   });
 
 let accordionHeader = document.querySelectorAll(".accordion-header");
-let accordionContent = document.getElementsByClassName(".accordion-content");
+let accordionContent = document.querySelectorAll(".accordion-content");
 
-accordionHeader.addEventListener("click", () => {
-  if (accordionContent.style.display === "block") {
-    accordionContent.style.display === "";
-  } else {
-    accordionContent.style.display === "block";
-  }
-});
-
-/*
-let accordionHeader = document.querySelectorAll(".accordion-header");
-
-
-/*
 for (const item of accordionHeader)
   item.addEventListener("click", () => {
     let content = item.accordionContent;
-    content.display.style === "block"
-      ? (content.display.style = "")
-      : (content.display.style = "block");
+    content.style.display === "block"
+      ? (content.style.display = "none")
+      : (content.style.display = "block");
 
     accordionHeader.forEach(function (otherItem) {
       if (otherItem !== item) {
         let otherContent = otherItem.accordionContent;
-        if (otherContent.style.display !== "") {
-          otherContent.style.display = "";
+        if (otherContent.style.display !== "none") {
+          otherContent.style.display = "none";
         }
       }
     });
   });
-
-  */
 
 let buttonSubmit = document.querySelectorAll(".button-submit");
 let fillableResults = document.getElementById("fillable").value;
