@@ -1,5 +1,5 @@
 const flags = document.querySelectorAll(".flag");
-let accordionContent = document.querySelector(".accordion-content");
+/* let accordionContent = document.querySelector(".accordion-content"); */
 
 for (const flag of flags)
   flag.addEventListener("click", () => {
@@ -10,7 +10,21 @@ for (const flag of flags)
   });
 
 let accordionHeader = document.querySelectorAll(".accordion-header");
+let accordionContent = document.getElementsByClassName(".accordion-content");
 
+accordionHeader.addEventListener("click", () => {
+  if (accordionContent.style.display === "block") {
+    accordionContent.style.display === "";
+  } else {
+    accordionContent.style.display === "block";
+  }
+});
+
+/*
+let accordionHeader = document.querySelectorAll(".accordion-header");
+
+
+/*
 for (const item of accordionHeader)
   item.addEventListener("click", () => {
     let content = item.accordionContent;
@@ -27,6 +41,8 @@ for (const item of accordionHeader)
       }
     });
   });
+
+  */
 
 let buttonSubmit = document.querySelectorAll(".button-submit");
 let fillableResults = document.getElementById("fillable").value;
