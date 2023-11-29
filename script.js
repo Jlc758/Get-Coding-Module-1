@@ -13,18 +13,20 @@ let accordionContent = document.querySelectorAll(".accordion-content");
 
 for (const item of accordionHeader)
   item.addEventListener("click", () => {
-    let content = item.accordionContent;
-    content.style.display === "block"
-      ? (content.style.display = "none")
-      : (content.style.display = "block");
+    accordionContent.display === "block"
+      ? (accordionContent.display = "none")
+      : (accordionContent.display = "block");
 
-    accordionHeader.forEach(function (otherItem) {
+    console.log("is this working??");
+  });
+/*
+    item.accordionHeader.forEach(function (otherItem) {
       if (otherItem !== item) {
         let otherContent = otherItem.accordionContent;
-        if (otherContent.style.display !== "none") {
-          otherContent.style.display = "none";
+        if (otherContent.display !== "none") {
+          otherContent.display = "none";
         }
-      }
+      } 
     });
   });
 
@@ -33,4 +35,4 @@ let fillableResults = document.getElementById("fillable").value;
 
 buttonSubmit.addEventListener("click", function () {
   console.log("Entry", fillableResults);
-});
+}); */
