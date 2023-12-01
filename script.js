@@ -41,16 +41,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // let accordionHeader = document.querySelectorAll(".accordion-header");
   // let accordionContent = document.querySelectorAll(".accordion-content");
 
-  // for (const item of accordionHeader)
-  //   item.addEventListener("click", () => {
-  //     accordionContent.display === "block"
-  //       ? (accordionContent.display = "none")
-  //       : (accordionContent.display = "block");
+// for (const item of accordionHeader)
+//   item.addEventListener("click", () => {
+//     let content = accordionContent;
+//     content.display === "block"
+//       ? (content.display = "none")
+//       : (content.display = "block");
 
-  //     console.log("is this working??");
-  //   });
+//     console.log("is this working??");
+//   });
 
-  /*
+/*
+    accordionContent.display === "block"
+      ? (accordionContent.display = "none")
+      : (accordionContent.display = "block");
+
+      */
+
+/*
     item.accordionHeader.forEach(function (otherItem) {
       if (otherItem !== item) {
         let otherContent = otherItem.accordionContent;
