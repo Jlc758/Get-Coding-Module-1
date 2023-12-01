@@ -13,10 +13,20 @@ let accordionContent = document.querySelectorAll(".accordion-content");
 
 for (const item of accordionHeader)
   item.addEventListener("click", () => {
-    let content = accordionContent;
-    content.display === "block"
-      ? (content.display = "none")
-      : (content.display = "block");
+    accordionContent.addEventListener(
+      "change",
+      () =>
+        (accordionContent.style.display = "none"
+          ? update("none", "block")
+          : update("block", "none"))
+    );
+  });
+/*
+for (const item of accordionHeader)
+  item.addEventListener("click", () => {
+    accordionContent.display === "block"
+      ? (accordionContent.display = "none")
+      : (accordionContent.display = "block");
 
     console.log("is this working??");
   });
