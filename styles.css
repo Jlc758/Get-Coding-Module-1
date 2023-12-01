@@ -57,7 +57,7 @@ body {
 .accordion-content {
   background-color: pink;
   border-top: 4em;
-  display: block;
+  display: none;
 }
 
 button.flag,
