@@ -56,7 +56,31 @@
 
     <main>
       <div class="accordion">
-        <div class="accordion-item">
+        <!-- ! don't forget semantic tags  -->
+        <section class="accordion-item">
+          <header class="accordion-header">Journal Entry</header>
+
+          <div class="accordion-content">
+            <form action="" method="get">
+              <!-- ! class names should be camelCase or kebab-case, not separate works like "Filleable Form". Also make sure to name them more specifically as you will likely have more than one form but may want to style them separately. You can put multiple classes on an element so you could have a generic class that would apply to all forms and then a specific class for each one if you want more specific styling -->
+              <div class="fillableForm"></div>
+              <input type="text" name="fillable" id="fillable" />
+            </form>
+            <p>
+              <button type="button" class="flag">Flag for Doctor</button>
+            </p>
+          </div>
+        </section>
+
+        <!-- ! Each section of the accordian can go inside the same accordian parent -->
+        <section class="accordion-item">
+          <header class="accordion-header">
+            Emotion Tracker </header>
+            <div class="accordion-content">
+              <p>Tracker</p>
+            </div>
+        </section>
+        <!-- <div class="accordion-item">
           <div class="accordion-header">Journal Entry</div>
 
           <div class="accordion-content">
@@ -68,10 +92,10 @@
               <button class="flag">Flag for Doctor</button>
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
 
-      <div class="accordion">
+      <!-- <div class="accordion">
         <div class="accordion-item">
           <div class="accordion-header">
             Emotion Tracker
@@ -81,7 +105,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="accordion">
         <div class="accordion-item">
