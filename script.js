@@ -31,17 +31,27 @@ accordionItems.forEach((item) => {
       return;
     }
 
-    // ! Toggle the display of the content
     content.style.display =
       content.style.display === "block" || content.style.display === ""
         ? "none"
         : "block";
+
+    accordionItems.forEach();
+  });
+
+  accordionItems.forEach(function (otherItem) {
+    if (otherItem !== item) {
+      let otherContent = otherItem.accordionContent;
+      if (otherContent.style.display !== "") {
+        otherContent.style.display = "";
+      }
+    }
   });
 });
 
-document.getElementById("submitEntry").addEventListener("submit", (event) => {
-  // Prevent the default form submission behavior
-  event.preventDefault();
-  let journalData = document.getElementById("fillableEntry").value;
-  console.log(journalData);
-});
+// document.getElementById("submitEntry").addEventListener("submit", (event) => {
+//   // Prevent the default form submission behavior
+//   event.preventDefault();
+//   let journalData = document.getElementById("fillableEntry").value;
+//   console.log(journalData);
+// ))))
