@@ -38,16 +38,17 @@ accordionItems.forEach((item) => {
 
     accordionItems.forEach();
   });
-
-  accordionItems.forEach(function (otherItem) {
-    if (otherItem !== item) {
-      let otherContent = otherItem.accordionContent;
-      if (otherContent.style.display !== "") {
-        otherContent.style.display = "";
-      }
-    }
-  });
 });
+
+//   accordionItems.forEach(function (otherItem) {
+//     if (otherItem !== item) {
+//       let otherContent = otherItem.accordionContent;
+//       if (otherContent.style.display !== "") {
+//         otherContent.style.display = "";
+//       }
+//     }
+//   });
+// });
 
 // document.getElementById("submitEntry").addEventListener("submit", (event) => {
 //   // Prevent the default form submission behavior
