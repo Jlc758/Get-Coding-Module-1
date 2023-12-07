@@ -87,7 +87,7 @@ input {
   width: 16px;
   height: 16px;
 
-  border: 2px solid #999;
+  border: 2px solid #83c5be;
   transition: 0.2s all linear;
   margin-right: 5px;
 
@@ -96,7 +96,7 @@ input {
 }
 
 input:checked {
-  border: 6px solid #83c5be;
+  border: 6px solid #1b2043;
 }
 
 button:hover,
