@@ -113,3 +113,14 @@ button:active {
   color: black;
   outline: 1px solid black;
 }
+
+/* Add Button */
+.addItem {
+  background-color: transparent;
+  border: none;
+  padding: 0.5em;
+}
+
+img {
+  max-height: 2rem;
+}

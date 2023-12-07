@@ -40,19 +40,17 @@ accordionItems.forEach((item) => {
   });
 });
 
-//   accordionItems.forEach(function (otherItem) {
-//     if (otherItem !== item) {
-//       let otherContent = otherItem.accordionContent;
-//       if (otherContent.style.display !== "") {
-//         otherContent.style.display = "";
-//       }
-//     }
-//   });
-// });
+function addMedication() {
+  // Get the input value
+  var newMedication = document.getElementById("newMedication").value;
 
-// document.getElementById("submitEntry").addEventListener("submit", (event) => {
-//   // Prevent the default form submission behavior
-//   event.preventDefault();
-//   let journalData = document.getElementById("fillableEntry").value;
-//   console.log(journalData);
-// ))))
+  // Create a new list item
+  var newMedication = document.createElement("li");
+  newMedication.appendChild(document.createTextNode(newMedication));
+
+  // Add the new item to the list
+  document.getElementById("itemList").appendChild(newMedication);
+
+  // Clear the input field
+  document.getElementById("newMedication").value = "";
+}
