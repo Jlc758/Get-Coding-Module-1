@@ -80,7 +80,7 @@ ul {
 
 /* Radio Buttons */
 
-input {
+input [type="radio"] {
   appearance: none;
 
   border-radius: 50%;
