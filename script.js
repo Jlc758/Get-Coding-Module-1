@@ -42,15 +42,15 @@ accordionItems.forEach((item) => {
 
 function addMedication() {
   // Get the input value
-  var newMedication = document.getElementById("newMedication").value;
+  var newMedText = document.getElementById("newMedication").value;
 
   // Create a new list item
-  var newMedication = document.createElement("li");
-  newMedication.appendChild(document.createTextNode(newMedication));
+  var newMed = document.createElement("li");
+  newMed.appendChild(document.createTextNode(newMedText));
 
   // Add the new item to the list
-  document.getElementById("itemList").appendChild(newMedication);
+  document.getElementById("medList").appendChild(newMed);
 
   // Clear the input field
-  document.getElementById("newMedication").value = "";
+  document.getElementById("medList").value = "";
 }
