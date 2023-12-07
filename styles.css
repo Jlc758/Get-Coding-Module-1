@@ -78,9 +78,13 @@ ul {
   border-width: 3px;
 }
 
+.fillableForm {
+  appearance: none;
+}
+
 /* Radio Buttons */
 
-input [type="radio"] {
+.radioChoices {
   appearance: none;
 
   border-radius: 50%;
@@ -101,7 +105,7 @@ input:checked {
 
 button:hover,
 button:focus {
-  color: yellowgreen;
+  color: grey;
 }
 
 button:active {
