@@ -8,7 +8,8 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    <meta name="viewport content=" width=device width, initial scale=1">
+    <!-- ! was just missing the '-' in 'device-width' -->
+    <meta name="viewport content=" width=device-width, initial scale=1">
     <link rel="stylesheet" href="styles.css" />
     <title>Mental Health & Wellbeing Tracker</title>
   </head>
@@ -115,8 +116,12 @@
             <div class="accordion-content">
               <form id="addMedicationForm">
                 <input type="text" id="newMedication">
-                <button class="addItem" onclick="addMedication()">
+                <!-- ! 'onclick="addMedication()"' don't use the onClick in the html, stick with adding event listeners in the script file -->
+                <!-- ! don't forget to declare the type of the button 'type="submit"' -->
+                <button class="addItem">
                 <img src="./icons_images/plus-64.png" alt="Add New Medication" ></button>
+                <!--! Adding Containers to select can be useful. Not that a container is anything more than a regular div, but it's a pretty commonly used name for an element that contains something  -->
+                <div class="medListContainer"></div>
               </form>
             </div>
           </section>
