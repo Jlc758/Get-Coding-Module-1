@@ -23,20 +23,29 @@ accordionItems.forEach((item) => {
 
     // ! This is just a cleaner way to write the line here. Basically, if the target of the event is NOT a button, a link, or an input, then run the code.
     if (!event.target.closest("button, a, input")) {
-      let content = item.querySelector(".accordion-content");
       content.style.display =
         content.style.display === "block" ? "none" : "block";
     }
-  });
 
-  //! accordionItems.forEach();
+    accordionItems.forEach((otherItem) => {
+      if (otherItem !== item) {
+        let content = otherItem.querySelector(".accordion-content");
+        if (content.style.display !== "none") {
+          content.style.display = "none";
+        }
+      }
+    });
+  });
 });
 
 //! Nice use of a function !
-function addMedication() {
+const addMedication = () => {
   // Get the input value
   // ! var is outdated and rarely used now, use const if the variable shouldn't change or use let if it should be able to change. Generally best to use const everywhere uless you can't
-  const newMedText = document.getElementById("newMedication").value;
+  const newMedInput = document.getElementById("newMedication");
+  const newMedText = newMedInput.value;
+
+  const medCount = 2;
 
   //! Now what if someone submits an empty string?
 
@@ -46,10 +55,17 @@ function addMedication() {
   //! But what if it doesn't exist ???
 
   //! Dynamically create the 'ul' element to append your list items to, if it doesn't exist
+  if (!medList) {
+    medList = document.createElement("ul");
+    medList.id = "medList";
+    document.querySelector(".medListContainer").appendChild(medList);
+  }
 
   // Create a new list item
   const newMed = document.createElement("li");
-  newMed.appendChild(document.createTextNode(newMedText));
+  newMed.appendChild(
+    document.createTextNode(`${newMedText} - Count: ${medCount}`)
+  );
 
   //! Make sure medList exists before appending to it, see above
   // Add the new item to the list
@@ -57,10 +73,17 @@ function addMedication() {
 
   //! This should clear the input field not the medlists
   // Clear the input field
-  document.getElementById("medList").value = "";
-}
+  newMedInput.value = "";
+};
 
 //! Lets talk about Arrow Functions !
 //! const func = () => {} is the same as function func() {}. Arrow functions are a newer way to write functions and are generally preferred. They are also more flexible. For example, you can write const func = (param1, param2) => {} and it will work the same as function func(param1, param2) {}. The only time you can't use arrow functions is when you need to use the this keyword (don't worry about that for now).
 
 //! Add event listener here for the add medication button
+
+let addMedbtn = document.querySelector("#addMedicationForm");
+
+addMedbtn.addEventListener("submit", (event) => {
+  event.preventDefault();
+  addMedication();
+});
