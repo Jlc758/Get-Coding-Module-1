@@ -38,8 +38,7 @@ const addMedication = () => {
 
   const newMedInput = document.getElementById("newMedication");
   const newMedText = newMedInput.value;
-
-  const medCount = 2;
+  // const medCount =
 
   let medList = document.getElementById("medList");
 
@@ -49,13 +48,11 @@ const addMedication = () => {
     document.querySelector(".medListContainer").appendChild(medList);
   }
 
-  // Create a new list item
   const newMed = document.createElement("li");
   newMed.appendChild(
     document.createTextNode(`${newMedText} - Count: ${medCount}`)
   );
 
-  // Add the new item to the list
   medList.appendChild(newMed);
 
   // Clear the input field
