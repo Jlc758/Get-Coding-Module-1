@@ -33,17 +33,19 @@ accordionItems.forEach((item) => {
   });
 });
 
+// Medication Accordion Section
+
 const addMedication = () => {
   // Get the input value
 
   const newMedInput = document.getElementById("newMedication");
   const newMedText = newMedInput.value;
 
-  let medList = document.getElementById("medList");
-
   //Create associated med count
   const medCount = document.getElementById("medCount");
   const medCountNumber = medCount.value;
+
+  let medList = document.getElementById("medList");
 
   if (!medList) {
     medList = document.createElement("ul");
@@ -64,17 +66,41 @@ const addMedication = () => {
   medCount.value = "";
 };
 
-const counterContainer = () => {
-  function addMedCounter() {
-    let medCountForm = document.createElement("form");
-    medCountForm.textContent = "This is the counter";
-    document.body.appendChild(newMed);
-  }
-};
-
 let addMedbtn = document.querySelector("#addMedicationForm");
 
 addMedbtn.addEventListener("submit", (event) => {
-  event.preventDefault();
+  event.preventDefault;
   addMedication();
+});
+
+// Exercise Accordion Section
+
+const addExercise = () => {
+  const newExerciseInput = document.getElementById("newExercise");
+  const newExerciseText = newExerciseInput.value;
+
+  let exList = document.getElementById("exList");
+
+  if (!exList) {
+    exList = document.createElement("ul");
+    exList.id = "exList";
+    document.querySelector(".exerciseListContainer").appendChild(exList);
+  }
+
+  //Create new list items
+  const newEx = document.createElement("li");
+  newEx.appendChild(document.createTextNode(`${newExerciseText}`));
+
+  //Appending list item to list
+  exList.appendChild(newEx);
+
+  //Clear the input field
+  newExerciseInput.value = "";
+};
+
+let addExBtn = document.querySelector("#addExerciseForm");
+
+addExBtn.addEventListener("submit", (event) => {
+  event.preventDefault;
+  addExercise();
 });

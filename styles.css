@@ -128,7 +128,6 @@ img {
 .exerciseListContainer {
   display: flex;
   flex: 1;
-  background-color: green;
   padding: 10px;
   border: 10px solid black;
   margin: 20px;
