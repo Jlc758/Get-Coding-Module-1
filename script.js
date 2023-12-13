@@ -60,6 +60,14 @@ const addMedication = () => {
   newMedInput.value = "";
 };
 
+const counterContainer = () => {
+  function addMedCounter() {
+    let medCountForm = document.createElement("form");
+    medCountForm.textContent = "This is the counter";
+    document.body.appendChild(newMed);
+  }
+};
+
 let addMedbtn = document.querySelector("#addMedicationForm");
 
 addMedbtn.addEventListener("submit", (event) => {
