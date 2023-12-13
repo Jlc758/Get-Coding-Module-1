@@ -125,14 +125,6 @@ img {
   max-height: 2rem;
 }
 
-/* #addExerciseForm {
-  display: flex;
-} */
-
-/* #addExerciseForm > input,
-#addExerciseForm > button,
-#addExerciseForm > div  */
-
 .exerciseListContainer {
   display: flex;
   flex: 1;
