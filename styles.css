@@ -124,11 +124,18 @@ button.addItem {
 img {
   max-height: 2rem;
 }
-/* 
-.exerciseListContainer {
+
+#exList {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  padding-inline-start: 0;
+  margin-block-end: 0;
   padding: 10px;
-  border: 10px solid black;
-  margin: 20px;
-} */
+}
+
+#exList li {
+  margin: 1em;
+  background-color: beige;
+  flex-grow: 0;
+  width: 40%;
+}
