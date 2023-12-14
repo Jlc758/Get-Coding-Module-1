@@ -69,7 +69,7 @@ const addMedication = () => {
 let addMedbtn = document.querySelector("#addMedicationForm");
 
 addMedbtn.addEventListener("submit", (event) => {
-  event.preventDefault;
+  event.preventDefault();
   addMedication();
 });
 
@@ -101,6 +101,6 @@ const addExercise = () => {
 let addExBtn = document.querySelector("#addExerciseForm");
 
 addExBtn.addEventListener("submit", (event) => {
-  event.preventDefault;
+  event.preventDefault();
   addExercise();
 });

@@ -124,11 +124,11 @@ button.addItem {
 img {
   max-height: 2rem;
 }
-
+/* 
 .exerciseListContainer {
   display: flex;
-  flex: 1;
+  flex-direction: column;
   padding: 10px;
   border: 10px solid black;
   margin: 20px;
-}
+} */
