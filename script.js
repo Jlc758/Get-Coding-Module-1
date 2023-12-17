@@ -1,3 +1,5 @@
+const exercises = [];
+
 const flags = document.querySelectorAll(".flag");
 
 for (const flag of flags)
@@ -66,36 +68,60 @@ const addMedication = () => {
   medCount.value = "";
 };
 
-let addMedbtn = document.querySelector("#addMedicationForm");
+let addMedForm = document.querySelector("#addMedicationForm");
 
-addMedbtn.addEventListener("submit", (event) => {
+addMedForm.addEventListener("submit", (event) => {
   event.preventDefault();
   addMedication();
 });
 
 // Exercise Accordion Section
+const createExerciseList = () => {
+  const exerciseList = document.createElement("ul");
+  exerciseList.id = "exerciseList";
+  document.querySelector(".exerciseListContainer").appendChild(exerciseList);
+  return exerciseList;
+};
+
+const updateExerciseList = (exerciseArray) => {
+  const exerciseList =
+    document.getElementById("exerciseList") || createExerciseList();
+  exerciseList.innerHTML = "";
+  exerciseArray.forEach((exercise) => {
+    const newExercise = document.createElement("li");
+    newExercise.textContent = exercise;
+    exerciseList.appendChild(newExercise);
+  });
+};
 
 const addExercise = () => {
   const newExerciseInput = document.getElementById("newExercise");
-  const newExerciseText = newExerciseInput.value;
+  const newExerciseText = newExerciseInput.value.trim();
 
-  let exList = document.getElementById("exList");
-
-  if (!exList) {
-    exList = document.createElement("ul");
-    exList.id = "exList";
-    document.querySelector(".exerciseListContainer").appendChild(exList);
+  if (newExerciseText) {
+    exercises.push(newExerciseText);
+    updateExerciseList();
+    newExerciseInput.value = "";
+    console.log(exercises);
   }
 
-  //Create new list items
-  const newEx = document.createElement("li");
-  newEx.appendChild(document.createTextNode(`${newExerciseText}`));
+  // let exerciseList = document.getElementById("exerciseList");
 
-  //Appending list item to list
-  exList.appendChild(newEx);
+  // if (!exerciseList) {
+  //   exerciseList = document.createElement("ul");
+  //   exerciseList.id = "exerciseList";
+  //   document.querySelector(".exerciseListContainer").appendChild(exerciseList);
+  // }
 
-  //Clear the input field
-  newExerciseInput.value = "";
+  // //Create new list items
+  // const newEx = document.createElement("li");
+  // newEx.appendChild(document.createTextNode(`${newExerciseText}`));
+
+  // //Appending list item to list
+  // exerciseList.appendChild(newEx);
+
+  // //Clear the input field
+  // newExerciseInput.value = "";
 };
 
 let addExBtn = document.querySelector("#addExerciseForm");

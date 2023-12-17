@@ -9,7 +9,7 @@
       crossorigin="anonymous"
     />
 
-    <meta name="viewport content=" width=device-width, initial scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>Mental Health & Wellbeing Tracker</title>
   </head>
@@ -61,7 +61,6 @@
             <header class="accordion-header">Journal Entry</header>
 
             <div class="accordion-content">
-
               <div class="fillableForm"></div>
               <input type="text" name="fillable" id="fillableEntry" />
 
@@ -70,21 +69,55 @@
               </p>
             </div>
           </section>
-          <section class="accordion-item"> 
+          <section class="accordion-item">
             <header class="accordion-header">Emotion Tracker</header>
             <div class="accordion-content">
               <form>
                 <fieldset>
-                  <input type="radio" id="emotionChoice1" class="radioChoices" name="emotionTracker" value="one" /> <label for="emotionChoice1">One</label>
-                  
-                  <input type="radio" id="emotionChoice2" class="radioChoices" name="emotionTracker" value="two" /> <label for="emotionChoice2">Two</label>
+                  <input
+                    type="radio"
+                    id="emotionChoice1"
+                    class="radioChoices"
+                    name="emotionTracker"
+                    value="one"
+                  />
+                  <label for="emotionChoice1">One</label>
 
-                  <input type="radio" id="emotionChoice3" class="radioChoices" name="emotionTracker" value="three"/> <label for="emotionChoice3">Three</label>
+                  <input
+                    type="radio"
+                    id="emotionChoice2"
+                    class="radioChoices"
+                    name="emotionTracker"
+                    value="two"
+                  />
+                  <label for="emotionChoice2">Two</label>
 
-                  <input type="radio" id="emotionChoice4" class="radioChoices" name="emotionTracker" value="four"/> <label for="emotionChoice4">Four</label>
+                  <input
+                    type="radio"
+                    id="emotionChoice3"
+                    class="radioChoices"
+                    name="emotionTracker"
+                    value="three"
+                  />
+                  <label for="emotionChoice3">Three</label>
 
-                  <input type="radio" id="emotionChoice5" class="radioChoices" name="emotionTracker" value="five"/> <label for="emotionChoice5">Five</label>
+                  <input
+                    type="radio"
+                    id="emotionChoice4"
+                    class="radioChoices"
+                    name="emotionTracker"
+                    value="four"
+                  />
+                  <label for="emotionChoice4">Four</label>
 
+                  <input
+                    type="radio"
+                    id="emotionChoice5"
+                    class="radioChoices"
+                    name="emotionTracker"
+                    value="five"
+                  />
+                  <label for="emotionChoice5">Five</label>
                 </fieldset>
               </form>
             </div>
@@ -95,16 +128,50 @@
             <div class="accordion-content">
               <form>
                 <fieldset>
-                  <input type="radio" id="waterChoice1" class="radioChoices" name="waterTracker" value="one" /> <label for="waterChoice1">One</label>
-                  
-                  <input type="radio" id="waterChoice2" class="radioChoices" name="waterTracker" value="two" /> <label for="waterChoice2">Two</label>
+                  <input
+                    type="radio"
+                    id="waterChoice1"
+                    class="radioChoices"
+                    name="waterTracker"
+                    value="one"
+                  />
+                  <label for="waterChoice1">One</label>
 
-                  <input type="radio" id="waterChoice3" class="radioChoices" name="waterTracker" value="three"/> <label for="waterChoice3">Three</label>
+                  <input
+                    type="radio"
+                    id="waterChoice2"
+                    class="radioChoices"
+                    name="waterTracker"
+                    value="two"
+                  />
+                  <label for="waterChoice2">Two</label>
 
-                  <input type="radio" id="waterChoice4" class="radioChoices" name="waterTracker" value="four"/> <label for="waterChoice4">Four</label>
+                  <input
+                    type="radio"
+                    id="waterChoice3"
+                    class="radioChoices"
+                    name="waterTracker"
+                    value="three"
+                  />
+                  <label for="waterChoice3">Three</label>
 
-                  <input type="radio" id="waterChoice5" class="radioChoices" name="waterTracker" value="five"/> <label for="waterChoice5">Five</label>
+                  <input
+                    type="radio"
+                    id="waterChoice4"
+                    class="radioChoices"
+                    name="waterTracker"
+                    value="four"
+                  />
+                  <label for="waterChoice4">Four</label>
 
+                  <input
+                    type="radio"
+                    id="waterChoice5"
+                    class="radioChoices"
+                    name="waterTracker"
+                    value="five"
+                  />
+                  <label for="waterChoice5">Five</label>
                 </fieldset>
               </form>
             </div>
@@ -114,14 +181,16 @@
             <header class="accordion-header">Medication Tracker</header>
             <div class="accordion-content">
               <form id="addMedicationForm">
-                <input type="text" id="newMedication">
-                <input type="number" id="medCount">
+                <input type="text" id="newMedication" />
+                <input type="number" id="medCount" />
                 <button type="submit" class="addItem">
-                   <img src="./icons_images/plus-64.png" alt="Add New Medication" >
+                  <img
+                    src="./icons_images/plus-64.png"
+                    alt="Add New Medication"
+                  />
                 </button>
                 <div class="medListContainer">Name of Medication</div>
               </form>
-
             </div>
           </section>
 
@@ -129,9 +198,13 @@
             <header class="accordion-header">Exercise Tracker</header>
             <div class="accordion-content">
               <form id="addExerciseForm">
-                <input type="text" id="newExercise">
+                <input type="text" id="newExercise" />
                 <button type="submit" class="addItem">
-                <img src="./icons_images/plus-64.png" alt="Add New Exercise" > </button>
+                  <img
+                    src="./icons_images/plus-64.png"
+                    alt="Add New Exercise"
+                  />
+                </button>
                 <div class="exerciseListContainer">Type of Exercise</div>
               </form>
             </div>
@@ -141,9 +214,10 @@
             <header class="accordion-header">Habit Tracker</header>
             <div class="accordion-content">
               <form id="addHabitForm">
-                <input type="text" id="newHabit">
+                <input type="text" id="newHabit" />
                 <button type="submit" class="addItem">
-                <img src="./icons_images/plus-64.png" alt="Add New Habit" ></button>
+                  <img src="./icons_images/plus-64.png" alt="Add New Habit" />
+                </button>
                 <div class="habitListContainer">Name of Habit</div>
               </form>
             </div>
@@ -151,7 +225,7 @@
         </div>
         <button type="submit">Submit</button>
       </form>
- 
+    </main>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
