@@ -123,3 +123,33 @@ const createHabitList = () => {
   document.querySelector(".habitListContainer").appendChild(habitList);
   return habitList;
 };
+
+const updateHabitList = (habitArray) => {
+  const habitList =
+    document.getElementById("habitList") || createExerciseList();
+  habitList.innerHTML = "";
+  habitArray.forEach((habits) => {
+    const newHabit = document.createElement("li");
+    newHabit.textContent = habits;
+    habitList.appendChild(newHabit);
+  });
+};
+
+const addHabit = () => {
+  const newHabitInput = document.getElementById("newHabit");
+  const newHabitText = newHabitInput.value.trim();
+
+  if (newHabitText) {
+    habits.push(newHabitText);
+    updateHabitList(habits);
+    newHabitInput.value = "";
+    console.log(habits);
+  }
+};
+
+let addHabitBtn = document.querySelector("#addHabitForm");
+
+addHabitBtn.addEventListener("submit", (event) => {
+  event.preventDefault();
+  addHabit();
+});
