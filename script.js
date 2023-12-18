@@ -1,4 +1,5 @@
 const exercises = [];
+const habits = [];
 
 const flags = document.querySelectorAll(".flag");
 
@@ -100,27 +101,10 @@ const addExercise = () => {
 
   if (newExerciseText) {
     exercises.push(newExerciseText);
-    updateExerciseList();
+    updateExerciseList(exercises);
     newExerciseInput.value = "";
     console.log(exercises);
   }
-
-  // let exerciseList = document.getElementById("exerciseList");
-
-  // if (!exerciseList) {
-  //   exerciseList = document.createElement("ul");
-  //   exerciseList.id = "exerciseList";
-  //   document.querySelector(".exerciseListContainer").appendChild(exerciseList);
-  // }
-
-  // //Create new list items
-  // const newEx = document.createElement("li");
-  // newEx.appendChild(document.createTextNode(`${newExerciseText}`));
-
-  // //Appending list item to list
-  // exerciseList.appendChild(newEx);
-
-  // //Clear the input field
   // newExerciseInput.value = "";
 };
 
@@ -130,3 +114,12 @@ addExBtn.addEventListener("submit", (event) => {
   event.preventDefault();
   addExercise();
 });
+
+// Habit Accordion Section
+
+const createHabitList = () => {
+  const habitList = document.createElement("ul");
+  habitList.id = "habitList";
+  document.querySelector(".habitListContainer").appendChild(habitList);
+  return habitList;
+};
