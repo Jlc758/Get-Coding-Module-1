@@ -130,27 +130,10 @@ img {
 
 /* Exercise List Section */
 
-#exerciseList {
+#exerciseList,
+#habitList {
   display: grid;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
   gap: 10px;
   padding: 10px;
 }
-
-/* #exList {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-evenly;
-  padding-inline-start: 0;
-  margin-block-end: 0;
-  padding: 10px;
-} */
-
-/* #exList li {
-  margin: 1em;
-  background-color: beige;
-  flex-grow: 0;
-  flex-shrink: 1;
-  width: 40%;
-} */
