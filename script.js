@@ -125,8 +125,7 @@ const createHabitList = () => {
 };
 
 const updateHabitList = (habitArray) => {
-  const habitList =
-    document.getElementById("habitList") || createExerciseList();
+  const habitList = document.getElementById("habitList") || createHabitList();
   habitList.innerHTML = "";
   habitArray.forEach((habits) => {
     const newHabit = document.createElement("li");
