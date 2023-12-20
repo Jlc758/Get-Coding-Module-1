@@ -92,12 +92,18 @@ const updateExerciseList = (exerciseArray) => {
     const newExercise = document.createElement("li");
     newExercise.textContent = exercise;
     exerciseList.appendChild(newExercise);
+
+    const weightsIcon = document.createElement("img");
+    weightsIcon.srcset = "./icons_images/dumbbell50.png";
+    weightsIcon.alt = "dumbbell";
+
+    newExercise.append(weightsIcon);
   });
 
-  const checkboxField = document.createElement("form");
-  const iconElement = document.createElement("img");
-
-  newExercise.append(checkboxField, iconElement);
+  // const checkboxField = document.createElement("form");
+  // checkboxField.setAttribute("action", "click");
+  // checkboxField.setAttribute("method", "post");
+  // checkboxField.style.border = "1px solid black";
 };
 
 const addExercise = () => {
