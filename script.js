@@ -93,6 +93,11 @@ const updateExerciseList = (exerciseArray) => {
     newExercise.textContent = exercise;
     exerciseList.appendChild(newExercise);
   });
+
+  const checkboxField = document.createElement("form");
+  const iconElement = document.createElement("img");
+
+  newExercise.append(checkboxField, iconElement);
 };
 
 const addExercise = () => {
