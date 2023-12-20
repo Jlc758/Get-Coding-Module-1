@@ -76,79 +76,140 @@ addMedForm.addEventListener("submit", (event) => {
   addMedication();
 });
 
-// Exercise Accordion Section
-const createExerciseList = () => {
-  const exerciseList = document.createElement("ul");
-  exerciseList.id = "exerciseList";
-  document.querySelector(".exerciseListContainer").appendChild(exerciseList);
-  return exerciseList;
+const newList = () => {
+  const newList = document.createElement("ul");
+  newList.className = "newList";
+  return newList;
 };
 
-const updateExerciseList = (exerciseArray) => {
-  const exerciseList =
-    document.getElementById("exerciseList") || createExerciseList();
-  exerciseList.innerHTML = "";
-  exerciseArray.forEach((exercise) => {
-    const newExercise = document.createElement("li");
-    newExercise.textContent = exercise;
-    exerciseList.appendChild(newExercise);
-  });
-};
-
-const addExercise = () => {
-  const newExerciseInput = document.getElementById("newExercise");
-  const newExerciseText = newExerciseInput.value.trim();
-
-  if (newExerciseText) {
-    exercises.push(newExerciseText);
-    updateExerciseList(exercises);
-    newExerciseInput.value = "";
-    console.log(exercises);
+const updateList = () => {
+  if (document.querySelector("#exerciseList")) {
+    const updateExerciseList = (exercises) => {
+      const exerciseList = document.getElementById("exerciseList") || newList();
+      exerciseList.innerHTML = "";
+      exercises.forEach((exercise) => {
+        const newExercise = document.createElement("li");
+        newExercise.textContent = exercise;
+        exerciseList.appendChild(newExercise);
+      });
+    };
+    updateExerciseList();
   }
-  // newExerciseInput.value = "";
-};
 
-let addExBtn = document.querySelector("#addExerciseForm");
+  else (document.querySelector("#habitList")) {
+    const updateHabitList = document.getElementById("habitList") || newList();
+    habitList.innerHTML = "";
+    habits.forEach((habits) => {
+      const newHabit = document.createElement("li");
+      newHabit.textContent = habits;
+      updateHabitList.appendChild(newHabit)});
+    
+  updateHabitList();}}
+;
 
-addExBtn.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addExercise();
-});
-
-// Habit Accordion Section
-
-const createHabitList = () => {
-  const habitList = document.createElement("ul");
-  habitList.id = "habitList";
-  document.querySelector(".habitListContainer").appendChild(habitList);
-  return habitList;
-};
-
-const updateHabitList = (habitArray) => {
-  const habitList = document.getElementById("habitList") || createHabitList();
-  habitList.innerHTML = "";
-  habitArray.forEach((habits) => {
-    const newHabit = document.createElement("li");
-    newHabit.textContent = habits;
-    habitList.appendChild(newHabit);
+let addButton = document.querySelector(".addNewItem");
+if (addButton) {
+  addButton.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateList();
+    console.log("it's working?!");
   });
-};
+}
 
-const addHabit = () => {
-  const newHabitInput = document.getElementById("newHabit");
-  const newHabitText = newHabitInput.value.trim();
+// Attempt to create general scripts to cover both Exercise & Medication Trackers
+// exercise & habit arrays defined at top of page
 
-  if (newHabitText) {
-    habits.push(newHabitText);
-    updateHabitList(habits);
-    newHabitInput.value = "";
-    console.log(habits);
-  }
-};
+// const createList = () => {
+//   const generalList = document.createElement("ul");
+//   generalList.className = "generalListContainer";
 
-let addHabitBtn = document.querySelector("#addHabitForm");
+//   if (document.querySelector("#exerciseListContainer")) {
+//     document.querySelector("#exerciseListContainer").appendChild(generalList);
+//     console.log("exercise list");
+//     return generalList;
+//   } else if (document.querySelector("habitListContainer")) {
+//     document.querySelector("habitListContainer").appendChild(generalList);
+//     console.log("habit list");
+//     return generalList;
+//   }
+// };
 
-addHabitBtn.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addHabit();
-});
+// const updateGeneralList =
+
+// // // Exercise Accordion Section
+// // const createExerciseList = () => {
+//   const exerciseList = document.createElement("ul");
+//   exerciseList.id = "exerciseList";
+//   document.querySelector(".exerciseListContainer").appendChild(exerciseList);
+//   return exerciseList;
+// };
+
+// const updateExerciseList = (exerciseArray) => {
+//   const exerciseList =
+//     document.getElementById("exerciseList") || createExerciseList();
+//   exerciseList.innerHTML = "";
+//   exerciseArray.forEach((exercise) => {
+//     const newExercise = document.createElement("li");
+//     newExercise.textContent = exercise;
+//     exerciseList.appendChild(newExercise);
+//   });
+// };
+
+// const addExercise = () => {
+//   const newExerciseInput = document.getElementById("newExercise");
+//   const newExerciseText = newExerciseInput.value.trim();
+// };
+
+//   if (newExerciseText) {
+//     exercises.push(newExerciseText);
+//     updateExerciseList(exercises);
+//     newExerciseInput.value = "";
+//     console.log(exercises);
+//   }
+//   // newExerciseInput.value = "";
+// };
+
+// let addExBtn = document.querySelector("#addExerciseForm");
+
+// addExBtn.addEventListener("submit", (event) => {
+//   event.preventDefault();
+//   addExercise();
+// });
+
+// // Habit Accordion Section
+
+// const createHabitList = () => {
+//   const habitList = document.createElement("ul");
+//   habitList.id = "habitList";
+//   document.querySelector(".habitListContainer").appendChild(habitList);
+//   return habitList;
+// };
+
+// const updateHabitList = (habitArray) => {
+//   const habitList = document.getElementById("habitList") || createHabitList();
+//   habitList.innerHTML = "";
+//   habitArray.forEach((habits) => {
+//     const newHabit = document.createElement("li");
+//     newHabit.textContent = habits;
+//     habitList.appendChild(newHabit);
+//   });
+// };
+
+// const addHabit = () => {
+//   const newHabitInput = document.getElementById("newHabit");
+//   const newHabitText = newHabitInput.value.trim();
+
+//   if (newHabitText) {
+//     habits.push(newHabitText);
+//     updateHabitList(habits);
+//     newHabitInput.value = "";
+//     console.log(habits);
+//   }
+// };
+
+// let addHabitBtn = document.querySelector("#addHabitForm");
+
+// addHabitBtn.addEventListener("submit", (event) => {
+//   event.preventDefault();
+//   addHabit();
+// });
