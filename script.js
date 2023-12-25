@@ -1,5 +1,6 @@
 const exercises = [];
 const habits = [];
+const medications = [];
 
 const flags = document.querySelectorAll(".flag");
 
@@ -98,6 +99,12 @@ const updateExerciseList = (exerciseArray) => {
     weightsIcon.alt = "dumbbell";
 
     newExercise.append(weightsIcon);
+
+    const exerciseCheckbox = document.createElement("input");
+    exerciseCheckbox.type = "checkbox";
+    exerciseCheckbox.id = "exerciseCheckbox";
+
+    newExercise.append(exerciseCheckbox);
   });
 
   // const checkboxField = document.createElement("form");
