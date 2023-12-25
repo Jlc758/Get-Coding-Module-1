@@ -106,11 +106,6 @@ const updateExerciseList = (exerciseArray) => {
 
     newExercise.append(exerciseCheckbox);
   });
-
-  // const checkboxField = document.createElement("form");
-  // checkboxField.setAttribute("action", "click");
-  // checkboxField.setAttribute("method", "post");
-  // checkboxField.style.border = "1px solid black";
 };
 
 const addExercise = () => {
@@ -135,20 +130,35 @@ addExBtn.addEventListener("submit", (event) => {
 
 // Habit Accordion Section
 
-const createHabitList = () => {
-  const habitList = document.createElement("ul");
-  habitList.id = "habitList";
-  document.querySelector(".habitListContainer").appendChild(habitList);
-  return habitList;
+const createNewList = () => {
+  if (Element.parentElement === ".habitListContainer") {
+    let habitListContainer =
+      document.getElementsByClassName("habitListContainer");
+    let habitList = document.createElement("ul");
+    habitList.id = "habitList";
+    document.querySelector(".habitListContainer").append("habitList");
+    console.log("is this working");
+    return habitList;
+  } else {
+    console.log("not a habit");
+  }
 };
 
+// const createHabitList = () => {
+//   const habitList = document.createElement("ul");
+//   habitList.id = "habitList";
+//   document.querySelector(".habitListContainer").appendChild(habitList);
+//   return habitList;
+// };
+
 const updateHabitList = (habitArray) => {
-  const habitList = document.getElementById("habitList") || createHabitList();
-  habitList.innerHTML = "";
+  const habitList = document.getElementById("habitList") || createNewList();
   habitArray.forEach((habits) => {
+    let habitList = document.getElementById("habitList");
     const newHabit = document.createElement("li");
-    newHabit.textContent = habits;
-    habitList.appendChild(newHabit);
+    let newHabitInput = document.getElementById("newHabit");
+    newHabitInput.value = habits;
+    newHabitInput.value = appendChild("habitList");
   });
 };
 
