@@ -128,16 +128,35 @@ addExBtn.addEventListener("submit", (event) => {
   addExercise();
 });
 
-// Habit Accordion Section [General]
+// Habit Accordion Section
 
-const createNewList = () => {
-  const newList = document.createElement("ul");
+const createHabitList = () => {
+  const habitList = document.createElement("ul");
+  habitList.id = "habitList";
+  document.querySelector(".habitListContainer").appendChild(habitList);
+  return habitList;
+};
 
-  if ((document.parentElement = ".addMedication Form")) {
-    let medList = document.getElementById("medList");
-    if (!medList) {
-    }
-  }
+const updateHabitList = (habitsArray) => {
+  const habitList = document.getElementById("habitList") || createHabitList();
+  habitList.innerHTML = "";
+  habitsArray.forEach((habits) => {
+    let newHabit = document.createElement("li");
+    newHabit.textContent = habits;
+    habitList.appendChild(newHabit);
+  });
+
+  const addHabit = () => {
+    let newHabitInput = document.getElementById("newHabit");
+    let newHabitText = newHabitInput.value.trim();
+  };
+
+  let addHabitButton = document.querySelector(".addItem");
+
+  addHabitButton.addEventListener("submit", (event) => {
+    event.preventDefault();
+    addHabit();
+  });
 };
 
 // const createNewList = () => {
