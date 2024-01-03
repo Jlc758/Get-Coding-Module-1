@@ -128,21 +128,58 @@ addExBtn.addEventListener("submit", (event) => {
   addExercise();
 });
 
-// Habit Accordion Section
+// Habit Accordion Section [General]
 
 const createNewList = () => {
-  if (Element.parentElement === ".habitListContainer") {
-    let habitListContainer =
-      document.getElementsByClassName("habitListContainer");
-    let habitList = document.createElement("ul");
-    habitList.id = "habitList";
-    document.querySelector(".habitListContainer").append("habitList");
-    console.log("is this working");
-    return habitList;
-  } else {
-    console.log("not a habit");
+  const newList = document.createElement("ul");
+
+  if ((document.parentElement = ".addMedication Form")) {
+    let medList = document.getElementById("medList");
+    if (!medList) {
+    }
   }
 };
+
+// const createNewList = () => {
+//   let medList = document.getElementById("medList");
+//   let habitList = document.getElementById("habitList");
+
+//   if ((document.parentElement.className = ".medListContainer")) {
+//     if (!medList) {
+//       medList = document.createElement("ul");
+//       medList.id = "medList";
+//       document.querySelector(".medListContainer").appendChild(medList);
+//       console.log("created new medListContainer");
+//     } else {
+//       document.querySelector(".medListContainer").appendChild(medList);
+//       console.log("appended child to already-created medListContainer");
+//     }
+//     if ((document.parentElement.className = ".habitListContainer")) {
+//       if (!habitList) {
+//         habitList = document.createElement("ul");
+//         habitList.id = "habitList";
+//         document.querySelector(".habitListContainer").appendChild(habitList);
+//         console.log("created new habitListContainer");
+//       } else {
+//         document.querySelector(".habitListContainer").appendChild(habitList);
+//         console.log("appended child to already-created habitListContainer");
+//       }
+//     }
+//   }
+// };
+
+// const createNewList = () => {
+//   if (Element.parentElement === ".habitListContainer") {
+//     let habitListContainer =
+//       document.getElementsByClassName("habitListContainer");
+//     let habitList = document.createElement("ul");
+//     habitList.id = "habitList";
+//     document.querySelector(".habitListContainer").append("habitList");
+//     console.log("is this working");
+//     return habitList;
+//   } else if {
+//   }
+// };
 
 // const createHabitList = () => {
 //   const habitList = document.createElement("ul");
@@ -151,32 +188,32 @@ const createNewList = () => {
 //   return habitList;
 // };
 
-const updateHabitList = (habitArray) => {
-  const habitList = document.getElementById("habitList") || createNewList();
-  habitArray.forEach((habits) => {
-    let habitList = document.getElementById("habitList");
-    const newHabit = document.createElement("li");
-    let newHabitInput = document.getElementById("newHabit");
-    newHabitInput.value = habits;
-    newHabitInput.value = appendChild("habitList");
-  });
-};
+// const updateHabitList = (habitArray) => {
+//   const habitList = document.getElementById("habitList") || createNewList();
+//   habitArray.forEach((habits) => {
+//     let habitList = document.getElementById("habitList");
+//     const newHabit = document.createElement("li");
+//     let newHabitInput = document.getElementById("newHabit");
+//     newHabitInput.value = habits;
+//     newHabitInput.append(habitList);
+//   });
+// };
 
-const addHabit = () => {
-  const newHabitInput = document.getElementById("newHabit");
-  const newHabitText = newHabitInput.value.trim();
+// const addHabit = () => {
+//   const newHabitInput = document.getElementById("newHabit");
+//   const newHabitText = newHabitInput.value.trim();
 
-  if (newHabitText) {
-    habits.push(newHabitText);
-    updateHabitList(habits);
-    newHabitInput.value = "";
-    console.log(habits);
-  }
-};
+//   if (newHabitText) {
+//     habits.push(newHabitText);
+//     updateHabitList(habits);
+//     newHabitInput.value = "";
+//     console.log(habits);
+//   }
+// };
 
-let addHabitBtn = document.querySelector("#addHabitForm");
+// let addHabitBtn = document.querySelector("#addHabitForm");
 
-addHabitBtn.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addHabit();
-});
+// addHabitBtn.addEventListener("submit", (event) => {
+//   event.preventDefault();
+//   addHabit();
+// });
