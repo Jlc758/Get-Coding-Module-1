@@ -120,16 +120,19 @@ function addItem(sectionArray, containerID, listID) {
 
 // Exercise section using general functions
 
-function actionExercise() {
-  updateList(exercises, "#exerciseListContainer", "#exerciseList");
-  console.log("Exercise list populated");
+addItem(exercises, "#exerciseListContainer", "#exerciseList");
 
-  addItemToArray(exercises, "#exerciseListContainer", "#exerciseList");
-  console.log("Exercise added to array");
-
-  addItem(exercises, "#exerciseListContainer", "#exerciseList");
-  console.log("Added item");
+if (addItem()) {
+  console.log("actioned exercise");
 }
+
+// function actionExercise() {
+//   updateList(exercises, "#exerciseListContainer", "#exerciseList");
+//   console.log("Exercise list populated");
+
+//   addItem(exercises, "#exerciseListContainer", "#exerciseList");
+//   console.log("Added item");
+// };
 
 // Exercise Accordion Section
 
