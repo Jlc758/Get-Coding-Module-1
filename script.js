@@ -110,7 +110,7 @@ function addItemToArray(sectionArray, containerID, listID) {
 }
 
 function addItem(sectionArray, containerID, listID) {
-  let addItemButton = document.querySelector(containerID);
+  let addItemButton = document.querySelector(".addItem");
 
   addItemButton.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -118,7 +118,18 @@ function addItem(sectionArray, containerID, listID) {
   });
 }
 
-createList("#exerciseListContainer", "#newExercise");
+// Exercise section using general functions
+
+function actionExercise() {
+  updateList(exercises, "#exerciseListContainer", "#exerciseList");
+  console.log("Exercise list populated");
+
+  addItemToArray(exercises, "#exerciseListContainer", "#exerciseList");
+  console.log("Exercise added to array");
+
+  addItem(exercises, "#exerciseListContainer", "#exerciseList");
+  console.log("Added item");
+}
 
 // Exercise Accordion Section
 
