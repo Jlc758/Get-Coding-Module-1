@@ -78,28 +78,30 @@ addMedForm.addEventListener("submit", (event) => {
 });
 
 // Exercise Accordion Section
-const createExerciseList = () => {
-  const exerciseList = document.createElement("ul");
-  exerciseList.id = "exerciseList";
-  document.querySelector(".exerciseListContainer").appendChild(exerciseList);
-  return exerciseList;
+
+const createList = (containerID, listID) => {
+  const list = document.createElement("ul");
+  list.id = listID;
+  document.querySelector(containerID).appendChild(list);
+  return list;
 };
 
-const updateExerciseList = (exerciseArray) => {
+const updateExerciseList = (exerciseArray, containerID, listID, isExercise) => {
   const exerciseList =
-    document.getElementById("exerciseList") || createExerciseList();
+    document.getElementById(listID) || createList(containerID, listID);
   exerciseList.innerHTML = "";
   exerciseArray.forEach((exercise) => {
     const newExercise = document.createElement("li");
     newExercise.textContent = exercise;
     exerciseList.appendChild(newExercise);
 
-    const weightsIcon = document.createElement("img");
-    weightsIcon.srcset = "./icons_images/dumbbell50.png";
-    weightsIcon.alt = "dumbbell";
+    {
+      const weightsIcon = document.createElement("img");
+      weightsIcon.srcset = "./icons_images/dumbbell50.png";
+      weightsIcon.alt = "dumbbell";
 
-    newExercise.append(weightsIcon);
-
+      newExercise.append(weightsIcon);
+    }
     const exerciseCheckbox = document.createElement("input");
     exerciseCheckbox.type = "checkbox";
     exerciseCheckbox.id = "exerciseCheckbox";
@@ -114,7 +116,7 @@ const addExercise = () => {
 
   if (newExerciseText) {
     exercises.push(newExerciseText);
-    updateExerciseList(exercises);
+    updateExerciseList(exercises, ".exerciseListContainer", "exerciseList");
     newExerciseInput.value = "";
     console.log(exercises);
   }
