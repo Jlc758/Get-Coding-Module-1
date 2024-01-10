@@ -136,23 +136,30 @@ function addItemToArray(sectionArray, inputID, containerID, listID) {
 // }
 
 //!Updated function
+
+// Exercise section using general functions
+// For the Exercise section
+addItem(
+  exercises,
+  "newExercise",
+  "addExerciseForm",
+  "exerciseListContainer",
+  "exerciseList"
+);
+
+// For the Habit section
+addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
+
 function addItem(sectionArray, inputID, formID, containerID, listID) {
   let addForm = document.getElementById(formID);
-
+  let date = new Date();
+  console.log(date);
   addForm.addEventListener("submit", (event) => {
     event.preventDefault();
     addItemToArray(sectionArray, inputID, containerID, listID);
   });
   console.log("success");
 }
-
-// Exercise section using general functions
-// For the Exercise section
-addItem(exercises, "newExercise", "addExerciseForm", "exerciseListContainer", "exerciseList");
-
-// For the Habit section
-addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
-
 
 // addItem(exercises, "#exerciseListContainer", "#exerciseList");
 
