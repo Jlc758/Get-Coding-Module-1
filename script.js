@@ -143,6 +143,7 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
     event.preventDefault();
     addItemToArray(sectionArray, inputID, containerID, listID);
   });
+  console.log("success");
 }
 
 // Exercise section using general functions
