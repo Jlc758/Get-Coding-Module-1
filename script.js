@@ -80,15 +80,18 @@ addMedForm.addEventListener("submit", (event) => {
 // Attempting general functions
 
 function createList(containerID, listID) {
-  let list = document.createElement("ul");
-  list.id = listID;
-  document.querySelector(containerID).appendChild(list);
-  return list;
+  let existingList = document.getElementById(listID);
+  if (!existingList) {
+    let list = document.createElement("ul");
+    list.id = listID;
+    document.getElementById(containerID).appendChild(list);
+    return list;
+  }
+  return existingList;
 }
 
 function updateList(sectionArray, containerID, listID) {
-  let updatingList =
-    document.getElementById(listID) || createList(containerID, listID);
+  let updatingList = createList(containerID, listID);
   updatingList.textContent = "";
   sectionArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
@@ -97,34 +100,64 @@ function updateList(sectionArray, containerID, listID) {
   });
 }
 
-function addItemToArray(sectionArray, containerID, listID) {
-  let newItemInput = document.getElementById("newItem");
+//! make the inputID a paramter so it can be used for multiple inputs, no return necessary here unless you want to use it for something else
+// function addItemToArray(sectionArray, containerID, listID) {
+//   let newItemInput = document.getElementById("newItem");
+//   let newItemText = newItemInput.value.trim();
+
+//   if (newItemText) {
+//     sectionArray.push(newItemText);
+//     updateList(sectionArray, containerID, listID);
+//     newItemInput.value = "";
+//     return newItemInput;
+//   }
+// }
+
+//!Updated function
+function addItemToArray(sectionArray, inputID, containerID, listID) {
+  let newItemInput = document.getElementById(inputID);
   let newItemText = newItemInput.value.trim();
 
   if (newItemText) {
     sectionArray.push(newItemText);
     updateList(sectionArray, containerID, listID);
     newItemInput.value = "";
-    return newItemInput;
   }
 }
 
-function addItem(sectionArray, containerID, listID) {
-  let addItemButton = document.querySelector(".addItem");
+//! Should be selecting the form not the button, and that should be a parameter so it can be used for multiple forms
+// function addItem(sectionArray, containerID, listID) {
+//   let addItemButton = document.querySelector(".addItem");
 
-  addItemButton.addEventListener("submit", (event) => {
+//   addItemButton.addEventListener("submit", (event) => {
+//     event.preventDefault();
+//     addItemToArray(sectionArray, containerID, listID);
+//   });
+// }
+
+//!Updated function
+function addItem(sectionArray, inputID, formID, containerID, listID) {
+  let addForm = document.getElementById(formID);
+
+  addForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    addItemToArray(sectionArray, containerID, listID);
+    addItemToArray(sectionArray, inputID, containerID, listID);
   });
 }
 
 // Exercise section using general functions
+// For the Exercise section
+addItem(exercises, "newExercise", "addExerciseForm", "exerciseListContainer", "exerciseList");
 
-addItem(exercises, "#exerciseListContainer", "#exerciseList");
+// For the Habit section
+addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
 
-if (addItem()) {
-  console.log("actioned exercise");
-}
+
+// addItem(exercises, "#exerciseListContainer", "#exerciseList");
+
+// if (addItem()) {
+//   console.log("actioned exercise");
+// }
 
 // function actionExercise() {
 //   updateList(exercises, "#exerciseListContainer", "#exerciseList");
