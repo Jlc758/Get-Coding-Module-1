@@ -114,17 +114,15 @@ function addItem(sectionArray, containerID, listID) {
 
   addItemButton.addEventListener("submit", (event) => {
     event.preventDefault();
+    updateList(sectionArray, containerID, listID);
     addItemToArray(sectionArray, containerID, listID);
   });
+  console.log("success");
 }
 
 // Exercise section using general functions
 
 addItem(exercises, "#exerciseListContainer", "#exerciseList");
-
-if (addItem()) {
-  console.log("actioned exercise");
-}
 
 // function actionExercise() {
 //   updateList(exercises, "#exerciseListContainer", "#exerciseList");
