@@ -108,7 +108,7 @@ function updateList(sectionArray, containerID, listID) {
     newItem.appendChild(deleteButton);
 
     deleteButton.addEventListener("click", (sectionArray) => {
-      deletingItem = sectionArray.shiftKey();
+      itemToRemove = sectionArray[newItem];
     });
   });
 }
@@ -160,9 +160,6 @@ addItem(
   "exerciseList"
 );
 
-// For the Habit section
-addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
-
 function addItem(sectionArray, inputID, formID, containerID, listID) {
   let addForm = document.getElementById(formID);
   let date = new Date();
@@ -173,6 +170,11 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
   });
   console.log("success");
 }
+
+// For the Habit section
+addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
+
+function deleteItem(sectionArray, inputID, formID, containerID, listID) {}
 
 // addItem(exercises, "#exerciseListContainer", "#exerciseList");
 
@@ -271,4 +273,3 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
 //     event.preventDefault();
 //     addHabit();
 //   });
-// };
