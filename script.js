@@ -1,8 +1,14 @@
 const exercises = [];
 const habits = [];
-const medications = [];
+
+// DOM Variables
+const newMedInput = document.getElementById("newMedication");
+const medCountInput = document.getElementById("medCount");
+let addMedForm = document.querySelector("#addMedicationForm");
 
 const flags = document.querySelectorAll(".flag");
+
+const medications = [];
 
 for (const flag of flags)
   flag.addEventListener("click", () => {
@@ -72,7 +78,9 @@ const deleteButton = (sectionArray, newItem, containerID, listID) => {
   deleteButton.addEventListener("click", () => {
     let removeItem = sectionArray.indexOf(newItem);
     if (removeItem !== -1) {
+      console.log("delete " + sectionArray[removeItem]);
       sectionArray.splice(removeItem, 1);
+
       //! Need to update the DOM again after you splice from the array
       updateList(sectionArray, containerID, listID);
     }
@@ -81,15 +89,15 @@ const deleteButton = (sectionArray, newItem, containerID, listID) => {
   return deleteButton;
 };
 
+// A function to add a Medication to the MedList
 const addMedication = () => {
   // Get the input value
+  const medObject = {
+    MedText: newMedInput.value,
+    MedCount: medCountInput.value,
+  };
 
-  const newMedInput = document.getElementById("newMedication");
-  const newMedText = newMedInput.value;
-
-  //Create associated med count
-  const medCount = document.getElementById("medCount");
-  const medCountNumber = medCount.value;
+  medications.push(medObject);
 
   let medList = document.getElementById("medList");
 
@@ -99,23 +107,34 @@ const addMedication = () => {
     document.querySelector(".medListContainer").appendChild(medList);
   }
 
-  // Create a new list item
-  const newMed = document.createElement("li");
-  newMed.appendChild(
-    document.createTextNode(
-      `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
-    )
-  );
+  medList.textContent = "";
+
+  medications.forEach((medication) => {
+    // Create a new list item
+    const newMed = document.createElement("li");
+    newMed.appendChild(
+      document.createTextNode(
+        `${medication.MedText} - Count: ${medication.MedCount}`
+      )
+    );
+    medList.appendChild(newMed);
+  });
+
+  // // Create a new list item
+  // const newMed = document.createElement("li");
+  // newMed.appendChild(
+  //   document.createTextNode(
+  //     `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
+  //   )
+  // );
   // Instead of appending the delete button, it appends "[object HTMLButtonElement]" and I can't figure out why
 
-  medList.appendChild(newMed);
+  // medList.appendChild(newMed);
 
   // Clear the input field
   newMedInput.value = "";
   medCount.value = "";
 };
-
-let addMedForm = document.querySelector("#addMedicationForm");
 
 addMedForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -135,21 +154,23 @@ function createList(containerID, listID) {
   return existingList;
 }
 
-function updateList(sectionArray, containerID, listID) {
-  let updatingList = createList(containerID, listID);
-  updatingList.textContent = "";
+// function updateList(sectionArray, containerID, listID) {
+//   let updatingList = createList(containerID, listID);
+//   updatingList.textContent = "";
 
-  sectionArray.forEach((updatedItem) => {
-    let newItem = document.createElement("li");
-    newItem.textContent = updatedItem;
-    updatingList.appendChild(newItem);
-    newItem.append(deleteButton(sectionArray, updatedItem, containerID, listID));
-    console.log(sectionArray);
-  });
-}
+//   sectionArray.forEach((updatedItem) => {
+//     let newItem = document.createElement("li");
+//     newItem.textContent = updatedItem;
+//     updatingList.appendChild(newItem);
+//     newItem.append(
+//       deleteButton(sectionArray, updatedItem, containerID, listID)
+//     );
+//     console.log(sectionArray);
+//   });
+// }
 
-  //! Something cool I found that helps with DOM performance when performing multiple DOM manipulations at once like adding several list items to a list is document.createDocumentFragment() which creates a virtual DOM that you can append all your elements to and then append the fragment to the actual DOM. This way you're only appending to the DOM once instead of several times. I'll leave it commented out below so you can see how it works. EX:
-/* const updateList = (sectionArray, containerID, listID) => {
+//! Something cool I found that helps with DOM performance when performing multiple DOM manipulations at once like adding several list items to a list is document.createDocumentFragment() which creates a virtual DOM that you can append all your elements to and then append the fragment to the actual DOM. This way you're only appending to the DOM once instead of several times. I'll leave it commented out below so you can see how it works. EX:
+const updateList = (sectionArray, containerID, listID) => {
   let updatingList = createList(containerID, listID);
   updatingList.textContent = "";
   const fragment = document.createDocumentFragment();
@@ -157,12 +178,17 @@ function updateList(sectionArray, containerID, listID) {
   sectionArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
-    let deleteBtn = deleteButton(sectionArray, updatedItem);
+    let deleteBtn = deleteButton(
+      sectionArray,
+      updatedItem,
+      containerID,
+      listID
+    );
     newItem.append(deleteBtn); // Append the delete button to the new item
     fragment.appendChild(newItem); // Append the new item to the fragment
   });
-  updatingList.appendChild(fragment); 
-}; */
+  updatingList.appendChild(fragment);
+};
 
 function addItemToArray(sectionArray, inputID, containerID, listID) {
   let newItemInput = document.getElementById(inputID);

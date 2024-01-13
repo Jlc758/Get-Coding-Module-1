@@ -131,7 +131,8 @@ img {
 /* Exercise List Section */
 
 #exerciseList,
-#habitList {
+#habitList,
+#medList {
   display: grid;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
   gap: 10px;
