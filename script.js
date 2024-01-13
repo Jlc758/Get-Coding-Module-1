@@ -16,11 +16,15 @@ let accordionItems = document.querySelectorAll(".accordion-item");
 
 accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
+
+  //! Added this as clicking anywhere inside the content was toggling the accordion. This way it only toggles when clicking the header
+  let header = item.querySelector(".accordion-header");
   console.log("content", content);
 
   content.style.display = "none";
 
-  item.addEventListener("click", (event) => {
+  //! switch to header here
+  header.addEventListener("click", (event) => {
     if (!event.target.closest("button, a, input")) {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
@@ -39,22 +43,41 @@ accordionItems.forEach((item) => {
 
 // Medication Accordion Section
 
-const deleteButton = (sectionArray, newItem) => {
+// const deleteButton = (sectionArray, newItem) => {
+//   let deleteButton = document.createElement("button");
+
+//   //! This is fine but makes the script file a bit cluttered, let's move the styling to the CSS and apply it to deleteButton when it's created using add class ex: deleteButton.classList.add("delete-button")
+//   deleteButton.style.height = "40px";
+//   deleteButton.style.width = "60px";
+//   deleteButton.style.backgroundColor = "black";
+//   deleteButton.style.color = "coral";
+//   deleteButton.style.marginLeft = "10px";
+//   deleteButton.innerText = "delete";
+
+//   deleteButton.addEventListener("click", () => {
+//     let removeItem = sectionArray.indexOf(newItem);
+//     if (removeItem !== -1) {
+//       sectionArray.splice(removeItem, 1);
+//     }
+//   });
+//   console.log(sectionArray);
+//   return deleteButton;
+// };
+
+const deleteButton = (sectionArray, newItem, containerID, listID) => {
   let deleteButton = document.createElement("button");
-  deleteButton.style.height = "40px";
-  deleteButton.style.width = "60px";
-  deleteButton.style.backgroundColor = "black";
-  deleteButton.style.color = "coral";
-  deleteButton.style.marginLeft = "10px";
-  deleteButton.innerText = "delete";
+  deleteButton.classList.add("delete-button"); //! Make this a class in CSS
+  deleteButton.innerText = "X";
 
   deleteButton.addEventListener("click", () => {
     let removeItem = sectionArray.indexOf(newItem);
     if (removeItem !== -1) {
       sectionArray.splice(removeItem, 1);
+      //! Need to update the DOM again after you splice from the array
+      updateList(sectionArray, containerID, listID); // Update the list in the DOM
     }
   });
-  console.log(sectionArray);
+
   return deleteButton;
 };
 
@@ -114,14 +137,31 @@ function createList(containerID, listID) {
 function updateList(sectionArray, containerID, listID) {
   let updatingList = createList(containerID, listID);
   updatingList.textContent = "";
+
   sectionArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
     updatingList.appendChild(newItem);
-    newItem.append(deleteButton(sectionArray));
+    newItem.append(deleteButton(sectionArray, updatedItem, containerID, listID));
     console.log(sectionArray);
   });
 }
+
+  //! Something cool I found that helps with DOM performance when performing multiple DOM manipulations at once like adding several list items to a list is document.createDocumentFragment() which creates a virtual DOM that you can append all your elements to and then append the fragment to the actual DOM. This way you're only appending to the DOM once instead of several times. I'll leave it commented out below so you can see how it works. EX:
+/* const updateList = (sectionArray, containerID, listID) => {
+  let updatingList = createList(containerID, listID);
+  updatingList.textContent = "";
+  const fragment = document.createDocumentFragment();
+
+  sectionArray.forEach((updatedItem) => {
+    let newItem = document.createElement("li");
+    newItem.textContent = updatedItem;
+    let deleteBtn = deleteButton(sectionArray, updatedItem);
+    newItem.append(deleteBtn); // Append the delete button to the new item
+    fragment.appendChild(newItem); // Append the new item to the fragment
+  });
+  updatingList.appendChild(fragment); 
+}; */
 
 // function deleteItem() {
 //   let deleteButton = document.createElement("button");
@@ -137,19 +177,6 @@ function updateList(sectionArray, containerID, listID) {
 //   });
 // }
 
-//! make the inputID a paramter so it can be used for multiple inputs, no return necessary here unless you want to use it for something else
-// function addItemToArray(sectionArray, containerID, listID) {
-//   let newItemInput = document.getElementById("newItem");
-//   let newItemText = newItemInput.value.trim();
-
-//   if (newItemText) {
-//     sectionArray.push(newItemText);
-//     updateList(sectionArray, containerID, listID);
-//     newItemInput.value = "";
-//     return newItemInput;
-//   }
-// }
-
 //!Updated function
 function addItemToArray(sectionArray, inputID, containerID, listID) {
   let newItemInput = document.getElementById(inputID);
@@ -161,16 +188,6 @@ function addItemToArray(sectionArray, inputID, containerID, listID) {
     newItemInput.value = "";
   }
 }
-
-//! Should be selecting the form not the button, and that should be a parameter so it can be used for multiple forms
-// function addItem(sectionArray, containerID, listID) {
-//   let addItemButton = document.querySelector(".addItem");
-
-//   addItemButton.addEventListener("submit", (event) => {
-//     event.preventDefault();
-//     addItemToArray(sectionArray, containerID, listID);
-//   });
-// }
 
 //!Updated function
 
@@ -197,101 +214,3 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
 
 // For the Habit section
 addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
-
-// addItem(exercises, "#exerciseListContainer", "#exerciseList");
-
-// if (addItem()) {
-//   console.log("actioned exercise");
-// }
-
-// function actionExercise() {
-//   updateList(exercises, "#exerciseListContainer", "#exerciseList");
-//   console.log("Exercise list populated");
-
-//   addItem(exercises, "#exerciseListContainer", "#exerciseList");
-//   console.log("Added item");
-// };
-
-// Exercise Accordion Section
-
-// const createList = (containerID, listID) => {
-//   const list = document.createElement("ul");
-//   list.id = listID;
-//   document.querySelector(containerID).appendChild(list);
-//   return list;
-// };
-
-// const updateExerciseList = (exerciseArray, containerID, listID, isExercise) => {
-//   const exerciseList =
-//     document.getElementById(listID) || createList(containerID, listID);
-//   exerciseList.innerHTML = "";
-//   exerciseArray.forEach((exercise) => {
-//     const newExercise = document.createElement("li");
-//     newExercise.textContent = exercise;
-//     exerciseList.appendChild(newExercise);
-
-//     if (isExercise) {
-//       const weightsIcon = document.createElement("img");
-//       weightsIcon.srcset = "./icons_images/dumbbell50.png";
-//       weightsIcon.alt = "dumbbell";
-
-//       newExercise.append(weightsIcon);
-//     }
-
-//     const exerciseCheckbox = document.createElement("input");
-//     exerciseCheckbox.type = "checkbox";
-//     exerciseCheckbox.id = "exerciseCheckbox";
-
-//     newExercise.append(exerciseCheckbox);
-//   });
-// };
-
-// const addExercise = () => {
-//   const newExerciseInput = document.getElementById("newExercise");
-//   const newExerciseText = newExerciseInput.value.trim();
-
-//   if (newExerciseText) {
-//     exercises.push(newExerciseText);
-//     updateExerciseList(exercises, ".exerciseListContainer", "exerciseList", true);
-//     newExerciseInput.value = "";
-//     console.log(exercises);
-//   }
-//   // newExerciseInput.value = "";
-// };
-
-// let addExBtn = document.querySelector("#addExerciseForm");
-
-// addExBtn.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   addExercise();
-// });
-
-// Habit Accordion Section
-
-// const createHabitList = () => {
-//   const habitList = document.createElement("ul");
-//   habitList.id = "habitList";
-//   document.querySelector(".habitListContainer").appendChild(habitList);
-//   return habitList;
-// };
-
-// const updateHabitList = (habitsArray) => {
-//   const habitList = document.getElementById("habitList") || createHabitList();
-//   habitList.innerHTML = "";
-//   habitsArray.forEach((habits) => {
-//     let newHabit = document.createElement("li");
-//     newHabit.textContent = habits;
-//     habitList.appendChild(newHabit);
-//   });
-
-//   const addHabit = () => {
-//     let newHabitInput = document.getElementById("newHabit");
-//     let newHabitText = newHabitInput.value.trim();
-//   };
-
-//   let addHabitButton = document.querySelector(".addItem");
-
-//   addHabitButton.addEventListener("submit", (event) => {
-//     event.preventDefault();
-//     addHabit();
-//   });
