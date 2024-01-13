@@ -137,3 +137,9 @@ img {
   gap: 10px;
   padding: 10px;
 }
+
+#deleteButton {
+  height: 100px;
+  width: 50px;
+  background-color: green;
+}

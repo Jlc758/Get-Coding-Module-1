@@ -97,6 +97,19 @@ function updateList(sectionArray, containerID, listID) {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
     updatingList.appendChild(newItem);
+
+    let deleteButton = document.createElement("button");
+    deleteButton.style.height = "40px";
+    deleteButton.style.width = "60px";
+    deleteButton.style.backgroundColor = "black";
+    deleteButton.style.color = "coral";
+    deleteButton.style.marginLeft = "10px";
+    deleteButton.innerText = "delete";
+    newItem.appendChild(deleteButton);
+
+    deleteButton.addEventListener("click", (sectionArray) => {
+      deletingItem = sectionArray.shiftKey();
+    });
   });
 }
 
