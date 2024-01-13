@@ -164,21 +164,6 @@ function updateList(sectionArray, containerID, listID) {
   updatingList.appendChild(fragment); 
 }; */
 
-// function deleteItem() {
-//   let deleteButton = document.createElement("button");
-//   deleteButton.style.height = "40px";
-//   deleteButton.style.width = "60px";
-//   deleteButton.style.backgroundColor = "black";
-//   deleteButton.style.color = "coral";
-//   deleteButton.style.marginLeft = "10px";
-//   deleteButton.innerText = "delete";
-
-//   deleteButton.addEventListener("click", (sectionArray) => {
-//     itemToRemove = sectionArray[newItem];
-//   });
-// }
-
-//!Updated function
 function addItemToArray(sectionArray, inputID, containerID, listID) {
   let newItemInput = document.getElementById(inputID);
   let newItemText = newItemInput.value.trim();
@@ -189,8 +174,6 @@ function addItemToArray(sectionArray, inputID, containerID, listID) {
     newItemInput.value = "";
   }
 }
-
-//!Updated function
 
 // Exercise section using general functions
 // For the Exercise section
