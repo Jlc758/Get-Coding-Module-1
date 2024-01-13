@@ -39,6 +39,25 @@ accordionItems.forEach((item) => {
 
 // Medication Accordion Section
 
+const deleteButton = (sectionArray, newItem) => {
+  let deleteButton = document.createElement("button");
+  deleteButton.style.height = "40px";
+  deleteButton.style.width = "60px";
+  deleteButton.style.backgroundColor = "black";
+  deleteButton.style.color = "coral";
+  deleteButton.style.marginLeft = "10px";
+  deleteButton.innerText = "delete";
+
+  deleteButton.addEventListener("click", () => {
+    let removeItem = sectionArray.indexOf(newItem);
+    if (removeItem !== -1) {
+      sectionArray.splice(removeItem, 1);
+    }
+  });
+  console.log(sectionArray);
+  return deleteButton;
+};
+
 const addMedication = () => {
   // Get the input value
 
@@ -60,7 +79,9 @@ const addMedication = () => {
   // Create a new list item
   const newMed = document.createElement("li");
   newMed.appendChild(
-    document.createTextNode(`${newMedText} - Count: ${medCountNumber}`)
+    document.createTextNode(
+      `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
+    )
   );
 
   medList.appendChild(newMed);
@@ -97,21 +118,24 @@ function updateList(sectionArray, containerID, listID) {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
     updatingList.appendChild(newItem);
-
-    let deleteButton = document.createElement("button");
-    deleteButton.style.height = "40px";
-    deleteButton.style.width = "60px";
-    deleteButton.style.backgroundColor = "black";
-    deleteButton.style.color = "coral";
-    deleteButton.style.marginLeft = "10px";
-    deleteButton.innerText = "delete";
-    newItem.appendChild(deleteButton);
-
-    deleteButton.addEventListener("click", (sectionArray) => {
-      itemToRemove = sectionArray[newItem];
-    });
+    newItem.append(deleteButton(sectionArray));
+    console.log(sectionArray);
   });
 }
+
+// function deleteItem() {
+//   let deleteButton = document.createElement("button");
+//   deleteButton.style.height = "40px";
+//   deleteButton.style.width = "60px";
+//   deleteButton.style.backgroundColor = "black";
+//   deleteButton.style.color = "coral";
+//   deleteButton.style.marginLeft = "10px";
+//   deleteButton.innerText = "delete";
+
+//   deleteButton.addEventListener("click", (sectionArray) => {
+//     itemToRemove = sectionArray[newItem];
+//   });
+// }
 
 //! make the inputID a paramter so it can be used for multiple inputs, no return necessary here unless you want to use it for something else
 // function addItemToArray(sectionArray, containerID, listID) {
@@ -173,8 +197,6 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
 
 // For the Habit section
 addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
-
-function deleteItem(sectionArray, inputID, formID, containerID, listID) {}
 
 // addItem(exercises, "#exerciseListContainer", "#exerciseList");
 
