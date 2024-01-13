@@ -74,7 +74,7 @@ const deleteButton = (sectionArray, newItem, containerID, listID) => {
     if (removeItem !== -1) {
       sectionArray.splice(removeItem, 1);
       //! Need to update the DOM again after you splice from the array
-      updateList(sectionArray, containerID, listID); // Update the list in the DOM
+      updateList(sectionArray, containerID, listID);
     }
   });
 
@@ -106,6 +106,7 @@ const addMedication = () => {
       `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
     )
   );
+  // Instead of appending the delete button, it appends "[object HTMLButtonElement]" and I can't figure out why
 
   medList.appendChild(newMed);
 
@@ -201,6 +202,8 @@ addItem(
   "exerciseList"
 );
 
+// When I add a new item to the exercise tracker or habit tracker, it adds "Item 1", and then "Item 1, Item 2", etc.  How do I stop this from happening?
+
 function addItem(sectionArray, inputID, formID, containerID, listID) {
   let addForm = document.getElementById(formID);
   let date = new Date();
@@ -214,3 +217,23 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
 
 // For the Habit section
 addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
+
+// function deleteButton(sectionArray, newItem) {
+//   let deleteButton = document.createElement("button");
+//   deleteButton.style.height = "40px";
+//   deleteButton.style.width = "60px";
+//   deleteButton.style.backgroundColor = "black";
+//   deleteButton.style.color = "coral";
+//   deleteButton.style.marginLeft = "10px";
+//   deleteButton.innerText = "delete";
+
+//   deleteButton.addEventListener("click", () => {
+//     let removeItem = sectionArray.indexOf(newItem.textContent);
+//     if (removeItem !== -1) {
+//       sectionArray.splice(removeItem, 1);
+//       updateList(sectionArray);
+//     }
+//     console.log("delete " + sectionArray.splice(removeItem));
+//   });
+//   return deleteButton;
+// }
