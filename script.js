@@ -155,7 +155,8 @@ function createList(containerID, listID) {
 // Question: do I leave in createList() if I have now hard coded <ul> in index? I think the if statement is redundant but it is also required in case something is overlooked or if the code is expanded on in the future.
 
 const updateList = (sectionArray, containerID, listID) => {
-  let updatingList = createList(containerID, listID);
+  // let updatingList = createList(containerID, listID);
+  let updatingList = document.querySelector("ul");
   updatingList.textContent = "";
   const fragment = document.createDocumentFragment();
 
@@ -173,6 +174,7 @@ const updateList = (sectionArray, containerID, listID) => {
   });
   updatingList.appendChild(fragment);
   console.log("Updated list");
+  console.log(exercises, habits);
 };
 
 // Calling function for adding items to exercise section
