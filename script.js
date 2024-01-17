@@ -152,7 +152,7 @@ function createList(containerID, listID) {
   return existingList;
 }
 
-// Question: do I leave in createList() if I have now hard coded <ul> in index?
+// Question: do I leave in createList() if I have now hard coded <ul> in index? I think the if statement is redundant but it is also required in case something is overlooked or if the code is expanded on in the future.
 
 const updateList = (sectionArray, containerID, listID) => {
   let updatingList = createList(containerID, listID);
