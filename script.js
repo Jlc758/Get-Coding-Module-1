@@ -1,14 +1,20 @@
 const exercises = [];
 const habits = [];
+const medications = [];
 
 // DOM Variables
 const newMedInput = document.getElementById("newMedication");
 const medCountInput = document.getElementById("medCount");
 let addMedForm = document.querySelector("#addMedicationForm");
+let accordionItems = document.querySelectorAll(".accordion-item");
 
 const flags = document.querySelectorAll(".flag");
 
-const medications = [];
+// Event Listeners
+addMedForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  addMedication();
+});
 
 for (const flag of flags)
   flag.addEventListener("click", () => {
@@ -17,8 +23,6 @@ for (const flag of flags)
       flag.style.backgroundColor = "#83c5be";
     }, 1000);
   });
-
-let accordionItems = document.querySelectorAll(".accordion-item");
 
 accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
@@ -47,32 +51,9 @@ accordionItems.forEach((item) => {
   });
 });
 
-// Medication Accordion Section
-
-// const deleteButton = (sectionArray, newItem) => {
-//   let deleteButton = document.createElement("button");
-
-//   //! This is fine but makes the script file a bit cluttered, let's move the styling to the CSS and apply it to deleteButton when it's created using add class ex: deleteButton.classList.add("delete-button")
-//   deleteButton.style.height = "40px";
-//   deleteButton.style.width = "60px";
-//   deleteButton.style.backgroundColor = "black";
-//   deleteButton.style.color = "coral";
-//   deleteButton.style.marginLeft = "10px";
-//   deleteButton.innerText = "delete";
-
-//   deleteButton.addEventListener("click", () => {
-//     let removeItem = sectionArray.indexOf(newItem);
-//     if (removeItem !== -1) {
-//       sectionArray.splice(removeItem, 1);
-//     }
-//   });
-//   console.log(sectionArray);
-//   return deleteButton;
-// };
-
 const deleteButton = (sectionArray, newItem, containerID, listID) => {
   let deleteButton = document.createElement("button");
-  deleteButton.classList.add("delete-button"); //! Make this a class in CSS
+  deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
 
   deleteButton.addEventListener("click", () => {
@@ -136,12 +117,7 @@ const addMedication = () => {
   medCount.value = "";
 };
 
-addMedForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addMedication();
-});
-
-// Attempting general functions
+// General functions
 
 function createList(containerID, listID) {
   let existingList = document.getElementById(listID);
@@ -154,22 +130,6 @@ function createList(containerID, listID) {
   return existingList;
 }
 
-// function updateList(sectionArray, containerID, listID) {
-//   let updatingList = createList(containerID, listID);
-//   updatingList.textContent = "";
-
-//   sectionArray.forEach((updatedItem) => {
-//     let newItem = document.createElement("li");
-//     newItem.textContent = updatedItem;
-//     updatingList.appendChild(newItem);
-//     newItem.append(
-//       deleteButton(sectionArray, updatedItem, containerID, listID)
-//     );
-//     console.log(sectionArray);
-//   });
-// }
-
-//! Something cool I found that helps with DOM performance when performing multiple DOM manipulations at once like adding several list items to a list is document.createDocumentFragment() which creates a virtual DOM that you can append all your elements to and then append the fragment to the actual DOM. This way you're only appending to the DOM once instead of several times. I'll leave it commented out below so you can see how it works. EX:
 const updateList = (sectionArray, containerID, listID) => {
   let updatingList = createList(containerID, listID);
   updatingList.textContent = "";
@@ -201,18 +161,6 @@ function addItemToArray(sectionArray, inputID, containerID, listID) {
   }
 }
 
-// Exercise section using general functions
-// For the Exercise section
-addItem(
-  exercises,
-  "newExercise",
-  "addExerciseForm",
-  "exerciseListContainer",
-  "exerciseList"
-);
-
-// When I add a new item to the exercise tracker or habit tracker, it adds "Item 1", and then "Item 1, Item 2", etc.  How do I stop this from happening?
-
 function addItem(sectionArray, inputID, formID, containerID, listID) {
   let addForm = document.getElementById(formID);
   let date = new Date();
@@ -221,28 +169,16 @@ function addItem(sectionArray, inputID, formID, containerID, listID) {
     event.preventDefault();
     addItemToArray(sectionArray, inputID, containerID, listID);
   });
-  console.log("success");
+  console.log("New item added to section!");
 }
 
-// For the Habit section
+// Calling function for adding items to exercise section
+addItem(
+  exercises,
+  "newExercise",
+  "addExerciseForm",
+  "exerciseListContainer",
+  "exerciseList"
+);
+// Calling function for adding items to habit section
 addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
-
-// function deleteButton(sectionArray, newItem) {
-//   let deleteButton = document.createElement("button");
-//   deleteButton.style.height = "40px";
-//   deleteButton.style.width = "60px";
-//   deleteButton.style.backgroundColor = "black";
-//   deleteButton.style.color = "coral";
-//   deleteButton.style.marginLeft = "10px";
-//   deleteButton.innerText = "delete";
-
-//   deleteButton.addEventListener("click", () => {
-//     let removeItem = sectionArray.indexOf(newItem.textContent);
-//     if (removeItem !== -1) {
-//       sectionArray.splice(removeItem, 1);
-//       updateList(sectionArray);
-//     }
-//     console.log("delete " + sectionArray.splice(removeItem));
-//   });
-//   return deleteButton;
-// }
