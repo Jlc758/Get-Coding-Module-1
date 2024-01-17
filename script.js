@@ -119,6 +119,28 @@ const addMedication = () => {
 
 // General functions
 
+function addItem(sectionArray, inputID, formID, containerID, listID) {
+  let addForm = document.getElementById(formID);
+  let date = new Date();
+  console.log(date);
+  addForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    addItemToArray(sectionArray, inputID, containerID, listID);
+    console.log("New item added to section!");
+  });
+}
+
+function addItemToArray(sectionArray, inputID, containerID, listID) {
+  let newItemInput = document.getElementById(inputID);
+  let newItemText = newItemInput.value.trim();
+
+  if (newItemText) {
+    sectionArray.push(newItemText);
+    updateList(sectionArray, containerID, listID);
+    newItemInput.value = "";
+  }
+}
+
 function createList(containerID, listID) {
   let existingList = document.getElementById(listID);
   if (!existingList) {
@@ -129,6 +151,8 @@ function createList(containerID, listID) {
   }
   return existingList;
 }
+
+// Question: do I leave in createList() if I have now hard coded <ul> in index?
 
 const updateList = (sectionArray, containerID, listID) => {
   let updatingList = createList(containerID, listID);
@@ -148,29 +172,8 @@ const updateList = (sectionArray, containerID, listID) => {
     fragment.appendChild(newItem); // Append the new item to the fragment
   });
   updatingList.appendChild(fragment);
+  console.log("Updated list");
 };
-
-function addItemToArray(sectionArray, inputID, containerID, listID) {
-  let newItemInput = document.getElementById(inputID);
-  let newItemText = newItemInput.value.trim();
-
-  if (newItemText) {
-    sectionArray.push(newItemText);
-    updateList(sectionArray, containerID, listID);
-    newItemInput.value = "";
-  }
-}
-
-function addItem(sectionArray, inputID, formID, containerID, listID) {
-  let addForm = document.getElementById(formID);
-  let date = new Date();
-  console.log(date);
-  addForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    addItemToArray(sectionArray, inputID, containerID, listID);
-  });
-  console.log("New item added to section!");
-}
 
 // Calling function for adding items to exercise section
 addItem(
