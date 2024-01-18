@@ -51,7 +51,7 @@ accordionItems.forEach((item) => {
   });
 });
 
-const deleteButton = (sectionArray, newItem, containerID, listID) => {
+const deleteButton = (sectionArray, newItem, listID) => {
   let deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
@@ -63,36 +63,36 @@ const deleteButton = (sectionArray, newItem, containerID, listID) => {
       sectionArray.splice(removeItem, 1);
 
       //! Need to update the DOM again after you splice from the array
-      updateList(sectionArray, containerID, listID);
+      updateList(sectionArray, listID);
     }
   });
 
   return deleteButton;
 };
 
-// Breaking down the medication functions
-const medObject = {
-  MedText: newMedInput.value,
-  MedCount: medCountInput.value,
-};
+// // Breaking down the medication functions
+// const medObject = {
+//   MedText: newMedInput.value,
+//   MedCount: medCountInput.value,
+// };
 
-medications.push(medObject);
+// medications.push(medObject);
 
-medications.forEach((medication) => {
-  const newMed = document.createElement("li");
-  newMed.appendChild(
-    document.createTextNode(
-      `${medication.MedText} - Count: ${medication.MedCount}`
-    )
-  );
-  // medList.appendChild(newMed);
-  // newMed.append(deleteButton);
-  console.log("medication added successfully");
-});
+// medications.forEach((medication) => {
+//   const newMed = document.createElement("li");
+//   newMed.appendChild(
+//     document.createTextNode(
+//       `${medication.MedText} - Count: ${medication.MedCount}`
+//     )
+//   );
+//   // medList.appendChild(newMed);
+//   // newMed.append(deleteButton);
+//   console.log("medication added successfully");
+// });
 
-// Clear the input field
-newMedInput.value = "";
-medCount.value = "";
+// // Clear the input field
+// newMedInput.value = "";
+// medCount.value = "";
 
 // A function to add a Medication to the MedList
 // const addMedication = () => {
@@ -143,24 +143,67 @@ medCount.value = "";
 
 // General functions
 
-function addItem(sectionArray, inputID, formID, containerID, listID) {
+function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
+  let addForm = document.getElementById(medFormID);
+  let date = new Date();
+
+  addForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const newMedItemInput = document.getElementById(medInput);
+    const newMedItemValue = newMedItemInput.value.trim();
+    const newMedCountInput = document.getElementById(countInput);
+    const newMedCountValue = newMedCountInput.value;
+
+    if (newMedItemValue && newMedCountValue > 0) {
+      const medObject = {
+        MedText: newMedItemValue,
+        MedCount: newMedCountValue,
+      };
+
+      medArray.push(medObject);
+      updateMedList(medArray, medListID);
+      newMedItemInput.value = "";
+      newMedCountValue.value = "";
+    }
+  });
+}
+
+const updateMedList = (medArray, listID) => {
+  // let updatingList = createList(containerID, listID);
+  let updatingList = document.getElementById(listID);
+  updatingList.textContent = "";
+  const fragment = document.createDocumentFragment();
+
+  medArray.forEach((updatedItem) => {
+    let newItem = document.createElement("li");
+    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+    let deleteBtn = deleteButton(medArray, updatedItem, listID);
+    newItem.append(deleteBtn); // Append the delete button to the new item
+    fragment.appendChild(newItem); // Append the new item to the fragment
+  });
+  updatingList.appendChild(fragment);
+  console.log("Updated list");
+  console.log("Exercises: " + exercises, "Habits: " + habits);
+};
+
+function addItem(sectionArray, inputID, formID, listID) {
   let addForm = document.getElementById(formID);
   let date = new Date();
   console.log(date);
   addForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    addItemToArray(sectionArray, inputID, containerID, listID);
+    addItemToArray(sectionArray, inputID, listID);
     console.log("New item added to section!");
   });
 }
 
-function addItemToArray(sectionArray, inputID, containerID, listID) {
+function addItemToArray(sectionArray, inputID, listID) {
   let newItemInput = document.getElementById(inputID);
   let newItemText = newItemInput.value.trim();
 
   if (newItemText) {
     sectionArray.push(newItemText);
-    updateList(sectionArray, containerID, listID);
+    updateList(sectionArray, listID);
     newItemInput.value = "";
   }
 }
@@ -176,21 +219,16 @@ function addItemToArray(sectionArray, inputID, containerID, listID) {
 //   return existingList;
 // }
 
-const updateList = (sectionArray, containerID, listID) => {
+const updateList = (sectionArray, listID) => {
   // let updatingList = createList(containerID, listID);
-  let updatingList = document.querySelector("ul", containerID);
+  let updatingList = document.getElementById(listID);
   updatingList.textContent = "";
   const fragment = document.createDocumentFragment();
 
   sectionArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
-    let deleteBtn = deleteButton(
-      sectionArray,
-      updatedItem,
-      containerID,
-      listID
-    );
+    let deleteBtn = deleteButton(sectionArray, updatedItem, listID);
     newItem.append(deleteBtn); // Append the delete button to the new item
     fragment.appendChild(newItem); // Append the new item to the fragment
   });
@@ -200,20 +238,14 @@ const updateList = (sectionArray, containerID, listID) => {
 };
 
 // Calling function for adding items to exercise section
-addItem(
-  exercises,
-  "newExercise",
-  "addExerciseForm",
-  "exerciseListContainer",
-  "exerciseList"
-);
+addItem(exercises, "newExercise", "addExerciseForm", "exerciseList");
 // Calling function for adding items to habit section
-addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
+addItem(habits, "newHabit", "addHabitForm", "habitList");
 
-addItem(
+addMedItem(
   medications,
-  "newMed",
+  "newMedication",
+  "medCount",
   "addMedicationForm",
-  "medListContainer",
   "medList"
 );
