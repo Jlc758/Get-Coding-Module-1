@@ -70,52 +70,76 @@ const deleteButton = (sectionArray, newItem, containerID, listID) => {
   return deleteButton;
 };
 
-// A function to add a Medication to the MedList
-const addMedication = () => {
-  // Get the input value
-  const medObject = {
-    MedText: newMedInput.value,
-    MedCount: medCountInput.value,
-  };
-
-  medications.push(medObject);
-
-  let medList = document.getElementById("medList");
-
-  if (!medList) {
-    medList = document.createElement("ul");
-    medList.id = "medList";
-    document.querySelector(".medListContainer").appendChild(medList);
-  }
-
-  medList.textContent = "";
-
-  medications.forEach((medication) => {
-    // Create a new list item
-    const newMed = document.createElement("li");
-    newMed.appendChild(
-      document.createTextNode(
-        `${medication.MedText} - Count: ${medication.MedCount}`
-      )
-    );
-    medList.appendChild(newMed);
-  });
-
-  // // Create a new list item
-  // const newMed = document.createElement("li");
-  // newMed.appendChild(
-  //   document.createTextNode(
-  //     `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
-  //   )
-  // );
-  // Instead of appending the delete button, it appends "[object HTMLButtonElement]" and I can't figure out why
-
-  // medList.appendChild(newMed);
-
-  // Clear the input field
-  newMedInput.value = "";
-  medCount.value = "";
+// Breaking down the medication functions
+const medObject = {
+  MedText: newMedInput.value,
+  MedCount: medCountInput.value,
 };
+
+medications.push(medObject);
+
+medications.forEach((medication) => {
+  const newMed = document.createElement("li");
+  newMed.appendChild(
+    document.createTextNode(
+      `${medication.MedText} - Count: ${medication.MedCount}`
+    )
+  );
+  medList.appendChild(newMed);
+  newMed.append(deleteButton);
+  console.log("medication added successfully");
+});
+
+// Clear the input field
+newMedInput.value = "";
+medCount.value = "";
+
+// A function to add a Medication to the MedList
+// const addMedication = () => {
+//   // Get the input value
+//   const medObject = {
+//     MedText: newMedInput.value,
+//     MedCount: medCountInput.value,
+//   };
+
+//   medications.push(medObject);
+
+//   let medList = document.getElementById("medList");
+
+//   if (!medList) {
+//     medList = document.createElement("ul");
+//     medList.id = "medList";
+//     document.querySelector(".medListContainer").appendChild(medList);
+//   }
+
+//   medList.textContent = "";
+
+//   medications.forEach((medication) => {
+//     // Create a new list item
+//     const newMed = document.createElement("li");
+//     newMed.appendChild(
+//       document.createTextNode(
+//         `${medication.MedText} - Count: ${medication.MedCount}`
+//       )
+//     );
+//     medList.appendChild(newMed);
+//   });
+
+// // Create a new list item
+// const newMed = document.createElement("li");
+// newMed.appendChild(
+//   document.createTextNode(
+//     `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
+//   )
+// );
+// Instead of appending the delete button, it appends "[object HTMLButtonElement]" and I can't figure out why
+
+// medList.appendChild(newMed);
+
+// Clear the input field
+//   newMedInput.value = "";
+//   medCount.value = "";
+// };
 
 // General functions
 
@@ -152,11 +176,9 @@ function addItemToArray(sectionArray, inputID, containerID, listID) {
 //   return existingList;
 // }
 
-// Question: do I leave in createList() if I have now hard coded <ul> in index? I think the if statement is redundant but it is also required in case something is overlooked or if the code is expanded on in the future.
-
 const updateList = (sectionArray, containerID, listID) => {
   // let updatingList = createList(containerID, listID);
-  let updatingList = document.querySelector("ul");
+  let updatingList = document.querySelector("ul", containerID);
   updatingList.textContent = "";
   const fragment = document.createDocumentFragment();
 
@@ -187,3 +209,5 @@ addItem(
 );
 // Calling function for adding items to habit section
 addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
+
+addItem();
