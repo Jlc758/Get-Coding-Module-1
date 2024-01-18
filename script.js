@@ -11,10 +11,10 @@ let accordionItems = document.querySelectorAll(".accordion-item");
 const flags = document.querySelectorAll(".flag");
 
 // Event Listeners
-addMedForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addMedication();
-});
+// addMedForm.addEventListener("submit", (event) => {
+//   event.preventDefault();
+//   addMedication();
+// });
 
 for (const flag of flags)
   flag.addEventListener("click", () => {
@@ -85,8 +85,8 @@ medications.forEach((medication) => {
       `${medication.MedText} - Count: ${medication.MedCount}`
     )
   );
-  medList.appendChild(newMed);
-  newMed.append(deleteButton);
+  // medList.appendChild(newMed);
+  // newMed.append(deleteButton);
   console.log("medication added successfully");
 });
 
@@ -210,4 +210,10 @@ addItem(
 // Calling function for adding items to habit section
 addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
 
-addItem();
+addItem(
+  medications,
+  "newMed",
+  "addMedicationForm",
+  "medListContainer",
+  "medList"
+);
