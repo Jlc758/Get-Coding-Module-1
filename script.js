@@ -1,219 +1,211 @@
-const exercises = [];
-const habits = [];
-const medications = [];
+const dailyEntry = {
+  date: new Date().toISOString().slice(0, 10),
+  journalEntry: "",
+  isFlagged: false,
+  emotionTracker: "",
+  waterTracker: "",
+  medications: [],
+  exercises: [],
+  habits: [],
+};
 
 // DOM Variables
-const newMedInput = document.getElementById("newMedication");
-const medCountInput = document.getElementById("medCount");
-let addMedForm = document.querySelector("#addMedicationForm");
-let accordionItems = document.querySelectorAll(".accordion-item");
+const form = document.getElementById("dailyEntry");
+const accordionItems = document.querySelectorAll(".accordion-item");
+const journalInput = document.getElementById("fillableEntry");
+const flag = document.getElementById("flag");
 
-const flags = document.querySelectorAll(".flag");
-
-// Event Listeners
-// addMedForm.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   addMedication();
-// });
-
-for (const flag of flags)
-  flag.addEventListener("click", () => {
-    flag.style.backgroundColor = "#e5989b";
-    setTimeout(() => {
-      flag.style.backgroundColor = "#83c5be";
-    }, 1000);
-  });
-
+//-----------------Accordion-----------------//
 accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
 
-  //! Added this as clicking anywhere inside the content was toggling the accordion. This way it only toggles when clicking the header
   let header = item.querySelector(".accordion-header");
   console.log("content", content);
 
   content.style.display = "none";
 
-  //! switch to header here
   header.addEventListener("click", (event) => {
     if (!event.target.closest("button, a, input")) {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
     }
 
-    accordionItems.forEach((otherItem) => {
-      if (otherItem !== item) {
-        let content = otherItem.querySelector(".accordion-content");
-        if (content.style.display !== "none") {
-          content.style.display = "none";
-        }
-      }
-    });
+    // accordionItems.forEach((otherItem) => {
+    //   if (otherItem !== item) {
+    //     let content = otherItem.querySelector(".accordion-content");
+    //     if (content.style.display !== "none") {
+    //       content.style.display = "none";
+    //     }
+    //   }
+    // });
   });
 });
 
-const deleteButton = (sectionArray, newItem, containerID, listID) => {
+//----------General Functions-----------//
+const deleteButton = (sectionArray, index, listElement) => {
   let deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
 
   deleteButton.addEventListener("click", () => {
-    let removeItem = sectionArray.indexOf(newItem);
-    if (removeItem !== -1) {
-      console.log("delete " + sectionArray[removeItem]);
-      sectionArray.splice(removeItem, 1);
-
-      //! Need to update the DOM again after you splice from the array
-      updateList(sectionArray, containerID, listID);
+    sectionArray.splice(index, 1); // Delete using index
+    if (listElement.id === "medList") {
+      // If it's the medication list, call updateMedList
+      updateMedList(sectionArray, listElement);
+    } else {
+      // For other lists, call updateList
+      updateList(sectionArray, listElement);
     }
   });
 
   return deleteButton;
 };
 
-// Breaking down the medication functions
-const medObject = {
-  MedText: newMedInput.value,
-  MedCount: medCountInput.value,
+//----------- Journal Entry-----------//
+function updateJournalEntry(input) {
+  const value = input.value.trim();
+  dailyEntry.journalEntry = value;
+}
+
+function listenForFlagClick(flag) {
+  flag.addEventListener("click", () => {
+    dailyEntry.isFlagged = !dailyEntry.isFlagged;
+  if (dailyEntry.isFlagged) {
+    flag.classList.add("flagged");
+  } else {
+    flag.classList.remove("flagged");
+  }
+  });
 };
 
-medications.push(medObject);
+//-----------Radio Trackers-----------//
+function getSelectedRadioValue(name) {
+  const radios = document.getElementsByName(name);
+  for (let radio of radios) {
+    if (radio.checked) {
+      return radio.value;
+    }
+  }
+  return "";
+}
 
-medications.forEach((medication) => {
-  const newMed = document.createElement("li");
-  newMed.appendChild(
-    document.createTextNode(
-      `${medication.MedText} - Count: ${medication.MedCount}`
-    )
-  );
-  // medList.appendChild(newMed);
-  // newMed.append(deleteButton);
-  console.log("medication added successfully");
-});
+//--------Medication Tracker----------//
+const addMedBtn = document.getElementById("addMedicationBtn");
+const medList = document.getElementById("medList");
+const newMedInput = document.getElementById("newMedication");
+const medCountInput = document.getElementById("medCount");
 
-// Clear the input field
-newMedInput.value = "";
-medCount.value = "";
+function addMedItem(medArray, medInput, countInput, medBtn, medList) {
+  medBtn.addEventListener("click", () => {
+    const newMedItemValue = medInput.value.trim();
+    const newMedCountValue = countInput.value;
 
-// A function to add a Medication to the MedList
-// const addMedication = () => {
-//   // Get the input value
-//   const medObject = {
-//     MedText: newMedInput.value,
-//     MedCount: medCountInput.value,
-//   };
+    if (newMedItemValue && newMedCountValue > 0) {
+      const medObject = {
+        MedText: newMedItemValue,
+        MedCount: newMedCountValue,
+      };
 
-//   medications.push(medObject);
+      medArray.push(medObject);
+      updateMedList(medArray, medList);
+      medInput.value = "";
+      countInput.value = "";
+    }
+  });
+}
 
-//   let medList = document.getElementById("medList");
+const updateMedList = (medArray, medList) => {
+  medList.textContent = "";
+  const fragment = document.createDocumentFragment();
 
-//   if (!medList) {
-//     medList = document.createElement("ul");
-//     medList.id = "medList";
-//     document.querySelector(".medListContainer").appendChild(medList);
-//   }
+  medArray.forEach((updatedItem, index) => {
+    let newItem = document.createElement("li");
+    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+    let deleteBtn = deleteButton(medArray, index, medList); // Pass index here
+    newItem.append(deleteBtn);
+    fragment.appendChild(newItem);
+  });
 
-//   medList.textContent = "";
+  medList.appendChild(fragment);
+};
 
-//   medications.forEach((medication) => {
-//     // Create a new list item
-//     const newMed = document.createElement("li");
-//     newMed.appendChild(
-//       document.createTextNode(
-//         `${medication.MedText} - Count: ${medication.MedCount}`
-//       )
-//     );
-//     medList.appendChild(newMed);
-//   });
+const deleteMedButton = (medArray, index, medList) => {
+  let deleteButton = document.createElement("button");
+  deleteButton.classList.add("delete-button");
+  deleteButton.innerText = "X";
 
-// // Create a new list item
-// const newMed = document.createElement("li");
-// newMed.appendChild(
-//   document.createTextNode(
-//     `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
-//   )
-// );
-// Instead of appending the delete button, it appends "[object HTMLButtonElement]" and I can't figure out why
+  deleteButton.addEventListener("click", () => {
+    medArray.splice(index, 1); // Delete using index
+    updateMedList(medArray, medList); // Update the list
+  });
 
-// medList.appendChild(newMed);
+  return deleteButton;
+};
 
-// Clear the input field
-//   newMedInput.value = "";
-//   medCount.value = "";
-// };
 
-// General functions
+//---------Exercise & Habit Trackers-----------//
+const newExerciseInput = document.getElementById("newExercise");
+const addExerciseBtn = document.getElementById("addExerciseBtn");
+const exerciseList = document.getElementById("exerciseList");
 
-function addItem(sectionArray, inputID, formID, containerID, listID) {
-  let addForm = document.getElementById(formID);
-  let date = new Date();
-  console.log(date);
-  addForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    addItemToArray(sectionArray, inputID, containerID, listID);
+const newHabitInput = document.getElementById("newHabit");
+const addHabitBtn = document.getElementById("addHabitBtn");
+const habitList = document.getElementById("habitList");
+
+function addItem(sectionArray, input, addBtn, listElement) {
+  addBtn.addEventListener("click", () => {
+    addItemToArray(sectionArray, input, listElement);
     console.log("New item added to section!");
   });
 }
 
-function addItemToArray(sectionArray, inputID, containerID, listID) {
-  let newItemInput = document.getElementById(inputID);
-  let newItemText = newItemInput.value.trim();
+function addItemToArray(sectionArray, input, listElement) {
+  let newItemText = input.value.trim();
 
   if (newItemText) {
     sectionArray.push(newItemText);
-    updateList(sectionArray, containerID, listID);
-    newItemInput.value = "";
+    updateList(sectionArray, listElement);
+    input.value = "";
   }
 }
 
-// function createList(containerID, listID) {
-//   let existingList = document.getElementById(listID);
-//   if (!existingList) {
-//     let list = document.createElement("ul");
-//     list.id = listID;
-//     document.getElementById(containerID).appendChild(list);
-//     return list;
-//   }
-//   return existingList;
-// }
-
-const updateList = (sectionArray, containerID, listID) => {
-  // let updatingList = createList(containerID, listID);
-  let updatingList = document.querySelector("ul", containerID);
-  updatingList.textContent = "";
+const updateList = (sectionArray, listElement) => {
+  listElement.textContent = "";
   const fragment = document.createDocumentFragment();
 
-  sectionArray.forEach((updatedItem) => {
+  sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
-    let deleteBtn = deleteButton(
-      sectionArray,
-      updatedItem,
-      containerID,
-      listID
-    );
+    let deleteBtn = deleteButton(sectionArray, index, listElement); // Pass index here
     newItem.append(deleteBtn); // Append the delete button to the new item
     fragment.appendChild(newItem); // Append the new item to the fragment
   });
-  updatingList.appendChild(fragment);
-  console.log("Updated list");
-  console.log("Exercises: " + exercises, "Habits: " + habits);
+  listElement.appendChild(fragment);
 };
 
-// Calling function for adding items to exercise section
-addItem(
-  exercises,
-  "newExercise",
-  "addExerciseForm",
-  "exerciseListContainer",
-  "exerciseList"
+// Calling function for adding items to medication section
+addMedItem(
+  dailyEntry.medications,
+  newMedInput,
+  medCountInput,
+  addMedBtn,
+  medList
 );
-// Calling function for adding items to habit section
-addItem(habits, "newHabit", "addHabitForm", "habitListContainer", "habitList");
 
-addItem(
-  medications,
-  "newMed",
-  "addMedicationForm",
-  "medListContainer",
-  "medList"
-);
+// Calling function for adding items to exercise section
+addItem(dailyEntry.exercises, newExerciseInput, addExerciseBtn, exerciseList);
+// Calling function for adding items to habit section
+addItem(dailyEntry.habits, newHabitInput, addHabitBtn, habitList);
+
+// Listening for flag click
+listenForFlagClick(flag);
+
+// Listening for form submit
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateJournalEntry(journalInput);
+  dailyEntry.emotionTracker = getSelectedRadioValue("emotionTracker");
+  dailyEntry.waterTracker = getSelectedRadioValue("waterTracker");
+  
+  console.log("Form submitted: ", dailyEntry);
+});

@@ -1,6 +1,6 @@
-* {
+/* * {
   border: 1px solid red;
-}
+} */
 
 /* General styles for all devices */
 body {
@@ -63,7 +63,6 @@ body {
   border-top: 4em;
 }
 
-button.flag,
 button.submit {
   background-color: #83c5be;
   font-size: 14px;
@@ -120,6 +119,12 @@ button:active {
 /* Add Button */
 button.addItem {
   background-color: transparent;
+  border: none;
+  padding: 0.5em;
+}
+
+.flagged {
+  background-color: red;
   border: none;
   padding: 0.5em;
 }
