@@ -180,26 +180,26 @@
           <section class="accordion-item">
             <header class="accordion-header">Medication Tracker</header>
             <div class="accordion-content">
-              <form id="addMedicationForm">
+              <fieldset id="addMedicationFieldset">
                 <input type="text" id="newMedication" />
                 <input type="number" id="medCount" />
-                <button type="submit" class="addItem">
+                <button type="button" class="addItem" id="addMedicationButton">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Medication"
                   />
                 </button>
                 <div class="medListContainer"><ul id="medList"></ul></div>
-              </form>
+              </fieldset>
             </div>
           </section>
 
           <section class="accordion-item">
             <header class="accordion-header">Exercise Tracker</header>
             <div class="accordion-content">
-              <form id="addExerciseForm">
+              <fieldset id="addExerciseFieldset">
                 <input type="text" id="newExercise" />
-                <button type="submit">
+                <button type="button" id="addExerciseButton">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Exercise"
@@ -208,22 +208,22 @@
                 <div id="exerciseListContainer">
                   <ul id="exerciseList"></ul>
                 </div>
-              </form>
+              </fieldset>
             </div>
           </section>
 
           <section class="accordion-item">
             <header class="accordion-header">Habit Tracker</header>
             <div class="accordion-content">
-              <form id="addHabitForm">
+              <fieldset id="addHabitFieldset">
                 <input type="text" id="newHabit" />
-                <button type="submit">
+                <button type="button" id="addHabitButton">
                   <img src="./icons_images/plus-64.png" alt="Add New Habit" />
                 </button>
                 <div id="habitListContainer">
                   <ul id="habitList"></ul>
                 </div>
-              </form>
+              </fieldset>
             </div>
           </section>
         </div>
