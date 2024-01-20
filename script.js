@@ -3,10 +3,10 @@ const habits = [];
 const medications = [];
 
 // DOM Variables
-const dailyEntryForm = document.getElementById("dailyEntry");
-// const newMedInput = document.getElementById("newMedication");
-// const medCountInput = document.getElementById("medCount");
-// let addMedForm = document.querySelector("#addMedicationForm");
+const form = document.getElementById("dailyEntry");
+const newMedInput = document.getElementById("newMedication");
+const medCountInput = document.getElementById("medCount");
+let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 
 const flags = document.querySelectorAll(".flag");
@@ -144,8 +144,8 @@ const deleteButton = (sectionArray, newItem, listID) => {
 
 // General functions
 
-function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
-  let addForm = document.getElementById(medFormID);
+function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
+  let addForm = document.getElementById(medBtnID);
   let date = new Date();
 
   addForm.addEventListener("click", (event) => {
@@ -186,8 +186,8 @@ const updateMedList = (medArray, listID) => {
   console.log("Exercises: " + exercises, "Habits: " + habits);
 };
 
-function addItem(sectionArray, inputID, formID, listID) {
-  let addForm = document.getElementById(formID);
+function addItem(sectionArray, inputID, btnID, listID) {
+  let addForm = document.getElementById(btnID);
   let date = new Date();
   console.log(date);
   addForm.addEventListener("click", (event) => {
@@ -237,15 +237,15 @@ const updateList = (sectionArray, listID) => {
 };
 
 // Calling function for adding items to exercise section
-addItem(exercises, "newExercise", "addExerciseButton", "exerciseList");
+addItem(exercises, "newExercise", "addExerciseBtn", "exerciseList");
 // Calling function for adding items to habit section
-addItem(habits, "newHabit", "addHabitButton", "habitList");
+addItem(habits, "newHabit", "addHabitBtn", "habitList");
 
 addMedItem(
   medications,
   "newMedication",
   "medCount",
-  "addMedicationButton",
+  "addMedicationBtn",
   "medList"
 );
 
@@ -263,4 +263,14 @@ dailyEntryForm.addEventListener("submit", (event) => {
   };
 
   console.log(newObj);
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = {
+    exercise: exercises,
+    habits: habits,
+    medications: medications,
+  };
+  console.log("Form submitted: ", formData);
 });
