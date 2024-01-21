@@ -265,18 +265,25 @@ addMedItem(
   "medList"
 );
 
-dailyEntryForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  newObj = {
-    Date: new Date().toISOString(),
-    Journal: "Test",
-    FlaggedEntry: true,
-    EmotionTracker: 1,
-    WaterTracker: 1,
-    MedicationTracker: medications,
-    ExerciseTracker: exercises,
-    HabitTracker: habits,
-  };
+// dailyEntryForm.addEventListener("submit", (event) => {
+//   event.preventDefault();
+//   newObj = {
+//     Date: new Date().toISOString(),
+//     Journal: "Test",
+//     FlaggedEntry: true,
+//     EmotionTracker: 1,
+//     WaterTracker: 1,
+//     MedicationTracker: medications,
+//     ExerciseTracker: exercises,
+//     HabitTracker: habits,
+//   };
 
-  console.log(newObj);
+//   console.log(newObj);
+// });
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateJournalEntry();
+
+  console.log("Daily Entry weee: ", dailyEntry);
 });
