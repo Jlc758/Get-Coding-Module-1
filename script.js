@@ -2,15 +2,15 @@ const exercises = [];
 const habits = [];
 const medications = [];
 
-const dailyEntryObj = {
-  Date: "",
-  Journal: "",
-  FlaggedEntry: false,
-  EmotionTracker: null,
-  WaterTracker: null,
-  MedicationTracker: [],
-  ExerciseTracker: [],
-  HabitTracker: [],
+const dailyEntry = {
+  date: new Date(),
+  journal: "",
+  isFlagged: false,
+  emotionTracker: null,
+  waterTracker: null,
+  medications: [],
+  exercises: [],
+  habits: [],
 };
 
 // DOM Variables
@@ -154,6 +154,10 @@ const deleteButton = (sectionArray, newItem, listID) => {
 // };
 
 // General functions
+function updateJournalEntry() {
+  const journalInput = document.getElementById("fillableEntry");
+  dailyEntry.journalEntry = journalInput.value;
+}
 
 function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
   let addForm = document.getElementById(medFormID);
@@ -212,8 +216,9 @@ function addItemToArray(sectionArray, inputID, listID) {
   let newItemText = newItemInput.value.trim();
 
   if (newItemText) {
-    sectionArray.push(newItemText);
-    updateList(sectionArray, listID);
+    // Update dailyEntry instead of a separate array
+    dailyEntry[sectionArray].push(newItemText);
+    updateList(dailyEntry[sectionArray], listID);
     newItemInput.value = "";
   }
 }
