@@ -160,16 +160,27 @@ function updateJournalEntry() {
   dailyEntry.journalEntry = journalInput.value;
 }
 
-function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
+function addMedItem(
+  medArray,
+  medInput,
+  countInput,
+  medFormID,
+  medListID,
+  btnID
+) {
   let addForm = document.getElementById(medFormID);
+  let addButton = document.getElementById(btnID);
   let date = new Date();
 
-  addForm.addEventListener("submit", (event) => {
+  const newMedItemInput = document.getElementById(medInput);
+  // const newMedItemValue = newMedItemInput.value;
+  const newMedCountInput = document.getElementById(countInput);
+  // const newMedCountValue = newMedCountInput.value;
+
+  console.log(date);
+
+  addButton.addEventListener("submit", addForm, (event) => {
     event.preventDefault();
-    const newMedItemInput = document.getElementById(medInput);
-    const newMedItemValue = newMedItemInput.value.trim();
-    const newMedCountInput = document.getElementById(countInput);
-    const newMedCountValue = newMedCountInput.value;
 
     if (newMedItemValue && newMedCountValue > 0) {
       const medObject = {
@@ -180,10 +191,10 @@ function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
       medArray.push(medObject);
       updateMedList(medArray, medListID);
       newMedItemInput.value = "";
-      newMedItemInput.value = "";
+      newMedCountInput.value = "";
     }
   });
-  console.log(date, addForm);
+  console.log("added med item woo");
 }
 
 const updateMedList = (medArray, listID) => {
@@ -209,7 +220,7 @@ function addItem(sectionArray, inputID, formID, listID, btnID) {
   let submitButton = document.getElementById(btnID);
   let date = new Date();
   console.log(date);
-  addForm.addEventListener("click", submitButton, () => {
+  submitButton.addEventListener("click", addForm, () => {
     preventDefault();
     addItemToArray(sectionArray, inputID, listID);
     console.log("New item added to section!");
@@ -276,13 +287,16 @@ addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
 
 addMedItem(
   medications,
-  "newMedication",
-  "medCount",
+  "",
+  "",
   "addMedicationForm",
-  "medList"
+  "medList",
+  "addMedication"
 );
 
 addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
+
+// console.log(addMedItem());
 
 // dailyEntryForm.addEventListener("submit", (event) => {
 //   event.preventDefault();
