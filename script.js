@@ -170,17 +170,15 @@ function addMedItem(
 ) {
   let addForm = document.getElementById(medFormID);
   let addButton = document.getElementById(btnID);
-  let date = new Date();
 
   const newMedItemInput = document.getElementById(medInput);
   // const newMedItemValue = newMedItemInput.value;
   const newMedCountInput = document.getElementById(countInput);
   // const newMedCountValue = newMedCountInput.value;
 
-  console.log(date);
-
-  addButton.addEventListener("submit", addForm, (event) => {
+  addButton.addEventListener("click", (event) => {
     event.preventDefault();
+    updateMedList();
 
     if (newMedItemValue && newMedCountValue > 0) {
       const medObject = {
@@ -189,31 +187,29 @@ function addMedItem(
       };
 
       medArray.push(medObject);
-      updateMedList(medArray, medListID);
+      updateMedList(addForm, medArray, medListID);
       newMedItemInput.value = "";
       newMedCountInput.value = "";
     }
   });
-  console.log("added med item woo");
+
+  const updateMedList = (medArray, listID) => {
+    // let updatingList = createList(containerID, listID);
+    let updatingList = document.getElementById(listID);
+    updatingList.textContent = "";
+    const fragment = document.createDocumentFragment();
+
+    medArray.forEach((updatedItem) => {
+      let newItem = document.createElement("li");
+      newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+      let deleteBtn = deleteButton(medArray, updatedItem, listID);
+      newItem.append(deleteBtn); // Look into this
+      fragment.appendChild(newItem);
+    });
+    updatingList.appendChild(fragment);
+    console.log("Medicationss");
+  };
 }
-
-const updateMedList = (medArray, listID) => {
-  // let updatingList = createList(containerID, listID);
-  let updatingList = document.getElementById(listID);
-  updatingList.textContent = "";
-  const fragment = document.createDocumentFragment();
-
-  medArray.forEach((updatedItem) => {
-    let newItem = document.createElement("li");
-    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-    let deleteBtn = deleteButton(medArray, updatedItem, listID);
-    newItem.append(deleteBtn); // Look into this
-    fragment.appendChild(newItem);
-  });
-  updatingList.appendChild(fragment);
-  console.log("Updated list");
-  console.log("Exercises: " + exercises, "Habits: " + habits);
-};
 
 function addItem(sectionArray, inputID, formID, listID, btnID) {
   let addForm = document.getElementById(formID);
@@ -287,8 +283,8 @@ addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
 
 addMedItem(
   medications,
-  "",
-  "",
+  "text",
+  "number",
   "addMedicationForm",
   "medList",
   "addMedication"
