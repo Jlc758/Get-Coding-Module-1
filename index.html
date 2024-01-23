@@ -179,14 +179,14 @@
               <form id="addMedicationForm">
                 <input type="text" id="newMedication" />
                 <input type="number" id="medCount" />
-                <button type="submit" class="addItem">
+                <button type="click" id="addMedication">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Medication"
                   />
                 </button>
                 <div class="medListContainer">Name of Medication</div>
-                <ul></ul>
+                <ul id="medList"></ul>
               </form>
             </div>
           </section>
@@ -196,14 +196,14 @@
             <div class="accordion-content">
               <form id="addExerciseForm">
                 <input type="text" id="newExercise" />
-                <button type="submit">
+                <button type="click" id="addExercise">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Exercise"
                   />
                 </button>
                 <div id="exerciseListContainer">Type of Exercise</div>
-                <ul></ul>
+                <ul id="exerciseList"></ul>
               </form>
             </div>
           </section>
@@ -213,16 +213,16 @@
             <div class="accordion-content">
               <form id="addHabitForm">
                 <input type="text" id="newHabit" />
-                <button type="submit">
+                <button type="click" id="addHabit">
                   <img src="./icons_images/plus-64.png" alt="Add New Habit" />
                 </button>
                 <div id="habitListContainer">Name of Habit</div>
-                <ul></ul>
+                <ul id="habitList"></ul>
               </form>
             </div>
           </section>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" id="submitButton">Submit</button>
       </form>
     </main>
 

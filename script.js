@@ -14,6 +14,7 @@ const dailyEntry = {
 };
 
 // DOM Variables
+
 const dailyEntryForm = document.getElementById("dailyEntry");
 // const newMedInput = document.getElementById("newMedication");
 // const medCountInput = document.getElementById("medCount");
@@ -163,7 +164,8 @@ function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
   let addForm = document.getElementById(medFormID);
   let date = new Date();
 
-  addForm.addEventListener("click", (event) => {
+  addForm.addEventListener("submit", (event) => {
+    event.preventDefault();
     const newMedItemInput = document.getElementById(medInput);
     const newMedItemValue = newMedItemInput.value.trim();
     const newMedCountInput = document.getElementById(countInput);
@@ -178,9 +180,10 @@ function addMedItem(medArray, medInput, countInput, medFormID, medListID) {
       medArray.push(medObject);
       updateMedList(medArray, medListID);
       newMedItemInput.value = "";
-      newMedCountValue.value = "";
+      newMedItemInput.value = "";
     }
   });
+  console.log(date, addForm);
 }
 
 const updateMedList = (medArray, listID) => {
@@ -201,11 +204,13 @@ const updateMedList = (medArray, listID) => {
   console.log("Exercises: " + exercises, "Habits: " + habits);
 };
 
-function addItem(sectionArray, inputID, formID, listID) {
+function addItem(sectionArray, inputID, formID, listID, btnID) {
   let addForm = document.getElementById(formID);
+  let submitButton = document.getElementById(btnID);
   let date = new Date();
   console.log(date);
-  addForm.addEventListener("click", (event) => {
+  addForm.addEventListener("click", submitButton, () => {
+    preventDefault();
     addItemToArray(sectionArray, inputID, listID);
     console.log("New item added to section!");
   });
@@ -221,6 +226,12 @@ function addItemToArray(sectionArray, inputID, listID) {
     updateList(dailyEntry[sectionArray], listID);
     newItemInput.value = "";
   }
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateJournalEntry();
+
+    console.log("Daily Entry weee: ", dailyEntry);
+  });
 }
 
 // function createList(containerID, listID) {
@@ -253,17 +264,25 @@ const updateList = (sectionArray, listID) => {
 };
 
 // Calling function for adding items to exercise section
-addItem(exercises, "newExercise", "addExerciseButton", "exerciseList");
+addItem(
+  exercises,
+  "newExercise",
+  "addExerciseForm",
+  "exerciseList",
+  "addExercise"
+);
 // Calling function for adding items to habit section
-addItem(habits, "newHabit", "addHabitButton", "habitList");
+addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
 
 addMedItem(
   medications,
   "newMedication",
   "medCount",
-  "addMedicationButton",
+  "addMedicationForm",
   "medList"
 );
+
+addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
 
 // dailyEntryForm.addEventListener("submit", (event) => {
 //   event.preventDefault();
@@ -280,10 +299,3 @@ addMedItem(
 
 //   console.log(newObj);
 // });
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  updateJournalEntry();
-
-  console.log("Daily Entry weee: ", dailyEntry);
-});
