@@ -14,11 +14,10 @@ const dailyEntry = {
 };
 
 // DOM Variables
-
-const dailyEntryForm = document.getElementById("dailyEntry");
-// const newMedInput = document.getElementById("newMedication");
-// const medCountInput = document.getElementById("medCount");
-// let addMedForm = document.querySelector("#addMedicationForm");
+const form = document.getElementById("dailyEntry");
+const newMedInput = document.getElementById("newMedication");
+const medCountInput = document.getElementById("medCount");
+let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 
 const flags = document.querySelectorAll(".flag");
@@ -160,25 +159,15 @@ function updateJournalEntry() {
   dailyEntry.journalEntry = journalInput.value;
 }
 
-function addMedItem(
-  medArray,
-  medInput,
-  countInput,
-  medFormID,
-  medListID,
-  btnID
-) {
-  let addForm = document.getElementById(medFormID);
-  let addButton = document.getElementById(btnID);
+function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
+  let addForm = document.getElementById(medBtnID);
+  let date = new Date();
 
-  const newMedItemInput = document.getElementById(medInput);
-  // const newMedItemValue = newMedItemInput.value;
-  const newMedCountInput = document.getElementById(countInput);
-  // const newMedCountValue = newMedCountInput.value;
-
-  addButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    updateMedList();
+  addForm.addEventListener("click", (event) => {
+    const newMedItemInput = document.getElementById(medInput);
+    const newMedItemValue = newMedItemInput.value.trim();
+    const newMedCountInput = document.getElementById(countInput);
+    const newMedCountValue = newMedCountInput.value;
 
     if (newMedItemValue && newMedCountValue > 0) {
       const medObject = {
@@ -187,37 +176,36 @@ function addMedItem(
       };
 
       medArray.push(medObject);
-      updateMedList(addForm, medArray, medListID);
+      updateMedList(medArray, medListID);
       newMedItemInput.value = "";
-      newMedCountInput.value = "";
+      newMedCountValue.value = "";
     }
   });
-
-  const updateMedList = (medArray, listID) => {
-    // let updatingList = createList(containerID, listID);
-    let updatingList = document.getElementById(listID);
-    updatingList.textContent = "";
-    const fragment = document.createDocumentFragment();
-
-    medArray.forEach((updatedItem) => {
-      let newItem = document.createElement("li");
-      newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-      let deleteBtn = deleteButton(medArray, updatedItem, listID);
-      newItem.append(deleteBtn); // Look into this
-      fragment.appendChild(newItem);
-    });
-    updatingList.appendChild(fragment);
-    console.log("Medicationss");
-  };
 }
 
-function addItem(sectionArray, inputID, formID, listID, btnID) {
-  let addForm = document.getElementById(formID);
-  let submitButton = document.getElementById(btnID);
+const updateMedList = (medArray, listID) => {
+  // let updatingList = createList(containerID, listID);
+  let updatingList = document.getElementById(listID);
+  updatingList.textContent = "";
+  const fragment = document.createDocumentFragment();
+
+  medArray.forEach((updatedItem) => {
+    let newItem = document.createElement("li");
+    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+    let deleteBtn = deleteButton(medArray, updatedItem, listID);
+    newItem.append(deleteBtn); // Append the delete button to the new item
+    fragment.appendChild(newItem); // Append the new item to the fragment
+  });
+  updatingList.appendChild(fragment);
+  console.log("Updated list");
+  console.log("Exercises: " + exercises, "Habits: " + habits);
+};
+
+function addItem(sectionArray, inputID, btnID, listID) {
+  let addForm = document.getElementById(btnID);
   let date = new Date();
   console.log(date);
-  submitButton.addEventListener("click", addForm, () => {
-    preventDefault();
+  addForm.addEventListener("click", (event) => {
     addItemToArray(sectionArray, inputID, listID);
     console.log("New item added to section!");
   });
@@ -228,9 +216,8 @@ function addItemToArray(sectionArray, inputID, listID) {
   let newItemText = newItemInput.value.trim();
 
   if (newItemText) {
-    // Update dailyEntry instead of a separate array
-    dailyEntry[sectionArray].push(newItemText);
-    updateList(dailyEntry[sectionArray], listID);
+    sectionArray.push(newItemText);
+    updateList(sectionArray, listID);
     newItemInput.value = "";
   }
   form.addEventListener("submit", (event) => {
@@ -291,21 +278,3 @@ addMedItem(
 );
 
 addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
-
-// console.log(addMedItem());
-
-// dailyEntryForm.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   newObj = {
-//     Date: new Date().toISOString(),
-//     Journal: "Test",
-//     FlaggedEntry: true,
-//     EmotionTracker: 1,
-//     WaterTracker: 1,
-//     MedicationTracker: medications,
-//     ExerciseTracker: exercises,
-//     HabitTracker: habits,
-//   };
-
-//   console.log(newObj);
-// });
