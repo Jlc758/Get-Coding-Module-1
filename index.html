@@ -65,14 +65,13 @@
               <input type="text" name="fillable" id="fillableEntry" />
 
               <p>
-                <button type="button" id="flag">Flag for Doctor</button>
+                <button type="button" class="flag">Flag for Doctor</button>
               </p>
             </div>
           </section>
           <section class="accordion-item">
             <header class="accordion-header">Emotion Tracker</header>
             <div class="accordion-content">
-              <form>
                 <fieldset>
                   <input
                     type="radio"
@@ -119,14 +118,12 @@
                   />
                   <label for="emotionChoice5">Five</label>
                 </fieldset>
-              </form>
             </div>
           </section>
 
           <section class="accordion-item">
             <header class="accordion-header">Water Tracker</header>
             <div class="accordion-content">
-              <form>
                 <fieldset>
                   <input
                     type="radio"
@@ -173,56 +170,56 @@
                   />
                   <label for="waterChoice5">Five</label>
                 </fieldset>
-              </form>
             </div>
           </section>
 
           <section class="accordion-item">
             <header class="accordion-header">Medication Tracker</header>
             <div class="accordion-content">
-              <form id="addMedicationForm">
+              <fieldset id="addMedicationForm">
                 <input type="text" id="newMedication" />
                 <input type="number" id="medCount" />
-                <button type="submit" class="addItem">
+                <button type="button" id="addMedicationBtn" class="addItem">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Medication"
                   />
                 </button>
-                <div class="medListContainer">Name of Medication</div>
-                <ul></ul>
-              </form>
+                <div class="medListContainer"><ul id="medList"></ul></div>
+              </fieldset>
             </div>
           </section>
 
           <section class="accordion-item">
             <header class="accordion-header">Exercise Tracker</header>
             <div class="accordion-content">
-              <form id="addExerciseForm">
+              <fieldset id="addExerciseForm">
                 <input type="text" id="newExercise" />
-                <button type="submit">
+                <button type="button" id="addExerciseBtn">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Exercise"
                   />
                 </button>
-                <div id="exerciseListContainer">Type of Exercise</div>
-                <ul></ul>
-              </form>
+                <div id="exerciseListContainer">
+                  <ul id="exerciseList"></ul>
+                </div>
+              </fieldset>
             </div>
           </section>
 
           <section class="accordion-item">
             <header class="accordion-header">Habit Tracker</header>
             <div class="accordion-content">
-              <form id="addHabitForm">
+              <fieldset id="addHabitForm">
                 <input type="text" id="newHabit" />
-                <button type="submit">
+                <button type="button" id="addHabitBtn">
                   <img src="./icons_images/plus-64.png" alt="Add New Habit" />
                 </button>
-                <div id="habitListContainer">Name of Habit</div>
-                <ul></ul>
-              </form>
+                <div id="habitListContainer">
+                  <ul id="habitList"></ul>
+                </div>
+              </fieldset>
             </div>
           </section>
         </div>
@@ -239,3 +236,4 @@
     <script src="script.js"></script>
   </body>
 </html>
+
