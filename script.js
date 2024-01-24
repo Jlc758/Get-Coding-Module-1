@@ -21,7 +21,7 @@ let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 const flags = document.querySelectorAll(".flag");
 
-function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
+function addMedItem(medArray, medBtnID, medListID) {
   let addForm = document.getElementById(medBtnID);
   let date = new Date();
 
@@ -30,7 +30,7 @@ function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
     // const newMedItemValue = newMedItemInput.value;
     // const newMedCountInput = document.getElementById(countInput);
     // const newMedCountValue = newMedCountInput.value;
-
+    event.preventDefault();
     if (newMedInput && medCountInput > 0) {
       const medObject = {
         MedText: newMedInput,
@@ -39,8 +39,8 @@ function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
 
       medArray.push(medObject);
       updateMedList(medArray, medListID);
-      newMedItemInput = "";
-      newMedCountValue = "";
+      newMedInput = "";
+      medCountInput = "";
     }
   });
 }
@@ -118,11 +118,11 @@ const updateMedList = (medArray, listID) => {
 
   medArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
-    newItem.textContent = updatedItem;
-    updatedItem = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+
     let deleteBtn = deleteButton(medArray, updatedItem, listID);
-    updatedItem.append(deleteBtn); // Append the delete button to the new item
-    fragment.appendChild(updatedItem); // Append the new item to the fragment
+    newItem.append(deleteBtn); // Append the delete button to the new item
+    fragment.appendChild(newItem); // Append the new item to the fragment
   });
   updatingList.appendChild(fragment);
   // console.log("Updated list");
@@ -196,13 +196,6 @@ addItem(
 // Calling function for adding items to habit section
 addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
 
-addMedItem(
-  medications,
-  "text",
-  "number",
-  "addMedicationForm",
-  "medList",
-  "addMedication"
-);
+addMedItem(medications, "addMedicationBtn", "medList");
 
 addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
