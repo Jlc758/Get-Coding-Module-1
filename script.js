@@ -15,8 +15,8 @@ const dailyEntry = {
 
 // DOM Variables
 const form = document.getElementById("dailyEntry");
-const newMedInput = document.getElementById("newMedication");
-const medCountInput = document.getElementById("medCount");
+const newMedInput = document.getElementById("newMedication").value; //added value here to change in addMedItem()
+const medCountInput = document.getElementById("medCount").value; // added same
 let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 
@@ -164,21 +164,21 @@ function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
   let date = new Date();
 
   addForm.addEventListener("click", (event) => {
-    const newMedItemInput = document.getElementById(medInput);
-    const newMedItemValue = newMedItemInput.value.trim();
-    const newMedCountInput = document.getElementById(countInput);
-    const newMedCountValue = newMedCountInput.value;
+    // const newMedItemInput = document.getElementById(medInput);
+    // const newMedItemValue = newMedItemInput.value;
+    // const newMedCountInput = document.getElementById(countInput);
+    // const newMedCountValue = newMedCountInput.value;
 
-    if (newMedItemValue && newMedCountValue > 0) {
+    if (newMedInput && medCountInput > 0) {
       const medObject = {
-        MedText: newMedItemValue,
-        MedCount: newMedCountValue,
+        MedText: newMedInput,
+        MedCount: medCountInput,
       };
 
       medArray.push(medObject);
       updateMedList(medArray, medListID);
-      newMedItemInput.value = "";
-      newMedCountValue.value = "";
+      newMedItemInput = "";
+      newMedCountValue = "";
     }
   });
 }
