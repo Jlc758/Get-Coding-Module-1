@@ -19,8 +19,31 @@ const newMedInput = document.getElementById("newMedication").value; //added valu
 const medCountInput = document.getElementById("medCount").value; // added same
 let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
-
 const flags = document.querySelectorAll(".flag");
+
+function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
+  let addForm = document.getElementById(medBtnID);
+  let date = new Date();
+
+  addForm.addEventListener("click", (event) => {
+    // const newMedItemInput = document.getElementById(medInput);
+    // const newMedItemValue = newMedItemInput.value;
+    // const newMedCountInput = document.getElementById(countInput);
+    // const newMedCountValue = newMedCountInput.value;
+
+    if (newMedInput && medCountInput > 0) {
+      const medObject = {
+        MedText: newMedInput,
+        MedCount: medCountInput,
+      };
+
+      medArray.push(medObject);
+      updateMedList(medArray, medListID);
+      newMedItemInput = "";
+      newMedCountValue = "";
+    }
+  });
+}
 
 // Event Listeners
 // addMedForm.addEventListener("submit", (event) => {
@@ -28,14 +51,13 @@ const flags = document.querySelectorAll(".flag");
 //   addMedication();
 // });
 
-for (const flag of flags)
-  flag.addEventListener("click", () => {
-    flag.style.backgroundColor = "#e5989b";
-    setTimeout(() => {
-      flag.style.backgroundColor = "#83c5be";
-    }, 1000);
-  });
-
+// for (const flag of flags)
+//   flag.addEventListener("click", () => {
+//     flag.style.backgroundColor = "#e5989b";
+//     setTimeout(() => {
+//       flag.style.backgroundColor = "#83c5be";
+//     }, 1000);
+//   })
 accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
 
@@ -82,105 +104,10 @@ const deleteButton = (sectionArray, newItem, listID) => {
   return deleteButton;
 };
 
-// // Breaking down the medication functions
-// const medObject = {
-//   MedText: newMedInput.value,
-//   MedCount: medCountInput.value,
-// };
-
-// medications.push(medObject);
-
-// medications.forEach((medication) => {
-//   const newMed = document.createElement("li");
-//   newMed.appendChild(
-//     document.createTextNode(
-//       `${medication.MedText} - Count: ${medication.MedCount}`
-//     )
-//   );
-//   // medList.appendChild(newMed);
-//   // newMed.append(deleteButton);
-//   console.log("medication added successfully");
-// });
-
-// // Clear the input field
-// newMedInput.value = "";
-// medCount.value = "";
-
-// A function to add a Medication to the MedList
-// const addMedication = () => {
-//   // Get the input value
-//   const medObject = {
-//     MedText: newMedInput.value,
-//     MedCount: medCountInput.value,
-//   };
-
-//   medications.push(medObject);
-
-//   let medList = document.getElementById("medList");
-
-//   if (!medList) {
-//     medList = document.createElement("ul");
-//     medList.id = "medList";
-//     document.querySelector(".medListContainer").appendChild(medList);
-//   }
-
-//   medList.textContent = "";
-
-//   medications.forEach((medication) => {
-//     // Create a new list item
-//     const newMed = document.createElement("li");
-//     newMed.appendChild(
-//       document.createTextNode(
-//         `${medication.MedText} - Count: ${medication.MedCount}`
-//       )
-//     );
-//     medList.appendChild(newMed);
-//   });
-
-// // Create a new list item
-// const newMed = document.createElement("li");
-// newMed.appendChild(
-//   document.createTextNode(
-//     `${newMedText} - Count: ${medCountNumber} - Remove? ${deleteButton()}`
-//   )
-// );
-// Instead of appending the delete button, it appends "[object HTMLButtonElement]" and I can't figure out why
-
-// medList.appendChild(newMed);
-
-// Clear the input field
-//   newMedInput.value = "";
-//   medCount.value = "";
-// };
-
 // General functions
 function updateJournalEntry() {
   const journalInput = document.getElementById("fillableEntry");
   dailyEntry.journalEntry = journalInput.value;
-}
-
-function addMedItem(medArray, medInput, countInput, medBtnID, medListID) {
-  let addForm = document.getElementById(medBtnID);
-  let date = new Date();
-
-  addForm.addEventListener("click", (event) => {
-    // const newMedItemInput = document.getElementById(medInput);
-    // const newMedItemValue = newMedItemInput.value;
-    // const newMedCountInput = document.getElementById(countInput);
-    // const newMedCountValue = newMedCountInput.value;
-
-    if (newMedInput && medCountInput > 0) {
-      const medObject = {
-        MedText: newMedInput,
-        MedCount: medCountInput,
-      };
-
-      medArray.push(medObject);
-      updateMedList(medArray, medListID);
-      newMedItemInput = "";
-      newMedCountValue = "";
-    }
-  });
 }
 
 const updateMedList = (medArray, listID) => {
@@ -191,14 +118,15 @@ const updateMedList = (medArray, listID) => {
 
   medArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
-    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+    newItem.textContent = updatedItem;
+    updatedItem = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
     let deleteBtn = deleteButton(medArray, updatedItem, listID);
-    newItem.append(deleteBtn); // Append the delete button to the new item
-    fragment.appendChild(newItem); // Append the new item to the fragment
+    updatedItem.append(deleteBtn); // Append the delete button to the new item
+    fragment.appendChild(updatedItem); // Append the new item to the fragment
   });
   updatingList.appendChild(fragment);
-  console.log("Updated list");
-  console.log("Exercises: " + exercises, "Habits: " + habits);
+  // console.log("Updated list");
+  // console.log("Exercises: " + exercises, "Habits: " + habits);
 };
 
 function addItem(sectionArray, inputID, btnID, listID) {

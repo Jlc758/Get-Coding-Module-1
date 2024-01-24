@@ -108,7 +108,7 @@ input:checked {
 
 button:hover,
 button:focus {
-  color: grey;
+  color: rgb(255, 255, 255);
 }
 
 button:active {
