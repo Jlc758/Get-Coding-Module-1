@@ -3,12 +3,12 @@ const habits = [];
 const medications = [];
 const journalEntries = [];
 
-const dailyEntry = {
+const dailyEntryObj = {
   date: new Date(),
   journal: "",
   isFlagged: false,
-  emotionTracker: null,
-  waterTracker: null,
+  emotionTracker: "",
+  waterTracker: "",
   medications: [],
   exercises: [],
   habits: [],
@@ -19,16 +19,11 @@ const form = document.getElementById("dailyEntry");
 let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 const flagButton = document.getElementById("flag");
+const saveEntryBtn = document.getElementById("saveEntry");
+// let emotionRadioBtn = document.getElementsByName("emotionTracker");
+// let waterRadioBtn = documen.getElementsByName("waterTracker");
 
-function updateIsFlagged() {
-  dailyEntry.isFlagged = !dailyEntry.isFlagged;
-  console.log("Flagged entry");
-}
-
-flagButton.addEventListener("click", () => {
-  updateIsFlagged();
-  // dailyEntry.push(isFlagged);
-});
+let radioChoices = document.getElementsByClassName("radioChoices");
 
 function addMedItem(medArray, medBtnID, medListID) {
   let addForm = document.getElementById(medBtnID);
@@ -116,32 +111,41 @@ const deleteButton = (sectionArray, newItem, listID) => {
   return deleteButton;
 };
 
-// General functions
-// function updateJournalEntry() {
-//   const journalInput = document.getElementById("fillableEntry");
-//   dailyEntry.journalEntry = journalInput.value;
-//   console.log(updateJournalEntry.textContent);
-// }
-
-function saveJournalEntry(journalArray, saveBtnID) {
-  let saveEntryBtn = document.getElementById(saveBtnID);
-
-  saveEntryBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    let newJournalInput = document.getElementById("fillableEntry");
-
-    if (newJournalInput.textContent.trim() > 0) {
-      const entryInput = {
-        journalEntry: newJournalInput.textContent.trim(),
-      };
-      dailyEntry.journal = entryInput.journalEntry;
-    }
-    journalArray.push(entryInput);
-  });
+function updateIsFlagged() {
+  dailyEntry.isFlagged = !dailyEntry.isFlagged;
+  console.log("Flagged entry");
 }
 
+flagButton.addEventListener("click", () => {
+  updateIsFlagged();
+});
+
+function updateJournal() {
+  let newJournalInput = document.getElementById("fillableEntry");
+  let updateJournal = newJournalInput.textContent;
+  dailyEntry.journal = updateJournal;
+}
+
+saveEntryBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  updateJournal();
+  console.log("Updated journal property");
+  console.log(dailyEntryObj);
+});
+
+Array.from(radioChoices).forEach((radio) => {
+  radio.addEventListener("change", function () {
+    if (radio.name === "emotionTracker") {
+      dailyEntryObj.emotionTracker = this.value;
+      console.log("Emotion selected");
+    } else if (radio.name === "waterTracker") {
+      dailyEntryObj.waterTracker = this.value;
+      console.log("Water selected");
+    }
+  });
+});
+
 const updateMedList = (medArray, listID) => {
-  // let updatingList = createList(containerID, listID);
   let updatingList = document.getElementById(listID);
   updatingList.textContent = "";
   const fragment = document.createDocumentFragment();
@@ -172,11 +176,11 @@ function addItemToArray(sectionArray, inputID, listID) {
   let newItemInput = document.getElementById(inputID);
   let newItemText = newItemInput.value.trim();
 
-  if (newItemText) {
-    sectionArray.push(newItemText);
-    updateList(sectionArray, listID);
-    newItemInput.value = "";
-  }
+  // if (newItemText) {
+  //   sectionArray.push(newItemText);
+  //   updateList(sectionArray, listID);
+  //   newItemInput.value = "";
+  // }
 }
 
 // function createList(containerID, listID) {
@@ -222,11 +226,3 @@ addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
 addMedItem(medications, "addMedicationBtn", "medList");
 
 addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  saveJournalEntry(journalEntries, "saveEntry");
-
-  console.log("Daily entry saved");
-  console.log(dailyEntry);
-});
