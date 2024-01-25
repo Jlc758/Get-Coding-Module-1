@@ -15,8 +15,6 @@ const dailyEntry = {
 
 // DOM Variables
 const form = document.getElementById("dailyEntry");
-const newMedInput = document.getElementById("newMedication").value; //added value here to change in addMedItem()
-const medCountInput = document.getElementById("medCount").value; // added same
 let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 const flags = document.querySelectorAll(".flag");
@@ -30,7 +28,10 @@ function addMedItem(medArray, medBtnID, medListID) {
     // const newMedItemValue = newMedItemInput.value;
     // const newMedCountInput = document.getElementById(countInput);
     // const newMedCountValue = newMedCountInput.value;
+
     event.preventDefault();
+    let newMedInput = document.getElementById("newMedication").value; //added value here to change in addMedItem()
+    let medCountInput = document.getElementById("medCount").value; // added same
     if (newMedInput && medCountInput > 0) {
       const medObject = {
         MedText: newMedInput,
