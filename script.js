@@ -92,7 +92,7 @@ const deleteButton = (sectionArray, newItem, listID) => {
 };
 
 function updateIsFlagged() {
-  dailyEntry.isFlagged = !dailyEntry.isFlagged;
+  dailyEntryObj.isFlagged = true;
   console.log("Flagged entry");
 }
 
@@ -103,7 +103,7 @@ flagButton.addEventListener("click", () => {
 function updateJournal() {
   let newJournalInput = document.getElementById("fillableEntry");
   let updateJournal = newJournalInput.textContent;
-  dailyEntry.journal = updateJournal;
+  dailyEntryObj.journal = updateJournal;
 }
 
 saveEntryBtn.addEventListener("click", (event) => {
