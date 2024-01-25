@@ -120,15 +120,13 @@ function saveJournalEntry(journalArray, saveBtnID) {
     event.preventDefault();
     let newJournalInput = document.getElementById("fillableEntry");
 
-    if (newJournalInput > 0) {
-      const journalEntryObj = {
-        entryDate: Date(),
-        journalEntry: newJournalInput.textContent,
+    if (newJournalInput.textContent.trim() > 0) {
+      const entryInput = {
+        journalEntry: newJournalInput.textContent.trim(),
       };
-
-      journalArray.push(journalEntryObj);
-      console.log(newJournalInput.textContent);
+      dailyEntry.journal = entryInput.journalEntry;
     }
+    journalArray.push(entryInput);
   });
 }
 
@@ -219,5 +217,6 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   saveJournalEntry(journalEntries, "saveEntry");
 
-  console.log("Daily Entry", dailyEntry);
+  console.log("Daily entry saved");
+  console.log(dailyEntry);
 });
