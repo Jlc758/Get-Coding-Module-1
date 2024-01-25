@@ -20,21 +20,14 @@ let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
 const flagButton = document.getElementById("flag");
 const saveEntryBtn = document.getElementById("saveEntry");
-// let emotionRadioBtn = document.getElementsByName("emotionTracker");
-// let waterRadioBtn = documen.getElementsByName("waterTracker");
-
 let radioChoices = document.getElementsByClassName("radioChoices");
+let submitFormBtn = document.getElementById("submitButton");
 
 function addMedItem(medArray, medBtnID, medListID) {
   let addForm = document.getElementById(medBtnID);
   let date = new Date();
 
   addForm.addEventListener("click", (event) => {
-    // const newMedItemInput = document.getElementById(medInput);
-    // const newMedItemValue = newMedItemInput.value;
-    // const newMedCountInput = document.getElementById(countInput);
-    // const newMedCountValue = newMedCountInput.value;
-
     event.preventDefault();
     let newMedInput = document.getElementById("newMedication").value; //added value here to change in addMedItem()
     let medCountInput = document.getElementById("medCount").value; // added same
@@ -52,19 +45,6 @@ function addMedItem(medArray, medBtnID, medListID) {
   });
 }
 
-// Event Listeners
-// addMedForm.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   addMedication();
-// });
-
-// for (const flag of flags)
-//   flag.addEventListener("click", () => {
-//     flag.style.backgroundColor = "#e5989b";
-//     setTimeout(() => {
-//       flag.style.backgroundColor = "#83c5be";
-//     }, 1000);
-//   })
 accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
 
@@ -159,15 +139,14 @@ const updateMedList = (medArray, listID) => {
     fragment.appendChild(newItem); // Append the new item to the fragment
   });
   updatingList.appendChild(fragment);
-  // console.log("Updated list");
-  // console.log("Exercises: " + exercises, "Habits: " + habits);
 };
 
 function addItem(sectionArray, inputID, btnID, listID) {
   let addForm = document.getElementById(btnID);
-  let date = new Date();
+
   addForm.addEventListener("click", (event) => {
-    addItemToArray(sectionArray, inputID);
+    event.preventDefault();
+    addItemToArray(sectionArray, inputID, listID);
     console.log("New item added to section!");
   });
 }
@@ -176,53 +155,33 @@ function addItemToArray(sectionArray, inputID, listID) {
   let newItemInput = document.getElementById(inputID);
   let newItemText = newItemInput.value.trim();
 
-  // if (newItemText) {
-  //   sectionArray.push(newItemText);
-  //   updateList(sectionArray, listID);
-  //   newItemInput.value = "";
-  // }
+  if (newItemText) {
+    sectionArray.push(newItemText);
+    updateList(sectionArray, listID);
+    newItemInput.value = "";
+  }
 }
 
-// function createList(containerID, listID) {
-//   let existingList = document.getElementById(listID);
-//   if (!existingList) {
-//     let list = document.createElement("ul");
-//     list.id = listID;
-//     document.getElementById(containerID).appendChild(list);
-//     return list;
-//   }
-//   return existingList;
-// }
-
 const updateList = (sectionArray, listID) => {
-  // let updatingList = createList(containerID, listID);
   let updatingList = document.getElementById(listID);
-  updatingList.textContent = "";
-  const fragment = document.createDocumentFragment();
-
+  updatingList.innerHTML = "";
   sectionArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
-    let deleteBtn = deleteButton(sectionArray, updatedItem, listID);
-    newItem.append(deleteBtn); // Append the delete button to the new item
-    fragment.appendChild(newItem); // Append the new item to the fragment
+
+    const fragment = document.createDocumentFragment();
+
+    fragment.append(newItem); // Append the new item to the fragment
+    updatingList.append(fragment);
   });
-  updatingList.appendChild(fragment);
+
   console.log("Updated list");
   console.log("Exercises: " + exercises, "Habits: " + habits);
 };
 
 // Calling function for adding items to exercise section
-addItem(
-  exercises,
-  "newExercise",
-  "addExerciseForm",
-  "exerciseList",
-  "addExercise"
-);
+addItem(exercises, "newExercise", "addExerciseBtn", "exerciseList");
 // Calling function for adding items to habit section
-addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
+addItem(habits, "newHabit", "addHabitBtn", "habitList");
 
 addMedItem(medications, "addMedicationBtn", "medList");
-
-addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
