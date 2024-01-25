@@ -1,6 +1,7 @@
 const exercises = [];
 const habits = [];
 const medications = [];
+const journalEntries = [];
 
 const dailyEntry = {
   date: new Date(),
@@ -106,9 +107,29 @@ const deleteButton = (sectionArray, newItem, listID) => {
 };
 
 // General functions
-function updateJournalEntry() {
-  const journalInput = document.getElementById("fillableEntry");
-  dailyEntry.journalEntry = journalInput.value;
+// function updateJournalEntry() {
+//   const journalInput = document.getElementById("fillableEntry");
+//   dailyEntry.journalEntry = journalInput.value;
+//   console.log(updateJournalEntry.textContent);
+// }
+
+function saveJournalEntry(journalArray, saveBtnID) {
+  let saveEntryBtn = document.getElementById(saveBtnID);
+
+  saveEntryBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    let newJournalInput = document.getElementById("fillableEntry").value;
+
+    if (newJournalInput > 0) {
+      const journalEntryObj = {
+        entryDate: Date(),
+        journalEntry: newJournalInput,
+      };
+
+      journalArray.push(journalEntryObj);
+      console.log(newJournalInput.textContent);
+    }
+  });
 }
 
 const updateMedList = (medArray, listID) => {
@@ -133,9 +154,8 @@ const updateMedList = (medArray, listID) => {
 function addItem(sectionArray, inputID, btnID, listID) {
   let addForm = document.getElementById(btnID);
   let date = new Date();
-  console.log(date);
   addForm.addEventListener("click", (event) => {
-    addItemToArray(sectionArray, inputID, listID);
+    addItemToArray(sectionArray, inputID);
     console.log("New item added to section!");
   });
 }
@@ -149,12 +169,6 @@ function addItemToArray(sectionArray, inputID, listID) {
     updateList(sectionArray, listID);
     newItemInput.value = "";
   }
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    updateJournalEntry();
-
-    console.log("Daily Entry weee: ", dailyEntry);
-  });
 }
 
 // function createList(containerID, listID) {
@@ -200,3 +214,10 @@ addItem(habits, "newHabit", "addHabitForm", "habitList", "addHabit");
 addMedItem(medications, "addMedicationBtn", "medList");
 
 addItem(null, "fillableEntry", "dailyEntry", null, "submitButton");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  saveJournalEntry(journalEntries, "saveEntry");
+
+  console.log("Daily Entry", dailyEntry);
+});
