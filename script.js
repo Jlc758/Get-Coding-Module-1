@@ -18,7 +18,17 @@ const dailyEntry = {
 const form = document.getElementById("dailyEntry");
 let addMedForm = document.querySelector("#addMedicationForm");
 let accordionItems = document.querySelectorAll(".accordion-item");
-const flags = document.querySelectorAll(".flag");
+const flagButton = document.getElementById("flag");
+
+function updateIsFlagged() {
+  dailyEntry.isFlagged = !dailyEntry.isFlagged;
+  console.log("Flagged entry");
+}
+
+flagButton.addEventListener("click", () => {
+  updateIsFlagged();
+  // dailyEntry.push(isFlagged);
+});
 
 function addMedItem(medArray, medBtnID, medListID) {
   let addForm = document.getElementById(medBtnID);
