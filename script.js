@@ -118,12 +118,12 @@ function saveJournalEntry(journalArray, saveBtnID) {
 
   saveEntryBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    let newJournalInput = document.getElementById("fillableEntry").value;
+    let newJournalInput = document.getElementById("fillableEntry");
 
     if (newJournalInput > 0) {
       const journalEntryObj = {
         entryDate: Date(),
-        journalEntry: newJournalInput,
+        journalEntry: newJournalInput.textContent,
       };
 
       journalArray.push(journalEntryObj);
