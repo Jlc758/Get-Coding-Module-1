@@ -23,6 +23,21 @@ const saveEntryBtn = document.getElementById("saveEntry");
 let radioChoices = document.getElementsByClassName("radioChoices");
 let submitFormBtn = document.getElementById("submitButton");
 
+function addArrayToDailyEntryObj() {
+  if (exercises > 0) {
+    dailyEntryObj.exercises = exercises;
+  } else if (habits > 0) {
+    dailyEntryObj.habits = habits;
+  } else if (medications > 0) {
+    dailyEntryObj.medications = medications;
+  }
+}
+
+submitFormBtn.addEventListener("submit", (event) => {
+  addArrayToDailyEntryObj();
+  console.log(dailyEntryObj);
+});
+
 function addMedItem(medArray, medBtnID, medListID) {
   let addForm = document.getElementById(medBtnID);
   let date = new Date();
@@ -102,8 +117,8 @@ flagButton.addEventListener("click", () => {
 
 function updateJournal() {
   let newJournalInput = document.getElementById("fillableEntry");
-  let updateJournal = newJournalInput.textContent;
-  dailyEntryObj.journal = updateJournal;
+  // let updateJournal = newJournalInput.textContent;
+  dailyEntryObj.journal = newJournalInput.textContent;
 }
 
 saveEntryBtn.addEventListener("click", (event) => {
@@ -185,3 +200,5 @@ addItem(exercises, "newExercise", "addExerciseBtn", "exerciseList");
 addItem(habits, "newHabit", "addHabitBtn", "habitList");
 
 addMedItem(medications, "addMedicationBtn", "medList");
+
+dailyEntryObj;
