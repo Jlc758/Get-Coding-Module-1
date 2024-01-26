@@ -1,3 +1,4 @@
+// ----------------- Daily Entry Form Object ----------------- //
 const dailyEntry = {
   date: new Date().toISOString().slice(0, 10),
   journalEntry: "",
@@ -12,8 +13,6 @@ const dailyEntry = {
 // DOM Variables
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
-const journalInput = document.getElementById("fillableEntry");
-const flag = document.getElementById("flag");
 
 //-----------------Accordion-----------------//
 accordionItems.forEach((item) => {
@@ -62,6 +61,9 @@ const deleteButton = (sectionArray, index, listElement) => {
 };
 
 //----------- Journal Entry-----------//
+const journalInput = document.getElementById("fillableEntry");
+const flag = document.getElementById("flag");
+
 function updateJournalEntry(input) {
   const value = input.value.trim();
   dailyEntry.journalEntry = value;
@@ -128,20 +130,6 @@ const updateMedList = (medArray, medList) => {
 
   medList.appendChild(fragment);
 };
-
-const deleteMedButton = (medArray, index, medList) => {
-  let deleteButton = document.createElement("button");
-  deleteButton.classList.add("delete-button");
-  deleteButton.innerText = "X";
-
-  deleteButton.addEventListener("click", () => {
-    medArray.splice(index, 1); // Delete using index
-    updateMedList(medArray, medList); // Update the list
-  });
-
-  return deleteButton;
-};
-
 
 //---------Exercise & Habit Trackers-----------//
 const newExerciseInput = document.getElementById("newExercise");
