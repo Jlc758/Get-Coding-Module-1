@@ -183,6 +183,8 @@ const updateList = (sectionArray, listElement) => {
   listElement.appendChild(fragment);
 };
 
+//--------- Function Execution, Event Handling and Form Submission -----------//
+
 // Calling function for adding items to medication section
 addMedItem(
   dailyEntry.medications,
