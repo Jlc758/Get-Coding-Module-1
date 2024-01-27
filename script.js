@@ -1,10 +1,6 @@
-const exercises = [];
-const habits = [];
-const medications = [];
-const journalEntries = [];
-
+// ---------- Daily Entry Form Object ---------- //
 const dailyEntryObj = {
-  date: new Date(),
+  date: new Date().toISOString().slice(0, 10),
   journal: "",
   isFlagged: false,
   emotionTracker: "",
@@ -16,92 +12,61 @@ const dailyEntryObj = {
 
 // DOM Variables
 const form = document.getElementById("dailyEntry");
-let addMedForm = document.querySelector("#addMedicationForm");
-let accordionItems = document.querySelectorAll(".accordion-item");
-const flagButton = document.getElementById("flag");
-const saveEntryBtn = document.getElementById("saveEntry");
-let radioChoices = document.getElementsByClassName("radioChoices");
-let submitFormBtn = document.getElementById("submitButton");
+const accordionItems = document.querySelectorAll(".accordion-item");
 
-function addArrayToDailyEntryObj() {
-  if (exercises > 0) {
-    dailyEntryObj.exercises = exercises;
-  } else if (habits > 0) {
-    dailyEntryObj.habits = habits;
-  } else if (medications > 0) {
-    dailyEntryObj.medications = medications;
-  }
-}
-
-submitFormBtn.addEventListener("submit", (event) => {
-  addArrayToDailyEntryObj();
-  console.log(dailyEntryObj);
-});
-
-function addMedItem(medArray, medBtnID, medListID) {
-  let addForm = document.getElementById(medBtnID);
-  let date = new Date();
-
-  addForm.addEventListener("click", (event) => {
-    event.preventDefault();
-    let newMedInput = document.getElementById("newMedication").value; //added value here to change in addMedItem()
-    let medCountInput = document.getElementById("medCount").value; // added same
-    if (newMedInput && medCountInput > 0) {
-      const medObject = {
-        MedText: newMedInput,
-        MedCount: medCountInput,
-      };
-
-      medArray.push(medObject);
-      updateMedList(medArray, medListID);
-      newMedInput = "";
-      medCountInput = "";
-    }
-  });
-}
-
+// ---------- Accordion ---------- //
 accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
 
-  //! Added this as clicking anywhere inside the content was toggling the accordion. This way it only toggles when clicking the header
   let header = item.querySelector(".accordion-header");
-  console.log("content", content);
+  // console.log("content", content);
 
   content.style.display = "none";
 
-  //! switch to header here
   header.addEventListener("click", (event) => {
     if (!event.target.closest("button, a, input")) {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
     }
-
-    accordionItems.forEach((otherItem) => {
-      if (otherItem !== item) {
-        let content = otherItem.querySelector(".accordion-content");
-        if (content.style.display !== "none") {
-          content.style.display = "none";
-        }
-      }
-    });
   });
 });
 
-const deleteButton = (sectionArray, newItem, listID) => {
+//     accordionItems.forEach((otherItem) => {
+//       if (otherItem !== item) {
+//         let content = otherItem.querySelector(".accordion-content");
+//         if (content.style.display !== "none") {
+//           content.style.display = "none";
+//         }
+//       }
+//     });
+//   });
+// });
+
+// ---------- General Functions ---------- //
+
+const deleteButton = (sectionArray, index, listElement) => {
   let deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
 
   deleteButton.addEventListener("click", () => {
-    let removeItem = sectionArray.indexOf(newItem);
-    if (removeItem !== -1) {
-      console.log("delete " + sectionArray[removeItem]);
-      sectionArray.splice(removeItem, 1);
-
-      //! Need to update the DOM again after you splice from the array
-      updateList(sectionArray, listID);
+    sectionArray.splice(index, 1); //delete using index
+    if (listElement.id === "medList") {
+      // if it's in the medication list, call updateMedList
+      updateMedList(sectionArray, listElement);
+    } else {
+      // for other lists, call update list
+      updateList(sectionArray, listElement);
     }
   });
+  //   let removeItem = sectionArray.indexOf(newItem);
+  //   if (removeItem !== -1) {
+  //     console.log("delete " + sectionArray[removeItem]);
+  //     sectionArray.splice(removeItem, 1);
+
+  //     updateList(sectionArray, listElement);
+  //   }
+  // });
 
   return deleteButton;
 };
@@ -121,12 +86,8 @@ function updateJournal() {
   dailyEntryObj.journal = newJournalInput.textContent;
 }
 
-saveEntryBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  updateJournal();
-  console.log("Updated journal property");
-  console.log(dailyEntryObj);
-});
+// --=-------- Radio Trackers ---------- //
+let radioChoices = document.getElementsByClassName("radioChoices");
 
 Array.from(radioChoices).forEach((radio) => {
   radio.addEventListener("change", function () {
@@ -140,8 +101,10 @@ Array.from(radioChoices).forEach((radio) => {
   });
 });
 
-const updateMedList = (medArray, listID) => {
-  let updatingList = document.getElementById(listID);
+// ---------- Medication Tracker ---------- //
+
+const updateMedList = (medArray, listElement) => {
+  let updatingList = document.getElementById(listElement);
   updatingList.textContent = "";
   const fragment = document.createDocumentFragment();
 
@@ -149,36 +112,61 @@ const updateMedList = (medArray, listID) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
 
-    let deleteBtn = deleteButton(medArray, updatedItem, listID);
+    let deleteBtn = deleteButton(medArray, updatedItem, listElement);
     newItem.append(deleteBtn); // Append the delete button to the new item
     fragment.appendChild(newItem); // Append the new item to the fragment
   });
   updatingList.appendChild(fragment);
 };
 
-function addItem(sectionArray, inputID, btnID, listID) {
+function addMedItem(medArray, medBtnID, medlistElement) {
+  let addForm = document.getElementById(medBtnID);
+  let date = new Date();
+
+  addForm.addEventListener("click", (event) => {
+    event.preventDefault();
+    let newMedInput = document.getElementById("newMedication").value; //added value here to change in addMedItem()
+    let medCountInput = document.getElementById("medCount").value; // added same
+    if (newMedInput && medCountInput > 0) {
+      const medObject = {
+        MedText: newMedInput,
+        MedCount: medCountInput,
+      };
+
+      medArray.push(medObject);
+      updateMedList(medArray, medlistElement);
+      newMedInput = "";
+      medCountInput = "";
+    }
+  });
+}
+
+// ---------- Exercise & Habit Trackers ---------- //
+let addMedForm = document.querySelector("#addMedicationForm");
+
+function addItem(sectionArray, inputID, btnID, listElement) {
   let addForm = document.getElementById(btnID);
 
   addForm.addEventListener("click", (event) => {
     event.preventDefault();
-    addItemToArray(sectionArray, inputID, listID);
+    addItemToArray(sectionArray, inputID, listElement);
     console.log("New item added to section!");
   });
 }
 
-function addItemToArray(sectionArray, inputID, listID) {
+function addItemToArray(sectionArray, inputID, listElement) {
   let newItemInput = document.getElementById(inputID);
   let newItemText = newItemInput.value.trim();
 
   if (newItemText) {
     sectionArray.push(newItemText);
-    updateList(sectionArray, listID);
+    updateList(sectionArray, listElement);
     newItemInput.value = "";
   }
 }
 
-const updateList = (sectionArray, listID) => {
-  let updatingList = document.getElementById(listID);
+const updateList = (sectionArray, listElement) => {
+  let updatingList = document.getElementById(listElement);
   updatingList.innerHTML = "";
   sectionArray.forEach((updatedItem) => {
     let newItem = document.createElement("li");
@@ -194,11 +182,11 @@ const updateList = (sectionArray, listID) => {
   console.log("Exercises: " + exercises, "Habits: " + habits);
 };
 
+// --------- Function Execution, Event Handling, & Form Submission --------- //
+
 // Calling function for adding items to exercise section
 addItem(exercises, "newExercise", "addExerciseBtn", "exerciseList");
 // Calling function for adding items to habit section
 addItem(habits, "newHabit", "addHabitBtn", "habitList");
 
 addMedItem(medications, "addMedicationBtn", "medList");
-
-dailyEntryObj;
