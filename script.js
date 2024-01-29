@@ -80,36 +80,42 @@ function updateJournalEntry(input) {
   dailyEntryObj.journal = value;
 }
 
-
 function flagClick(flag) {
-  flag.addEventListener("click", () =>{
+  flag.addEventListener("click", () => {
     dailyEntryObj.isFlagged = !dailyEntryObj.isFlagged;
     if (dailyEntryObj.isFlagged) {
       flag.classList.add("flagged");
-      else {
-        flag.classList.remove("flagged");
-      }
-    }
-  } )
-}
-
-
-
-
-// --=-------- Radio Trackers ---------- //
-let radioChoices = document.getElementsByClassName("radioChoices");
-
-Array.from(radioChoices).forEach((radio) => {
-  radio.addEventListener("change", function () {
-    if (radio.name === "emotionTracker") {
-      dailyEntryObj.emotionTracker = this.value;
-      console.log("Emotion selected");
-    } else if (radio.name === "waterTracker") {
-      dailyEntryObj.waterTracker = this.value;
-      console.log("Water selected");
+    } else {
+      flag.classList.remove("flagged");
     }
   });
-});
+}
+
+// --=-------- Radio Trackers ---------- //
+
+function radioValue(name) {
+  const radios = document.getElementsByName(name);
+  for (let radio of radios) {
+    if (radio.checked) {
+      return radio.value;
+    }
+    return "";
+  }
+}
+
+// let radioChoices = document.getElementsByClassName("radioChoices");
+
+// Array.from(radioChoices).forEach((radio) => {
+//   radio.addEventListener("change", function () {
+//     if (radio.name === "emotionTracker") {
+//       dailyEntryObj.emotionTracker = this.value;
+//       console.log("Emotion selected");
+//     } else if (radio.name === "waterTracker") {
+//       dailyEntryObj.waterTracker = this.value;
+//       console.log("Water selected");
+//     }
+//   });
+// });
 
 // ---------- Medication Tracker ---------- //
 let addMedForm = document.querySelector("#addMedicationForm");
@@ -152,7 +158,6 @@ function addMedItem(medArray, medBtnID, medlistElement) {
 }
 
 // ---------- Exercise & Habit Trackers ---------- //
-
 
 function addItem(sectionArray, inputID, btnID, listElement) {
   let addForm = document.getElementById(btnID);
