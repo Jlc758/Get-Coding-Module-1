@@ -71,20 +71,30 @@ const deleteButton = (sectionArray, index, listElement) => {
   return deleteButton;
 };
 
-function updateIsFlagged() {
-  dailyEntryObj.isFlagged = true;
-  console.log("Flagged entry");
+// ---------- Journal Entry ---------- //
+const journalInput = document.getElementById("fillableEntry");
+const flagButton = document.getElementById("flag");
+
+function updateJournalEntry(input) {
+  const value = input.value.trim();
+  dailyEntryObj.journal = value;
 }
 
-flagButton.addEventListener("click", () => {
-  updateIsFlagged();
-});
 
-function updateJournal() {
-  let newJournalInput = document.getElementById("fillableEntry");
-  // let updateJournal = newJournalInput.textContent;
-  dailyEntryObj.journal = newJournalInput.textContent;
+function flagClick(flag) {
+  flag.addEventListener("click", () =>{
+    dailyEntryObj.isFlagged = !dailyEntryObj.isFlagged;
+    if (dailyEntryObj.isFlagged) {
+      flag.classList.add("flagged");
+      else {
+        flag.classList.remove("flagged");
+      }
+    }
+  } )
 }
+
+
+
 
 // --=-------- Radio Trackers ---------- //
 let radioChoices = document.getElementsByClassName("radioChoices");
@@ -102,7 +112,7 @@ Array.from(radioChoices).forEach((radio) => {
 });
 
 // ---------- Medication Tracker ---------- //
-
+let addMedForm = document.querySelector("#addMedicationForm");
 const updateMedList = (medArray, listElement) => {
   let updatingList = document.getElementById(listElement);
   updatingList.textContent = "";
@@ -142,7 +152,7 @@ function addMedItem(medArray, medBtnID, medlistElement) {
 }
 
 // ---------- Exercise & Habit Trackers ---------- //
-let addMedForm = document.querySelector("#addMedicationForm");
+
 
 function addItem(sectionArray, inputID, btnID, listElement) {
   let addForm = document.getElementById(btnID);
