@@ -184,9 +184,35 @@ const updateList = (sectionArray, listElement) => {
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
-// Calling function for adding items to exercise section
-addItem(exercises, "newExercise", "addExerciseBtn", "exerciseList");
-// Calling function for adding items to habit section
-addItem(habits, "newHabit", "addHabitBtn", "habitList");
+// Calling function for adding items to medication section
+addMedItem(
+  dailyEntryObj.medications,
+  medInput,
+  medCountInput,
+  addMedBtn,
+  medList
+);
 
-addMedItem(medications, "addMedicationBtn", "medList");
+// Calling function for adding items to exercise section
+addItem(
+  dailyEntryObj.exercises,
+  newExerciseInput,
+  addExerciseBtn,
+  exerciseList
+);
+
+// Calling function for adding items to habit section
+addItem(dailyEntryObj.habits, newHabitInput, addHabitBtn, habitList);
+
+// Listening for flag click
+flagClick(flag);
+
+// Listening for form submit
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateJournalEntry(journalInput);
+  dailyEntryObj.emotionTracker = radioValue("emotionTracker");
+  dailyEntryObj.waterTracker = radioValue("waterTracker");
+
+  console.log("Form Submitted: ", dailyEntryObj);
+});
