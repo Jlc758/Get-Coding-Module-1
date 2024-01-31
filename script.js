@@ -59,14 +59,6 @@ const deleteButton = (sectionArray, index, listElement) => {
       updateList(sectionArray, listElement);
     }
   });
-  //   let removeItem = sectionArray.indexOf(newItem);
-  //   if (removeItem !== -1) {
-  //     console.log("delete " + sectionArray[removeItem]);
-  //     sectionArray.splice(removeItem, 1);
-
-  //     updateList(sectionArray, listElement);
-  //   }
-  // });
 
   return deleteButton;
 };
@@ -104,20 +96,22 @@ function radioValue(name) {
 }
 
 // ---------- Medication Tracker ---------- //
-const addMedBtn = document.getElementById("addMedicationButton");
+const addMedBtn = document.getElementById("addMedicationBtn");
 const medList = document.getElementById("medList");
+const medInput = document.getElementById("newMedication");
+const countInput = document.getElementById("medCount");
 
-function addMedItem(medArray, medInput, countInput, medBtn, medList) {
-  medBtn.addEventListener("click", () => {
+function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
+  addMedBtn.addEventListener("click", (event) => {
+    event.preventDefault();
     const newMedItemValue = medInput.value.trim();
     const newMedCountValue = countInput.value;
 
     if (newMedItemValue && newMedCountValue > 0) {
-      const medObject = {
+      let medObject = {
         MedText: newMedItemValue,
         MedCount: newMedCountValue,
       };
-
       medArray.push(medObject);
       updateMedList(medArray, medList);
       medInput.value = "";
@@ -185,13 +179,7 @@ const updateList = (sectionArray, listElement) => {
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
 // Calling function for adding items to medication section
-addMedItem(
-  dailyEntryObj.medications,
-  medInput,
-  medCountInput,
-  addMedBtn,
-  medList
-);
+addMedItem(dailyEntryObj.medications, medInput, countInput, addMedBtn, medList);
 
 // Calling function for adding items to exercise section
 addItem(
