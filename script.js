@@ -200,7 +200,6 @@ flagClick(flag);
 
 // Listening for form submit
 form.addEventListener("submit", (event) => {
-  console.log(dailyEntryObj);
   event.preventDefault();
   updateJournalEntry(journalInput);
   dailyEntryObj.emotionTracker = radioValue("emotionTracker");
