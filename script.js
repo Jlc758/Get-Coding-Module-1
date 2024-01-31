@@ -27,6 +27,7 @@ accordionItems.forEach((item) => {
     if (!event.target.closest("button, a, input")) {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
+      console.log("Header clicked");
     }
   });
 });
@@ -58,6 +59,7 @@ const deleteButton = (sectionArray, index, listElement) => {
       // for other lists, call update list
       updateList(sectionArray, listElement);
     }
+    console.log("Item Deleted");
   });
 
   return deleteButton;
@@ -68,7 +70,7 @@ const journalInput = document.getElementById("fillableEntry");
 const flagButton = document.getElementById("flag");
 
 function updateJournalEntry(input) {
-  const value = input.value.trim();
+  const value = journalInput.value.trim();
   dailyEntryObj.journal = value;
 }
 
@@ -91,8 +93,8 @@ function radioValue(name) {
     if (radio.checked) {
       return radio.value;
     }
-    return "";
   }
+  return "";
 }
 
 // ---------- Medication Tracker ---------- //
@@ -131,8 +133,8 @@ const updateMedList = (medArray, medList) => {
     newItem.append(deleteBtn);
     fragment.appendChild(newItem);
   });
-
   medList.appendChild(fragment);
+  console.log(medArray);
 };
 
 // ---------- Exercise & Habit Trackers ---------- //
@@ -149,6 +151,7 @@ function addItem(sectionArray, input, addBtn, listElement) {
   addBtn.addEventListener("click", () => {
     addItemToArray(sectionArray, input, listElement);
     console.log("New item added to section!");
+    console.log(dailyEntryObj.exercises);
   });
 }
 
@@ -197,6 +200,7 @@ flagClick(flag);
 
 // Listening for form submit
 form.addEventListener("submit", (event) => {
+  console.log(dailyEntryObj);
   event.preventDefault();
   updateJournalEntry(journalInput);
   dailyEntryObj.emotionTracker = radioValue("emotionTracker");
