@@ -210,11 +210,13 @@ form.addEventListener("submit", (event) => {
 
 // Saving to local storage
 function saveData(dailyEntryObj) {
+  // Check if any data already exists in local storage
   const existingData = localStorage.getItem("dailyEntries");
   let dataToStore = existingData ? JSON.parse(existingData) : [];
 
+  // Add new data object to the existing data array
   dataToStore.push(dailyEntryObj);
-  localStorage.setItem("dailyEntreis", JSON.stringify(dataToStore));
+  localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
 }
 
 // Retrieving from local storage
