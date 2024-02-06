@@ -207,3 +207,22 @@ form.addEventListener("submit", (event) => {
 
   console.log("Form Submitted: ", dailyEntryObj);
 });
+
+// Saving to local storage
+function saveData(dailyEntryObj) {
+  const existingData = localStorage.getItem("dailyEntries");
+  let dataToStore = existingData ? JSON.parse(existingData) : [];
+
+  dataToStore.push(dailyEntryObj);
+  localStorage.setItem("dailyEntreis", JSON.stringify(dataToStore));
+}
+
+// Retrieving from local storage
+function loadData() {
+  const storedData = localStorage.getItem("dailyEntries");
+  if (storedData) {
+    return JSON.parse(storedData);
+  } else {
+    return [];
+  }
+}
