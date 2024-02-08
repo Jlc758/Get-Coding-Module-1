@@ -228,3 +228,10 @@ function loadData() {
     return [];
   }
 }
+
+// Define the weather API
+// let apiKey = "f8c05dc88b6f863790f21354538cb343";
+// let weatherCity = "St.John's";
+// let weatherProvince = "NL";
+// let weatherCountry = "124"
+// let limit = 5;
