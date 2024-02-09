@@ -232,38 +232,25 @@ function loadData() {
 // Attempting APIs (again)
 const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
 const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
+let weatherCityInput = document.getElementById("weatherCity").textContent;
+let weatherProvinceInput =
+  document.getElementById("weatherProvince").textContent;
+let confirmLocationBtn = document.getElementById("confirmLocationBtn");
 
-function userLocation() {
-  let currentLocation = navigator.geolocation.getCurrentPosition;
-  console.log(onload.currentLocation);
+function getLocation() {
+  let getCurrentLocation = onload.navigator.geolocation.getCurrentPosition;
+  let locationResult = getCurrentLocation.textContent;
+  console.log(locationResult);
 }
 
-// async function fetchData() {
-//   try {
-//     const response = await fetch(weatherAPIBase);
-
-//     if (!response.ok) {
-//       throw new Error("HTTP error! Status: ${response.status}");
-//     }
-
-//     const data = await response.json();
-//     console.log(data);
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
-// };
-
 function confirmLocation() {
-  let confButton = document.getElementById("confirmLocationBtn");
-  confButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    console.log(currentLocation.textContent);
+  confirmLocationBtn.addEventListener("click", () => {
+    console.log(weatherCityInput, weatherProvinceInput);
   });
 }
 
-userLocation();
 confirmLocation();
-
+//
 // Define the API URL
 
 // const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
@@ -298,3 +285,34 @@ confirmLocation();
 // let weatherProvince = "NL";
 // let weatherCountry = "124"
 // let limit = 5;
+
+// function userLocation() {
+//   let currentLocation = navigator.geolocation.getCurrentPosition;
+//   console.log(onload.currentLocation);
+// }
+
+// async function fetchData() {
+//   try {
+//     const response = await fetch(weatherAPIBase);
+
+//     if (!response.ok) {
+//       throw new Error("HTTP error! Status: ${response.status}");
+//     }
+
+//     const data = await response.json();
+//     console.log(data);
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// };
+
+// function confirmLocation() {
+//   let confButton = document.getElementById("confirmLocationBtn");
+//   confButton.addEventListener("click", (event) => {
+//     event.preventDefault();
+//     console.log(currentLocation.textContent);
+//   });
+// }
+
+// userLocation();
+// confirmLocation();
