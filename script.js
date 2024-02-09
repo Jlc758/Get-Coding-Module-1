@@ -232,22 +232,37 @@ function loadData() {
 // Attempting APIs (again)
 const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
 const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
-let currentLocation = navigator.geolocation.getCurrentPosition;
 
-async function fetchData() {
-  try {
-    const response = await fetch(weatherAPIBase);
-
-    if (!response.ok) {
-      throw new Error("HTTP error! Status: ${response.status}");
-    }
-
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error("Error:", error);
-  }
+function userLocation() {
+  let currentLocation = navigator.geolocation.getCurrentPosition;
+  console.log(onload.currentLocation);
 }
+
+// async function fetchData() {
+//   try {
+//     const response = await fetch(weatherAPIBase);
+
+//     if (!response.ok) {
+//       throw new Error("HTTP error! Status: ${response.status}");
+//     }
+
+//     const data = await response.json();
+//     console.log(data);
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// };
+
+function confirmLocation() {
+  let confButton = document.getElementById("confirmLocationBtn");
+  confButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    console.log(currentLocation.textContent);
+  });
+}
+
+userLocation();
+confirmLocation();
 
 // Define the API URL
 

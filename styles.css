@@ -72,6 +72,12 @@ button.submit {
   border-color: #1b2043;
 }
 
+#confirmLocationBtn {
+  height: 1rem;
+  width: 10px;
+  background-color: yellow;
+}
+
 ul {
   text-align: center;
   list-style-type: none;
