@@ -229,31 +229,40 @@ function loadData() {
   }
 }
 
-// Define the API URL
-
+// Attempting APIs (again)
 const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
 const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
+let currentLocation = navigator.geolocation.getCurrentPosition;
 
-let cityName = document.getElementById("weatherCity").textContent;
-let provinceField = document.getElementById("weatherProvince").textContent;
-let countryCode = 124;
-let limit = 5;
+async function fetchData() {
+  try {
+    const response = await fetch(weatherAPIBase);
 
-userCurrentLocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    alert("Geolocation is not supported by this browser.");
+    if (!response.ok) {
+      throw new Error("HTTP error! Status: ${response.status}");
+    }
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error:", error);
   }
-};
+}
 
-showPosition = () => {
-  const weatherCityField = document.getElementById("weatherCity");
-  const latitude = position.coords.latitude;
-  const logitude = position.coords.logitude;
-};
+// Define the API URL
 
-console.log(cityName, provinceField);
+// const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
+
+// let cityName = document.getElementById("weatherCity").textContent;
+// let provinceField = document.getElementById("weatherProvince").textContent;
+// let countryCode = 124;
+// let limit = 5;
+
+// showPosition = () => {
+//   const weatherCityField = document.getElementById("weatherCity");
+//   const latitude = position.coords.latitude;
+//   const logitude = position.coords.logitude;
+// };
 
 // async function fetchData() {
 //   try {
@@ -264,8 +273,6 @@ console.log(cityName, provinceField);
 //     console.error("Error: ", error);
 //   }
 // }
-
-// const weatherAPIUpdated = `${weatherAPIBase}?q={cityName},{stateCode},{countryCode}&limit={limit}&appid={weatherAPIKey}`;
 
 // fetchData();
 // console.log(fetchData.textContent);
