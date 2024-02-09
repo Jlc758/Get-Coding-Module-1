@@ -233,34 +233,42 @@ function loadData() {
 
 const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
 const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
-const weatherAPIUpdated = `${weatherAPIBase}?q={cityName},{stateCode},{countryCode}&limit={limit}&appid={weatherAPIKey}`;
 
-let cityField = document.getElementById("weatherCity");
-let provinceField = document.getElementById("weatherProvince");
-
-let cityName = cityField;
-let stateCode = provinceField;
+let cityName = document.getElementById("weatherCity").textContent;
+let provinceField = document.getElementById("weatherProvince").textContent;
 let countryCode = 124;
 let limit = 5;
 
-const requestOptions = {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${weatherAPIKey}`,
-  },
+userCurrentLocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
 };
 
-async function fetchData() {
-  try {
-    const weatherResponse = await fetch(weatherAPI);
-    const weatherData = await weatherResponse.json();
-    console.log(weatherData);
-  } catch (error) {
-    console.error("Error: ", error);
-  }
-}
+showPosition = () => {
+  const weatherCityField = document.getElementById("weatherCity");
+  const latitude = position.coords.latitude;
+  const logitude = position.coords.logitude;
+};
 
-fetchData();
+console.log(cityName, provinceField);
+
+// async function fetchData() {
+//   try {
+//     const weatherResponse = await fetch(weatherAPI);
+//     const weatherData = await weatherResponse.json();
+//     console.log(weatherData);
+//   } catch (error) {
+//     console.error("Error: ", error);
+//   }
+// }
+
+// const weatherAPIUpdated = `${weatherAPIBase}?q={cityName},{stateCode},{countryCode}&limit={limit}&appid={weatherAPIKey}`;
+
+// fetchData();
+// console.log(fetchData.textContent);
 
 // Define the weather API
 // let apiKey = "f8c05dc88b6f863790f21354538cb343";
