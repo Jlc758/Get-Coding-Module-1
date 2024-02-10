@@ -232,24 +232,48 @@ function loadData() {
 // Attempting APIs (again)
 const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
 const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
-let weatherCityInput = document.getElementById("weatherCity").textContent;
-let weatherProvinceInput =
-  document.getElementById("weatherProvince").textContent;
 let confirmLocationBtn = document.getElementById("confirmLocationBtn");
 
-function getLocation() {
-  let getCurrentLocation = onload.navigator.geolocation.getCurrentPosition;
-  let locationResult = getCurrentLocation.textContent;
-  console.log(locationResult);
+async function fetchData() {
+  const weatherURL =
+    "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}";
+
+  try {
+    // Make a GET request using fetch and await the response
+    const response = await fetch(weatherURL);
+
+    // Check if the response status is OK (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error!  Status: ${response.status}`);
+    }
+
+    // Parse the response as JSON
+    const data = await response.JSON();
+
+    // Handle the retrieved data
+    console.log(data);
+  } catch (error) {
+    // Handle any errors that occurred during the fetch
+    console.error("Fetch error:", error);
+  }
 }
 
-function confirmLocation() {
-  confirmLocationBtn.addEventListener("click", () => {
-    console.log(weatherCityInput, weatherProvinceInput);
-  });
-}
+let currentPosition = navigator.geolocation.getCurrentPosition;
+window.addEventListener("load", console.log(currentPosition));
 
-confirmLocation();
+// function getLocation() {
+//   let getCurrentLocation = onload.navigator.geolocation.getCurrentPosition;
+//   let locationResult = getCurrentLocation.textContent;
+//   console.log(locationResult);
+// }
+
+// function confirmLocation() {
+//   confirmLocationBtn.addEventListener("click", () => {
+//     console.log(weatherCityInput, weatherProvinceInput);
+//   });
+// }
+
+// confirmLocation();
 //
 // Define the API URL
 
