@@ -230,13 +230,32 @@ function loadData() {
 }
 
 // Attempting APIs (again)
-const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
+
 const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
-let confirmLocationBtn = document.getElementById("confirmLocationBtn");
+
+// let currentPosition = navigator.geolocation.getCurrentPosition;
+// let locationButton = document.getElementById("confirmLocationBtn");
+
+// console.log(currentPosition.response);
+
+// function getCurrentPosition() {
+//   locationButton.addEventListener("button", (click) => {
+//     click.preventDefault();
+//     console.log(currentPosition);
+//   });
+// }
+
+// getCurrentPosition();
+
+// window.addEventListener("load", console.log(currentPosition));
 
 async function fetchData() {
-  const weatherURL =
-    "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}";
+  let lat = 44.34;
+  let lon = 10.99;
+  const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
+  const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=${encodeURIComponent(
+    weatherAPIKey
+  )}`;
 
   try {
     // Make a GET request using fetch and await the response
@@ -248,7 +267,7 @@ async function fetchData() {
     }
 
     // Parse the response as JSON
-    const data = await response.JSON();
+    const data = await response.json();
 
     // Handle the retrieved data
     console.log(data);
@@ -258,8 +277,7 @@ async function fetchData() {
   }
 }
 
-let currentPosition = navigator.geolocation.getCurrentPosition;
-window.addEventListener("load", console.log(currentPosition));
+fetchData();
 
 // function getLocation() {
 //   let getCurrentLocation = onload.navigator.geolocation.getCurrentPosition;
