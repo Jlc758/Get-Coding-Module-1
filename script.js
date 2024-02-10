@@ -255,43 +255,41 @@ window.onload = function currentLocation() {
     console.log("Geolocation is not supported by this browser.");
   }
   function showPosition(position) {
-    console.log(position);
-
     let currentLat = position.coords.latitude;
     let currentLon = position.coords.longitude;
 
     console.log(currentLat, currentLon);
+
+    async function fetchData() {
+      const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
+      const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${encodeURIComponent(
+        currentLat
+      )}&lon=${encodeURIComponent(currentLon)}&appid=${encodeURIComponent(
+        weatherAPIKey
+      )}`;
+
+      try {
+        // Make a GET request using fetch and await the response
+        const response = await fetch(weatherURL);
+
+        // Check if the response status is OK (status code 200-299)
+        if (!response.ok) {
+          throw new Error(`HTTP error!  Status: ${response.status}`);
+        }
+
+        // Parse the response as JSON
+        const data = await response.json();
+
+        // Handle the retrieved data
+        console.log(data);
+      } catch (error) {
+        // Handle any errors that occurred during the fetch
+        console.error("Fetch error:", error);
+      }
+    }
+
+    fetchData();
   }
-
-  // async function fetchData() {
-  //   const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
-  //   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${encodeURIComponent(
-  //     currentLat
-  //   )}&lon=${encodeURIComponent(currentLon)}&appid=${encodeURIComponent(
-  //     weatherAPIKey
-  //   )}`;
-
-  //   try {
-  //     // Make a GET request using fetch and await the response
-  //     const response = await fetch(weatherURL);
-
-  //     // Check if the response status is OK (status code 200-299)
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error!  Status: ${response.status}`);
-  //     }
-
-  //     // Parse the response as JSON
-  //     const data = await response.json();
-
-  //     // Handle the retrieved data
-  //     console.log(data);
-  //   } catch (error) {
-  //     // Handle any errors that occurred during the fetch
-  //     console.error("Fetch error:", error);
-  //   }
-  // }
-
-  // fetchData();
 };
 
 // function getLocation() {
