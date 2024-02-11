@@ -289,10 +289,20 @@ async function fetchData(currentLat, currentLon) {
 
     // Pull city from API key-value pairs
     const dataCity = data.name;
+    const dataTemp = data.main.temp;
+    const dataFeelsLike = data.main.feels_like;
+    const dataDescription = data.weather[0].description;
 
     // Update DOM with City from API key-value pairs
-    const dataCityElement = document.getElementById("weatherSection");
+    const dataCityElement = document.getElementById("locationResults");
     dataCityElement.textContent = dataCity;
+
+    const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
+
+    console.log(dataWeatherResults);
+
+    // const weatherResults = document.getElementById("weatherResultsSection");
+    // weatherResults = dataWeatherResults;
 
     // Handle the retrieved data
     console.log(data);
