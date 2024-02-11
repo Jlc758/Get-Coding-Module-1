@@ -301,6 +301,9 @@ async function fetchData(currentLat, currentLon) {
 
     console.log(dataWeatherResults);
 
+    const dataWeatherResultsSection = document.getElementById("weatherResults");
+    dataWeatherResultsSection.textContent = dataWeatherResults;
+
     // Handle the retrieved data
     console.log(data);
   } catch (error) {
