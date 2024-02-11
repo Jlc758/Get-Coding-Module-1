@@ -69,10 +69,10 @@ const deleteButton = (sectionArray, index, listElement) => {
 const journalInput = document.getElementById("fillableEntry");
 const flagButton = document.getElementById("flag");
 
-function updateJournalEntry(input) {
+const updateJournalEntry = (input) => {
   const value = journalInput.value.trim();
   dailyEntryObj.journal = value;
-}
+};
 
 function flagClick(flag) {
   flag.addEventListener("click", () => {
@@ -87,7 +87,7 @@ function flagClick(flag) {
 
 // --=-------- Radio Trackers ---------- //
 
-function radioValue(name) {
+const radioValue = (name) => {
   const radios = document.getElementsByName(name);
   for (let radio of radios) {
     if (radio.checked) {
@@ -95,7 +95,7 @@ function radioValue(name) {
     }
   }
   return "";
-}
+};
 
 // ---------- Medication Tracker ---------- //
 const addMedBtn = document.getElementById("addMedicationBtn");
@@ -147,15 +147,15 @@ const newHabitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
 
-function addItem(sectionArray, input, addBtn, listElement) {
+const addItem = (sectionArray, input, addBtn, listElement) => {
   addBtn.addEventListener("click", () => {
     addItemToArray(sectionArray, input, listElement);
     console.log("New item added to section!");
     console.log(dailyEntryObj.exercises);
   });
-}
+};
 
-function addItemToArray(sectionArray, input, listElement) {
+const addItemToArray = (sectionArray, input, listElement) => {
   let newItemText = input.value.trim();
 
   if (newItemText) {
@@ -163,7 +163,7 @@ function addItemToArray(sectionArray, input, listElement) {
     updateList(sectionArray, listElement);
     input.value = "";
   }
-}
+};
 
 const updateList = (sectionArray, listElement) => {
   listElement.textContent = "";
@@ -208,8 +208,10 @@ form.addEventListener("submit", (event) => {
   console.log("Form Submitted: ", dailyEntryObj);
 });
 
+// ---------- Local Storage ---------- //
+
 // Saving to local storage
-function saveData(dailyEntryObj) {
+const saveData = (dailyEntryObj) => {
   // Check if any data already exists in local storage
   const existingData = localStorage.getItem("dailyEntries");
   let dataToStore = existingData ? JSON.parse(existingData) : [];
@@ -217,7 +219,7 @@ function saveData(dailyEntryObj) {
   // Add new data object to the existing data array
   dataToStore.push(dailyEntryObj);
   localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
-}
+};
 
 // Retrieving from local storage
 function loadData() {
@@ -229,25 +231,9 @@ function loadData() {
   }
 }
 
-// Attempting APIs (again)
+// ---------- Weather ---------- //
 
-// const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
-
-// let currentPosition = navigator.geolocation.getCurrentPosition;
-// let locationButton = document.getElementById("confirmLocationBtn");
-
-// console.log(currentPosition.response);
-
-// function getCurrentPosition() {
-//   locationButton.addEventListener("button", (click) => {
-//     click.preventDefault();
-//     console.log(currentPosition);
-//   });
-// }
-
-// getCurrentPosition();
-
-// window.addEventListener("load", console.log(currentPosition));
+// Weather API
 window.onload = function currentLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -256,7 +242,7 @@ window.onload = function currentLocation() {
   }
 };
 
-function showPosition(position) {
+const showPosition = (position) => {
   let currentLat = position.coords.latitude;
   let currentLon = position.coords.longitude;
 
@@ -269,7 +255,7 @@ function showPosition(position) {
     fetchData(currentLat, currentLon);
     console.log("Refreshed location");
   });
-}
+};
 
 async function fetchData(currentLat, currentLon) {
   const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
@@ -311,83 +297,3 @@ async function fetchData(currentLat, currentLon) {
     console.error("Fetch error:", error);
   }
 }
-
-// function getLocation() {
-//   let getCurrentLocation = onload.navigator.geolocation.getCurrentPosition;
-//   let locationResult = getCurrentLocation.textContent;
-//   console.log(locationResult);
-// }
-
-// function confirmLocation() {
-//   confirmLocationBtn.addEventListener("click", () => {
-//     console.log(weatherCityInput, weatherProvinceInput);
-//   });
-// }
-
-// confirmLocation();
-//
-// Define the API URL
-
-// const weatherAPIBase = "http://api.openweathermap.org/geo/1.0/direct";
-
-// let cityName = document.getElementById("weatherCity").textContent;
-// let provinceField = document.getElementById("weatherProvince").textContent;
-// let countryCode = 124;
-// let limit = 5;
-
-// showPosition = () => {
-//   const weatherCityField = document.getElementById("weatherCity");
-//   const latitude = position.coords.latitude;
-//   const logitude = position.coords.logitude;
-// };
-
-// async function fetchData() {
-//   try {
-//     const weatherResponse = await fetch(weatherAPI);
-//     const weatherData = await weatherResponse.json();
-//     console.log(weatherData);
-//   } catch (error) {
-//     console.error("Error: ", error);
-//   }
-// }
-
-// fetchData();
-// console.log(fetchData.textContent);
-
-// Define the weather API
-// let apiKey = "f8c05dc88b6f863790f21354538cb343";
-// let weatherCity = "St.John's";
-// let weatherProvince = "NL";
-// let weatherCountry = "124"
-// let limit = 5;
-
-// function userLocation() {
-//   let currentLocation = navigator.geolocation.getCurrentPosition;
-//   console.log(onload.currentLocation);
-// }
-
-// async function fetchData() {
-//   try {
-//     const response = await fetch(weatherAPIBase);
-
-//     if (!response.ok) {
-//       throw new Error("HTTP error! Status: ${response.status}");
-//     }
-
-//     const data = await response.json();
-//     console.log(data);
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
-// };
-
-// function confirmLocation() {
-//   let confButton = document.getElementById("confirmLocationBtn");
-//   confButton.addEventListener("click", (event) => {
-//     event.preventDefault();
-//     console.log(currentLocation.textContent);
-//   });
-// }
-
-// userLocation();
-// confirmLocation();
