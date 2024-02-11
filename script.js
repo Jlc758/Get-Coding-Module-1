@@ -245,8 +245,6 @@ window.onload = function currentLocation() {
 const showPosition = (position) => {
   let currentLat = position.coords.latitude;
   let currentLon = position.coords.longitude;
-
-  console.log(currentLat, currentLon);
   fetchData(currentLat, currentLon);
   // Question:  why does this function need to be called here if the results are to be used in the async function?
 
@@ -284,8 +282,6 @@ async function fetchData(currentLat, currentLon) {
     dataCityElement.textContent = dataCity;
 
     const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
-
-    console.log(dataWeatherResults);
 
     const dataWeatherResultsSection = document.getElementById("weatherResults");
     dataWeatherResultsSection.textContent = dataWeatherResults;
