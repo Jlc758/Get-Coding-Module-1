@@ -150,3 +150,14 @@ img {
   width: 50px;
   background-color: green;
 }
+
+.weatherContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#weatherSection {
+  padding: 2em;
+  align-items: baseline;
+}
