@@ -1,6 +1,7 @@
 // ---------- Daily Entry Form Object ---------- //
 const dailyEntryObj = {
   date: new Date().toISOString().slice(0, 10),
+  weather: "",
   journal: "",
   isFlagged: false,
   emotionTracker: "",
@@ -198,16 +199,6 @@ addItem(dailyEntryObj.habits, newHabitInput, addHabitBtn, habitList);
 // Listening for flag click
 flagClick(flag);
 
-// Listening for form submit
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  updateJournalEntry(journalInput);
-  dailyEntryObj.emotionTracker = radioValue("emotionTracker");
-  dailyEntryObj.waterTracker = radioValue("waterTracker");
-
-  console.log("Form Submitted: ", dailyEntryObj);
-});
-
 // ---------- Local Storage ---------- //
 
 // Saving to local storage
@@ -222,14 +213,28 @@ const saveData = (dailyEntryObj) => {
 };
 
 // Retrieving from local storage
-function loadData() {
+const loadData = () => {
   const storedData = localStorage.getItem("dailyEntries");
   if (storedData) {
     return JSON.parse(storedData);
   } else {
     return [];
   }
-}
+};
+
+const loadedData = loadData();
+console.log(loadedData);
+
+// Listening for form submit
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateJournalEntry(journalInput);
+  dailyEntryObj.emotionTracker = radioValue("emotionTracker");
+  dailyEntryObj.waterTracker = radioValue("waterTracker");
+
+  console.log("Form Submitted: ", dailyEntryObj);
+  saveData(dailyEntryObj);
+});
 
 // ---------- Weather ---------- //
 
@@ -280,6 +285,7 @@ async function fetchData(currentLat, currentLon) {
     // Update DOM with City from API key-value pairs
     const dataCityElement = document.getElementById("locationResults");
     dataCityElement.textContent = dataCity;
+    dailyEntryObj.weather = dataCity;
 
     const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
 
