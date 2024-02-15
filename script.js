@@ -226,11 +226,21 @@ const loadedData = loadData();
 console.log(loadedData);
 
 // Listening for form submit
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   updateJournalEntry(journalInput);
   dailyEntryObj.emotionTracker = radioValue("emotionTracker");
   dailyEntryObj.waterTracker = radioValue("waterTracker");
+
+  function addNewEntryToAll() {
+    const allEntriesInput = dailyEntryObj;
+    const allEntriesList = document.getElementById("allEntriesList");
+
+    allEntriesInput.forEach();
+  }
+
+  // ! Here
 
   console.log("Form Submitted: ", dailyEntryObj);
   saveData(dailyEntryObj);
@@ -299,3 +309,9 @@ async function fetchData(currentLat, currentLon) {
     console.error("Fetch error:", error);
   }
 }
+
+// ------------- All Entries Page -------------- //
+// let allEntriesList = document.getElementById("allEntriesList");
+// function addToAllEntriesList() {
+//   allEntriesList = dailyEntryObj;
+// }
