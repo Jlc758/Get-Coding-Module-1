@@ -6,10 +6,20 @@ const dailyEntryObj = {
   isFlagged: false,
   emotionTracker: "",
   waterTracker: "",
-  medications: [],
-  exercises: [],
-  habits: [],
+  //   medications: medicationsArray,
+  //   exercises: exercisesArray,
+  //   habits: habitsArray,
 };
+
+// ---------- Global Arrays ---------- //
+let medicationsArray = [];
+let exercisesArray = [];
+let habitsArray = [];
+
+// check if there's data in local storage
+if (localStorage.getItem("typeArray")) {
+  // load the data into the global array
+}
 
 // DOM Variables
 const form = document.getElementById("dailyEntry");
@@ -174,7 +184,11 @@ const updateList = (sectionArray, listElement) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
     let deleteBtn = deleteButton(sectionArray, index, listElement); //pass index here
-    newItem.append(deleteBtn); // append the delete button to the new item
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "itemCheckbox";
+
+    newItem.append(checkbox, deleteBtn); // append the delete button to the new item
     fragment.appendChild(newItem); // append the new item to the fragment
   });
   listElement.appendChild(fragment);
@@ -183,18 +197,13 @@ const updateList = (sectionArray, listElement) => {
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
 // Calling function for adding items to medication section
-addMedItem(dailyEntryObj.medications, medInput, countInput, addMedBtn, medList);
+addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
 
 // Calling function for adding items to exercise section
-addItem(
-  dailyEntryObj.exercises,
-  newExerciseInput,
-  addExerciseBtn,
-  exerciseList
-);
+addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
 
 // Calling function for adding items to habit section
-addItem(dailyEntryObj.habits, newHabitInput, addHabitBtn, habitList);
+addItem(habitsArray, newHabitInput, addHabitBtn, habitList);
 
 // Listening for flag click
 flagClick(flag);
