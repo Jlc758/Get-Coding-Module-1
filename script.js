@@ -1,3 +1,8 @@
+// ---------- Global Arrays ---------- //
+let medicationsArray = [];
+let exercisesArray = [];
+let habitsArray = [];
+
 // ---------- Daily Entry Form Object ---------- //
 const dailyEntryObj = {
   date: new Date().toISOString().slice(0, 10),
@@ -6,15 +11,10 @@ const dailyEntryObj = {
   isFlagged: false,
   emotionTracker: "",
   waterTracker: "",
-  //   medications: medicationsArray,
-  //   exercises: exercisesArray,
-  //   habits: habitsArray,
+  medications: medicationsArray,
+  exercises: exercisesArray,
+  habits: habitsArray,
 };
-
-// ---------- Global Arrays ---------- //
-let medicationsArray = [];
-let exercisesArray = [];
-let habitsArray = [];
 
 // check if there's data in local storage
 if (localStorage.getItem("typeArray")) {
@@ -190,6 +190,14 @@ const updateList = (sectionArray, listElement) => {
 
     newItem.append(checkbox, deleteBtn); // append the delete button to the new item
     fragment.appendChild(newItem); // append the new item to the fragment
+
+    // if (checkbox === true) {
+    //   let yesChecked = localStorage.setItem("checked", "yes");
+    //   console.log(yesChecked);
+    // } else {
+    //   let notChecked = localStorage.setItem("checked", "no");
+    //   console.log(notChecked);
+    // }
   });
   listElement.appendChild(fragment);
 };
@@ -223,12 +231,8 @@ const saveData = (dailyEntryObj) => {
 
 // Retrieving from local storage
 const loadData = () => {
-  const storedData = localStorage.getItem("dailyEntries");
-  if (storedData) {
-    return JSON.parse(storedData);
-  } else {
-    return [];
-  }
+  let storedData = localStorage.getItem("dailyEntries");
+  return storedData ? JSON.parse(storedData) : [];
 };
 
 const loadedData = loadData();
@@ -236,24 +240,30 @@ console.log(loadedData);
 
 // Listening for form submit
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  updateJournalEntry(journalInput);
-  dailyEntryObj.emotionTracker = radioValue("emotionTracker");
-  dailyEntryObj.waterTracker = radioValue("waterTracker");
+form.addEventListener(
+  "submit",
+  (event, sectionArray, listElement, medArray, medList) => {
+    event.preventDefault();
+    updateJournalEntry(journalInput);
+    dailyEntryObj.emotionTracker = radioValue("emotionTracker");
+    dailyEntryObj.waterTracker = radioValue("waterTracker");
+    dailyEntryObj.medications = updateMedList(medArray, medList);
+    dailyEntryObj.exercises = updateList(sectionArray, listElement);
+    dailyEntryObj.habits = updateList(sectionArray, listElement);
 
-  function addNewEntryToAll() {
-    const allEntriesInput = dailyEntryObj;
-    const allEntriesList = document.getElementById("allEntriesList");
+    function addNewEntryToAll() {
+      const allEntriesInput = dailyEntryObj;
+      const allEntriesList = document.getElementById("allEntriesList");
 
-    allEntriesInput.forEach();
+      allEntriesInput.forEach();
+    }
+
+    // ! Here
+
+    console.log("Form Submitted: ", dailyEntryObj);
+    saveData(dailyEntryObj);
   }
-
-  // ! Here
-
-  console.log("Form Submitted: ", dailyEntryObj);
-  saveData(dailyEntryObj);
-});
+);
 
 // ---------- Weather ---------- //
 
