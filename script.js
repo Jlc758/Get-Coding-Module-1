@@ -5,15 +5,16 @@ let habitsArray = [];
 
 // ---------- Daily Entry Form Object ---------- //
 const dailyEntryObj = {
-  date: new Date().toISOString().slice(0, 10),
+  // date: new Date().toISOString().slice(0, 10),
+  date: "", // This is to be set dynamically based on the selected day
   weather: "",
   journal: "",
   isFlagged: false,
   emotionTracker: "",
   waterTracker: "",
-  medications: medicationsArray,
-  exercises: exercisesArray,
-  habits: habitsArray,
+  medications: [],
+  exercises: [],
+  habits: [],
 };
 
 // check if there's data in local storage
@@ -77,8 +78,13 @@ const deleteButton = (sectionArray, index, listElement) => {
 };
 
 // ---------- Date Picker ---------- //
+let dateElement = document.getElementById("date");
+dateElement.addEventListener("change", () => {
+  let selectedDate = date.value;
+  dailyEntryObj.date = selectedDate;
+});
 
-$("#date").datePicker();
+// dailyEntryObj.date = selectedDate;
 
 // ---------- Journal Entry ---------- //
 const journalInput = document.getElementById("fillableEntry");
@@ -244,30 +250,30 @@ console.log(loadedData);
 
 // Listening for form submit
 
-form.addEventListener(
-  "submit",
-  (event, sectionArray, listElement, medArray, medList) => {
-    event.preventDefault();
-    updateJournalEntry(journalInput);
-    dailyEntryObj.emotionTracker = radioValue("emotionTracker");
-    dailyEntryObj.waterTracker = radioValue("waterTracker");
-    dailyEntryObj.medications = updateMedList(medArray, medList);
-    dailyEntryObj.exercises = updateList(sectionArray, listElement);
-    dailyEntryObj.habits = updateList(sectionArray, listElement);
+// sectionArray, listElement, medArray, medList;
 
-    function addNewEntryToAll() {
-      const allEntriesInput = dailyEntryObj;
-      const allEntriesList = document.getElementById("allEntriesList");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateJournalEntry(journalInput);
 
-      allEntriesInput.forEach();
-    }
+  dailyEntryObj.emotionTracker = radioValue("emotionTracker");
+  dailyEntryObj.waterTracker = radioValue("waterTracker");
+  dailyEntryObj.medications = updateMedList(medicationsArray, medList);
+  dailyEntryObj.exercises = updateList(exercisesArray, exerciseList);
+  dailyEntryObj.habits = updateList(habitsArray, habitList);
 
-    // ! Here
+  function addNewEntryToAll() {
+    const allEntriesInput = dailyEntryObj;
+    const allEntriesList = document.getElementById("allEntriesList");
 
-    console.log("Form Submitted: ", dailyEntryObj);
-    saveData(dailyEntryObj);
+    allEntriesInput.forEach();
   }
-);
+
+  // ! Here
+
+  console.log("Form Submitted: ", dailyEntryObj);
+  saveData(dailyEntryObj);
+});
 
 // ---------- Weather ---------- //
 
