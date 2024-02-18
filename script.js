@@ -76,6 +76,10 @@ const deleteButton = (sectionArray, index, listElement) => {
   return deleteButton;
 };
 
+// ---------- Date Picker ---------- //
+
+$("#date").datePicker();
+
 // ---------- Journal Entry ---------- //
 const journalInput = document.getElementById("fillableEntry");
 const flagButton = document.getElementById("flag");
