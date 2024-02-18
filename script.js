@@ -44,17 +44,6 @@ accordionItems.forEach((item) => {
   });
 });
 
-//     accordionItems.forEach((otherItem) => {
-//       if (otherItem !== item) {
-//         let content = otherItem.querySelector(".accordion-content");
-//         if (content.style.display !== "none") {
-//           content.style.display = "none";
-//         }
-//       }
-//     });
-//   });
-// });
-
 // ---------- General Functions ---------- //
 
 const deleteButton = (sectionArray, index, listElement) => {
@@ -136,6 +125,7 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
         MedCount: newMedCountValue,
       };
       medArray.push(medObject);
+
       updateMedList(medArray, medList);
       medInput.value = "";
       countInput.value = "";
@@ -201,13 +191,13 @@ const updateList = (sectionArray, listElement) => {
     newItem.append(checkbox, deleteBtn); // append the delete button to the new item
     fragment.appendChild(newItem); // append the new item to the fragment
 
-    // if (checkbox === true) {
-    //   let yesChecked = localStorage.setItem("checked", "yes");
-    //   console.log(yesChecked);
-    // } else {
-    //   let notChecked = localStorage.setItem("checked", "no");
-    //   console.log(notChecked);
-    // }
+    if (checkbox === true) {
+      let yesChecked = localStorage.setItem("checked", "yes");
+      console.log(yesChecked);
+    } else {
+      let notChecked = localStorage.setItem("checked", "no");
+      console.log(notChecked);
+    }
   });
   listElement.appendChild(fragment);
 };
@@ -258,9 +248,9 @@ form.addEventListener("submit", (event) => {
 
   dailyEntryObj.emotionTracker = radioValue("emotionTracker");
   dailyEntryObj.waterTracker = radioValue("waterTracker");
-  dailyEntryObj.medications = updateMedList(medicationsArray, medList);
-  dailyEntryObj.exercises = updateList(exercisesArray, exerciseList);
-  dailyEntryObj.habits = updateList(habitsArray, habitList);
+  dailyEntryObj.medications = medList.textContent;
+  dailyEntryObj.exercises = exerciseList.textContent;
+  dailyEntryObj.habits = habitList.textContent;
 
   function addNewEntryToAll() {
     const allEntriesInput = dailyEntryObj;
@@ -272,6 +262,7 @@ form.addEventListener("submit", (event) => {
   // ! Here
 
   console.log("Form Submitted: ", dailyEntryObj);
+  console.log(medicationsArray, exercisesArray, habitsArray);
   saveData(dailyEntryObj);
 });
 
