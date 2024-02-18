@@ -189,15 +189,8 @@ const updateList = (sectionArray, listElement) => {
     checkbox.id = "itemCheckbox";
 
     newItem.append(checkbox, deleteBtn); // append the delete button to the new item
-    fragment.appendChild(newItem); // append the new item to the fragment
 
-    if (checkbox === true) {
-      let yesChecked = localStorage.setItem("checked", "yes");
-      console.log(yesChecked);
-    } else {
-      let notChecked = localStorage.setItem("checked", "no");
-      console.log(notChecked);
-    }
+    fragment.appendChild(newItem); // append the new item to the fragment
   });
   listElement.appendChild(fragment);
 };
@@ -250,10 +243,24 @@ form.addEventListener("submit", (event) => {
   dailyEntryObj.exercises = exerciseList.innerText;
   dailyEntryObj.habits = habitList.innerText;
 
-  function addNewEntryToAll() {
-    const allEntriesInput = dailyEntryObj;
-    const allEntriesList = document.getElementById("allEntriesList");
-  }
+  // ---------- Push inputs to global arrays ---------- //
+
+  // let pushToGlobal = (sectionArray, listElement) => {
+  //   const newGlobalItem = listElement;
+
+  //   if (!sectionArray.includes(newGlobalItem)) {
+  //     sectionArray.push(newGlobalItem);
+  //   }
+  // };
+
+  // pushToGlobal(medicationsArray, medList);
+  // pushToGlobal(exercisesArray, exerciseList);
+  // pushToGlobal(habitsArray, habitList);
+
+  // function addNewEntryToAll() {
+  //   const allEntriesInput = dailyEntryObj;
+  //   const allEntriesList = document.getElementById("allEntriesList");
+  // }
 
   console.log("Form Submitted: ", dailyEntryObj);
   console.log(medicationsArray, exercisesArray, habitsArray);
