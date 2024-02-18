@@ -238,9 +238,7 @@ const loadData = () => {
 const loadedData = loadData();
 console.log(loadedData);
 
-// Listening for form submit
-
-// sectionArray, listElement, medArray, medList;
+// ---------- Submit Daily Entry ---------- //
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -248,18 +246,14 @@ form.addEventListener("submit", (event) => {
 
   dailyEntryObj.emotionTracker = radioValue("emotionTracker");
   dailyEntryObj.waterTracker = radioValue("waterTracker");
-  dailyEntryObj.medications = medList.textContent;
-  dailyEntryObj.exercises = exerciseList.textContent;
-  dailyEntryObj.habits = habitList.textContent;
+  dailyEntryObj.medications = medList.innerText;
+  dailyEntryObj.exercises = exerciseList.innerText;
+  dailyEntryObj.habits = habitList.innerText;
 
   function addNewEntryToAll() {
     const allEntriesInput = dailyEntryObj;
     const allEntriesList = document.getElementById("allEntriesList");
-
-    allEntriesInput.forEach();
   }
-
-  // ! Here
 
   console.log("Form Submitted: ", dailyEntryObj);
   console.log(medicationsArray, exercisesArray, habitsArray);
@@ -281,7 +275,6 @@ const showPosition = (position) => {
   let currentLat = position.coords.latitude;
   let currentLon = position.coords.longitude;
   fetchData(currentLat, currentLon);
-  // Question:  why does this function need to be called here if the results are to be used in the async function?
 
   const refreshLocationBtn = document.getElementById("refreshLocationBtn");
   refreshLocationBtn.addEventListener("click", () => {
@@ -311,16 +304,26 @@ async function fetchData(currentLat, currentLon) {
     const dataTemp = (data.main.temp - 273.15).toFixed(2);
     const dataFeelsLike = (data.main.feels_like - 273.15).toFixed(2);
     const dataDescription = data.weather[0].description;
+    const dataWeatherIcon = data.weather[0].icon;
+    const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
+
+    // Create img element for the weather icon
+    const weatherIconElement = document.createElement("img");
+    weatherIconElement.src = dataWeatherUrl;
 
     // Update DOM with City from API key-value pairs
     const dataCityElement = document.getElementById("locationResults");
     dataCityElement.textContent = dataCity;
 
     const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
-    dailyEntryObj.weather = dataWeatherResults;
 
     const dataWeatherResultsSection = document.getElementById("weatherResults");
     dataWeatherResultsSection.textContent = dataWeatherResults;
+
+    // Append icon img to weather results
+    dataWeatherResultsSection.appendChild(weatherIconElement);
+
+    dailyEntryObj.weather = dataWeatherResults;
 
     // Handle the retrieved data
     console.log(data);
