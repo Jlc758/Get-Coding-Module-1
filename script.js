@@ -214,13 +214,23 @@ flagClick(flag);
 // Saving to local storage
 const saveData = (dailyEntryObj) => {
   // Check if any data already exists in local storage
-  const existingData = localStorage.getItem("dailyEntries");
-  let dataToStore = existingData ? JSON.parse(existingData) : [];
+  const existingData = localStorage.getItem(dailyEntryObj.date || "[]");
+  let dataToStore = JSON.parse(existingData);
 
-  // Add new data object to the existing data array
-  dataToStore.push(dailyEntryObj);
-  localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+  // Add new data object to the existing data array for the selected date
+  localStorage.setItem(dailyEntryObj.date, JSON.stringify(dataToStore));
+
+  // Reload global arrays from local storage
+  loadGlobalArrays();
 };
+
+const loadGlobalArrays = () => {
+  medicationsArray = JSON.parse(localStorage.getItem("medicationsArray")) || [];
+  exercisesArray = JSON.parse(localStorage.getItem("exercisesArray")) || [];
+  habitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
+};
+
+loadGlobalArrays();
 
 // Retrieving from local storage
 const loadData = () => {
@@ -242,25 +252,6 @@ form.addEventListener("submit", (event) => {
   dailyEntryObj.medications = medList.innerText;
   dailyEntryObj.exercises = exerciseList.innerText;
   dailyEntryObj.habits = habitList.innerText;
-
-  // ---------- Push inputs to global arrays ---------- //
-
-  // let pushToGlobal = (sectionArray, listElement) => {
-  //   const newGlobalItem = listElement;
-
-  //   if (!sectionArray.includes(newGlobalItem)) {
-  //     sectionArray.push(newGlobalItem);
-  //   }
-  // };
-
-  // pushToGlobal(medicationsArray, medList);
-  // pushToGlobal(exercisesArray, exerciseList);
-  // pushToGlobal(habitsArray, habitList);
-
-  // function addNewEntryToAll() {
-  //   const allEntriesInput = dailyEntryObj;
-  //   const allEntriesList = document.getElementById("allEntriesList");
-  // }
 
   console.log("Form Submitted: ", dailyEntryObj);
   console.log(medicationsArray, exercisesArray, habitsArray);
