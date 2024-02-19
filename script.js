@@ -1,30 +1,91 @@
-// ---------- Global Arrays ---------- //
-let medicationsArray = [];
-let exercisesArray = [];
-let habitsArray = [];
+const currentDate = document.getElementById("date");
+currentDate.value = new Date().toISOString().slice(0, 10);
 
-// ---------- Daily Entry Form Object ---------- //
-const dailyEntryObj = {
-  // date: new Date().toISOString().slice(0, 10),
-  date: "", // This is to be set dynamically based on the selected day
-  weather: "",
-  journal: "",
-  isFlagged: false,
-  emotionTracker: "",
-  waterTracker: "",
-  medications: [],
-  exercises: [],
-  habits: [],
-};
+//  ---------- Variables ---------- //
+const journalInput = document.getElementById("fillableEntry");
+const flagButton = document.getElementById("flag");
 
-// check if there's data in local storage
-if (localStorage.getItem("typeArray")) {
-  // load the data into the global array
-}
+const addMedBtn = document.getElementById("addMedicationBtn");
+const medList = document.getElementById("medList");
+const medInput = document.getElementById("newMedication");
+const countInput = document.getElementById("medCount");
 
-// DOM Variables
+const newExerciseInput = document.getElementById("newExercise");
+const addExerciseBtn = document.getElementById("addExerciseBtn");
+const exerciseList = document.getElementById("exerciseList");
+
+const newHabitInput = document.getElementById("newHabit");
+const addHabitBtn = document.getElementById("addHabitBtn");
+const habitList = document.getElementById("habitList");
+
+// ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
+
+// ---------- Global Arrays ---------- //
+let localMedicationsArray =
+  JSON.parse(localStorage.getItem("medicationsArray")) || [];
+let localExercisesArray =
+  JSON.parse(localStorage.getItem("exercisesArray")) || [];
+let localHabitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
+console.log(localMedicationsArray);
+// ---------- Local Storage ---------- //
+
+// Saving to local storage
+const saveData = (dailyEntryObj) => {
+  // Check if any data already exists in local storage
+  const existingData = localStorage.getItem("dailyEntries");
+  let dataToStore = existingData ? JSON.parse(existingData) : [];
+  dataToStore.push(dailyEntryObj);
+
+  // Add new data object to the existing data array for the selected date
+  localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+};
+
+// Retrieving from local storage
+const loadEntries = () => {
+  let storedData = localStorage.getItem("dailyEntries");
+  return storedData ? JSON.parse(storedData) : [];
+};
+
+const dailyEntries = loadEntries();
+console.log(dailyEntries);
+
+const foundEntry = dailyEntries.find(
+  (entry) => entry.date === currentDate.value
+);
+
+// ---------- Daily Entry Form Object ---------- //
+const dailyEntryObj = foundEntry
+  ? foundEntry
+  : {
+      date: currentDate.value,
+      weather: "",
+      journal: "",
+      isFlagged: false,
+      emotionTracker: "",
+      waterTracker: "",
+      medications: [],
+      exercises: [],
+      habits: [],
+    };
+
+// check if there's data in local storage
+if (foundEntry) {
+  // date
+  // weather
+  journalInput.value = dailyEntryObj.journal;
+  // isFlagged
+  // emotionTracker
+  // waterTracker
+  medList.innerHTML = dailyEntryObj.medications;
+  exerciseList.innerHTML = dailyEntryObj.exercises;
+  habitList.innerHTML = dailyEntryObj.habits;
+}
+
+// // DOM Variables
+// const form = document.getElementById("dailyEntry");
+// const accordionItems = document.querySelectorAll(".accordion-item");
 
 // ---------- Accordion ---------- //
 accordionItems.forEach((item) => {
@@ -67,17 +128,15 @@ const deleteButton = (sectionArray, index, listElement) => {
 };
 
 // ---------- Date Picker ---------- //
-let dateElement = document.getElementById("date");
-dateElement.addEventListener("change", () => {
-  let selectedDate = date.value;
-  dailyEntryObj.date = selectedDate;
-});
+// let dateElement = document.getElementById("date");
+// dateElement.addEventListener("change", () => {
+//   let selectedDate = date.value;
+//   dailyEntryObj.date = selectedDate;
+// });
 
 // dailyEntryObj.date = selectedDate;
 
 // ---------- Journal Entry ---------- //
-const journalInput = document.getElementById("fillableEntry");
-const flagButton = document.getElementById("flag");
 
 const updateJournalEntry = (input) => {
   const value = journalInput.value.trim();
@@ -108,12 +167,19 @@ const radioValue = (name) => {
 };
 
 // ---------- Medication Tracker ---------- //
-const addMedBtn = document.getElementById("addMedicationBtn");
-const medList = document.getElementById("medList");
-const medInput = document.getElementById("newMedication");
-const countInput = document.getElementById("medCount");
+// const addMedBtn = document.getElementById("addMedicationBtn");
+// const medList = document.getElementById("medList");
+// const medInput = document.getElementById("newMedication");
+// const countInput = document.getElementById("medCount");
 
-function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
+function addMedItem(
+  medArray,
+  medInput,
+  countInput,
+  addMedBtn,
+  medList,
+  localStorageArray
+) {
   addMedBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newMedItemValue = medInput.value.trim();
@@ -125,6 +191,7 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
         MedCount: newMedCountValue,
       };
       medArray.push(medObject);
+      localStorage.setItem(localStorageArray, JSON.stringify(medArray));
 
       updateMedList(medArray, medList);
       medInput.value = "";
@@ -148,15 +215,17 @@ const updateMedList = (medArray, medList) => {
   console.log(medArray);
 };
 
+updateMedList(localMedicationsArray, medList);
+
 // ---------- Exercise & Habit Trackers ---------- //
 
-const newExerciseInput = document.getElementById("newExercise");
-const addExerciseBtn = document.getElementById("addExerciseBtn");
-const exerciseList = document.getElementById("exerciseList");
+// const newExerciseInput = document.getElementById("newExercise");
+// const addExerciseBtn = document.getElementById("addExerciseBtn");
+// const exerciseList = document.getElementById("exerciseList");
 
-const newHabitInput = document.getElementById("newHabit");
-const addHabitBtn = document.getElementById("addHabitBtn");
-const habitList = document.getElementById("habitList");
+// const newHabitInput = document.getElementById("newHabit");
+// const addHabitBtn = document.getElementById("addHabitBtn");
+// const habitList = document.getElementById("habitList");
 
 const addItem = (sectionArray, input, addBtn, listElement) => {
   addBtn.addEventListener("click", () => {
@@ -198,48 +267,23 @@ const updateList = (sectionArray, listElement) => {
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
 // Calling function for adding items to medication section
-addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
+addMedItem(
+  localMedicationsArray,
+  medInput,
+  countInput,
+  addMedBtn,
+  medList,
+  "medicationsArray"
+);
 
 // Calling function for adding items to exercise section
-addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
+addItem(localExercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
 
 // Calling function for adding items to habit section
-addItem(habitsArray, newHabitInput, addHabitBtn, habitList);
+addItem(localHabitsArray, newHabitInput, addHabitBtn, habitList);
 
 // Listening for flag click
 flagClick(flag);
-
-// ---------- Local Storage ---------- //
-
-// Saving to local storage
-const saveData = (dailyEntryObj) => {
-  // Check if any data already exists in local storage
-  const existingData = localStorage.getItem(dailyEntryObj.date || "[]");
-  let dataToStore = JSON.parse(existingData);
-
-  // Add new data object to the existing data array for the selected date
-  localStorage.setItem(dailyEntryObj.date, JSON.stringify(dataToStore));
-
-  // Reload global arrays from local storage
-  loadGlobalArrays();
-};
-
-const loadGlobalArrays = () => {
-  medicationsArray = JSON.parse(localStorage.getItem("medicationsArray")) || [];
-  exercisesArray = JSON.parse(localStorage.getItem("exercisesArray")) || [];
-  habitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
-};
-
-loadGlobalArrays();
-
-// Retrieving from local storage
-const loadData = () => {
-  let storedData = localStorage.getItem("dailyEntries");
-  return storedData ? JSON.parse(storedData) : [];
-};
-
-const loadedData = loadData();
-console.log(loadedData);
 
 // ---------- Submit Daily Entry ---------- //
 
@@ -254,7 +298,7 @@ form.addEventListener("submit", (event) => {
   dailyEntryObj.habits = habitList.innerText;
 
   console.log("Form Submitted: ", dailyEntryObj);
-  console.log(medicationsArray, exercisesArray, habitsArray);
+  console.log(localMedicationsArray, localExercisesArray, localHabitsArray);
   saveData(dailyEntryObj);
 });
 
