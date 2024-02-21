@@ -80,12 +80,13 @@ currentDate.addEventListener("change", () => {
   );
 
   if (foundEntry) {
-    // date
-    // weather
+    form.reset();
+    currentDate.value = dailyEntryObj.date;
+    // dataWeatherResults.value = dailyEntryObj.weather; //!incorrect
     journalInput.value = dailyEntryObj.journal;
-    // isFlagged
-    // emotionTracker
-    // waterTracker
+    foundEntry.isFlagged = dailyEntryObj.isFlagged;
+    // emotionTracker //! not sure
+    // waterTracker //! not sure
     medList.innerHTML = dailyEntryObj.medications
       .map((med) => `<li>${med}</li>`)
       .join("");
@@ -95,7 +96,12 @@ currentDate.addEventListener("change", () => {
     habitList.innerHTML = dailyEntryObj.habits
       .map((hab) => `<li>${hab}</li>`)
       .join("");
-  } else {
+
+    if (dailyEntryObj.isFlagged) {
+      flag.classList.add("flagged");
+    } else {
+      flag.classList.remove("flagged");
+    }
   }
 });
 
