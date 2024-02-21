@@ -29,6 +29,7 @@ let localExercisesArray =
   JSON.parse(localStorage.getItem("exercisesArray")) || [];
 let localHabitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
 console.log(localMedicationsArray);
+
 // ---------- Local Storage ---------- //
 
 // Saving to local storage
@@ -56,6 +57,7 @@ const foundEntry = dailyEntries.find(
 );
 
 // ---------- Daily Entry Form Object ---------- //
+
 const dailyEntryObj = foundEntry
   ? foundEntry
   : {
@@ -70,22 +72,44 @@ const dailyEntryObj = foundEntry
       habits: [],
     };
 
-// check if there's data in local storage
-if (foundEntry) {
-  // date
-  // weather
-  journalInput.value = dailyEntryObj.journal;
-  // isFlagged
-  // emotionTracker
-  // waterTracker
-  medList.innerHTML = dailyEntryObj.medications;
-  exerciseList.innerHTML = dailyEntryObj.exercises;
-  habitList.innerHTML = dailyEntryObj.habits;
-}
+// ------- Date Picker & dailyEntryObj Manipulation ------- //
+
+currentDate.addEventListener("change", () => {
+  const foundEntry = dailyEntries.find(
+    (entry) => entry.date === currentDate.value
+  );
+
+  if (foundEntry) {
+    // date
+    // weather
+    journalInput.value = dailyEntryObj.journal;
+    // isFlagged
+    // emotionTracker
+    // waterTracker
+    medList.innerHTML = dailyEntryObj.medications
+      .map((med) => `<li>${med}</li>`)
+      .join("");
+    exerciseList.innerHTML = dailyEntryObj.exercises
+      .map((ex) => `<li>${ex}</li>`)
+      .join("");
+    habitList.innerHTML = dailyEntryObj.habits
+      .map((hab) => `<li>${hab}</li>`)
+      .join("");
+  } else {
+  }
+});
 
 // // DOM Variables
 // const form = document.getElementById("dailyEntry");
 // const accordionItems = document.querySelectorAll(".accordion-item");
+
+// ---------- Date Picker ---------- //
+// let currentDate = document.getElementById("date");
+// currentDate.addEventListener("change", (event) => {
+//   if (currentDate.innerHTML === currentDate)
+// });
+
+// dailyEntryObj.date = selectedDate;
 
 // ---------- Accordion ---------- //
 accordionItems.forEach((item) => {
@@ -126,15 +150,6 @@ const deleteButton = (sectionArray, index, listElement) => {
 
   return deleteButton;
 };
-
-// ---------- Date Picker ---------- //
-// let dateElement = document.getElementById("date");
-// dateElement.addEventListener("change", () => {
-//   let selectedDate = date.value;
-//   dailyEntryObj.date = selectedDate;
-// });
-
-// dailyEntryObj.date = selectedDate;
 
 // ---------- Journal Entry ---------- //
 
@@ -291,6 +306,7 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   updateJournalEntry(journalInput);
 
+  dailyEntryObj.date = currentDate.value;
   dailyEntryObj.emotionTracker = radioValue("emotionTracker");
   dailyEntryObj.waterTracker = radioValue("waterTracker");
   dailyEntryObj.medications = medList.innerText;
