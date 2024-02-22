@@ -82,12 +82,10 @@ currentDate.addEventListener("change", () => {
   if (foundEntry) {
     form.reset();
     currentDate.value = dailyEntryObj.date;
-    // dataWeatherResults.value = dailyEntryObj.weather; //!incorrect
+    // weather
     journalInput.value = dailyEntryObj.journal;
     foundEntry.isFlagged = dailyEntryObj.isFlagged;
-    // emotionTracker //! not sure
     reverseRadioValue(emotionTracker);
-    // waterTracker //! not sure
     reverseRadioValue(waterTracker);
     medList.innerHTML = dailyEntryObj.medications
       .map((med) => `<li>${med}</li>`)
