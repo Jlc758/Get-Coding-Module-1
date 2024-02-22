@@ -86,7 +86,9 @@ currentDate.addEventListener("change", () => {
     journalInput.value = dailyEntryObj.journal;
     foundEntry.isFlagged = dailyEntryObj.isFlagged;
     // emotionTracker //! not sure
+    reverseRadioValue(emotionTracker);
     // waterTracker //! not sure
+    reverseRadioValue(waterTracker);
     medList.innerHTML = dailyEntryObj.medications
       .map((med) => `<li>${med}</li>`)
       .join("");
@@ -185,6 +187,17 @@ const radioValue = (name) => {
     }
   }
   return "";
+};
+
+const reverseRadioValue = (name) => {
+  const radios = document.getElementByName(name);
+  for (let radio of radios) {
+    for (let i = 1; i <= 5; i++) {
+      if (i === dailyEntryObj.radio.value) {
+        radio.checked === true;
+      }
+    }
+  }
 };
 
 // ---------- Medication Tracker ---------- //
