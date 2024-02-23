@@ -52,48 +52,39 @@ const loadEntries = () => {
 const dailyEntries = loadEntries();
 console.log(dailyEntries);
 
-const foundEntry = dailyEntries.find(
-  (entry) => entry.date === currentDate.value
-);
-
-// ---------- Daily Entry Form Object ---------- //
-
-const dailyEntryObj = foundEntry
-  ? foundEntry
-  : {
-      date: currentDate.value,
-      weather: "",
-      journal: "",
-      isFlagged: false,
-      emotionTracker: "",
-      waterTracker: "",
-      medications: [],
-      exercises: [],
-      habits: [],
-    };
-
-// ------- Date Picker & dailyEntryObj Manipulation ------- //
-
-currentDate.addEventListener("change", () => {
+function populateForm() {
   const foundEntry = dailyEntries.find(
     (entry) => entry.date === currentDate.value
   );
 
+  const dailyEntryObj = foundEntry
+    ? foundEntry
+    : {
+        date: currentDate.value,
+        weather: "",
+        journal: "",
+        isFlagged: false,
+        emotionTracker: "",
+        waterTracker: "",
+        medications: [],
+        exercises: [],
+        habits: [],
+      };
+
   if (foundEntry) {
-    form.reset();
     currentDate.value = dailyEntryObj.date;
     // weather
     journalInput.value = dailyEntryObj.journal;
     foundEntry.isFlagged = dailyEntryObj.isFlagged;
     reverseRadioValue(emotionTracker);
     reverseRadioValue(waterTracker);
-    medList.innerHTML = dailyEntryObj.medications
+    medList.textContent = dailyEntryObj.medications
       .map((med) => `<li>${med}</li>`)
       .join("");
-    exerciseList.innerHTML = dailyEntryObj.exercises
+    exerciseList.textContent = dailyEntryObj.exercises
       .map((ex) => `<li>${ex}</li>`)
       .join("");
-    habitList.innerHTML = dailyEntryObj.habits
+    habitList.textContent = dailyEntryObj.habits
       .map((hab) => `<li>${hab}</li>`)
       .join("");
 
@@ -103,7 +94,27 @@ currentDate.addEventListener("change", () => {
       flag.classList.remove("flagged");
     }
   }
-});
+}
+
+// ---------- Daily Entry Form Object ---------- //
+
+// const dailyEntryObj = foundEntry
+//   ? foundEntry
+//   : {
+//       date: currentDate.value,
+//       weather: "",
+//       journal: "",
+//       isFlagged: false,
+//       emotionTracker: "",
+//       waterTracker: "",
+//       medications: [],
+//       exercises: [],
+//       habits: [],
+//     };
+
+// ------- Date Picker & dailyEntryObj Manipulation ------- //
+
+currentDate.addEventListener("change", () => {});
 
 // // DOM Variables
 // const form = document.getElementById("dailyEntry");
