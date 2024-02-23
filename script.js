@@ -35,66 +35,66 @@ console.log(localMedicationsArray);
 // Saving to local storage
 const saveData = (dailyEntryObj) => {
   // Check if any data already exists in local storage
-  const existingData = localStorage.getItem("dailyEntries");
-  let dataToStore = existingData ? JSON.parse(existingData) : [];
-  dataToStore.push(dailyEntryObj);
+  try {
+    const existingData = localStorage.getItem("dailyEntries");
+    let dataToStore = existingData ? JSON.parse(existingData) : [];
+    dataToStore.push(dailyEntryObj);
 
-  // Add new data object to the existing data array for the selected date
-  localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+    // Add new data object to the existing data array for the selected date
+    localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+  } catch (error) {
+    console.error("Error saving data to localStorage", error);
+  }
 };
 
 // Retrieving from local storage
 const loadEntries = () => {
-  let storedData = localStorage.getItem("dailyEntries");
-  return storedData ? JSON.parse(storedData) : [];
+  try {
+    let storedData = localStorage.getItem("dailyEntries");
+    return storedData ? JSON.parse(storedData) : [];
+  } catch (error) {
+    console.error("Error loading data from localStorage", error);
+  }
 };
 
 const dailyEntries = loadEntries();
 console.log(dailyEntries);
 
-function populateForm() {
-  const foundEntry = dailyEntries.find(
-    (entry) => entry.date === currentDate.value
-  );
+const foundEntry = dailyEntries.find(
+  (entry) => entry.date === currentDate.value
+);
 
-  const dailyEntryObj = foundEntry
-    ? foundEntry
-    : {
-        date: currentDate.value,
-        weather: "",
-        journal: "",
-        isFlagged: false,
-        emotionTracker: "",
-        waterTracker: "",
-        medications: [],
-        exercises: [],
-        habits: [],
-      };
+let dailyEntryObj = {
+  date: currentDate.value,
+  weather: "",
+  journal: "",
+  isFlagged: false,
+  emotionTracker: "",
+  waterTracker: "",
+  medications: [],
+  exercises: [],
+  habits: [],
+};
 
-  if (foundEntry) {
-    currentDate.value = dailyEntryObj.date;
-    // weather
-    journalInput.value = dailyEntryObj.journal;
-    foundEntry.isFlagged = dailyEntryObj.isFlagged;
-    reverseRadioValue(emotionTracker);
-    reverseRadioValue(waterTracker);
-    medList.textContent = dailyEntryObj.medications
-      .map((med) => `<li>${med}</li>`)
-      .join("");
-    exerciseList.textContent = dailyEntryObj.exercises
-      .map((ex) => `<li>${ex}</li>`)
-      .join("");
-    habitList.textContent = dailyEntryObj.habits
-      .map((hab) => `<li>${hab}</li>`)
-      .join("");
+document.addEventListener("DOMContentLoaded", () => {
+  dailyEntryObj;
+  // const dailyEntryObj = {
+  //   date: currentDate.value,
+  //   weather: "",
+  //   journal: "",
+  //   isFlagged: false,
+  //   emotionTracker: "",
+  //   waterTracker: "",
+  //   medications: [],
+  //   exercises: [],
+  //   habits: [],
+  // };
 
-    if (dailyEntryObj.isFlagged) {
-      flag.classList.add("flagged");
-    } else {
-      flag.classList.remove("flagged");
-    }
-  }
-}
+  populateForm();
+
+  // Save the modified data back to the localStorage
+  saveData(foundEntry ? foundEntry : dailyEntryObj);
+});
 
 // ---------- Daily Entry Form Object ---------- //
 
@@ -114,7 +114,13 @@ function populateForm() {
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
 
-currentDate.addEventListener("change", () => {});
+currentDate.addEventListener("change", () => {
+  try {
+    populateForm();
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // // DOM Variables
 // const form = document.getElementById("dailyEntry");
@@ -199,7 +205,7 @@ const radioValue = (name) => {
 };
 
 const reverseRadioValue = (name) => {
-  const radios = document.getElementByName(name);
+  const radios = document.getElementsByName(name);
   for (let radio of radios) {
     for (let i = 1; i <= 5; i++) {
       if (i === dailyEntryObj.radio.value) {
@@ -309,6 +315,45 @@ const updateList = (sectionArray, listElement) => {
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
+function populateForm() {
+  const dailyEntryObj = foundEntry
+    ? foundEntry
+    : {
+        date: currentDate.value,
+        weather: "",
+        journal: "",
+        isFlagged: false,
+        emotionTracker: "",
+        waterTracker: "",
+        medications: [],
+        exercises: [],
+        habits: [],
+      };
+  if (foundEntry) {
+    currentDate.value = dailyEntryObj.date;
+    // weather
+    journalInput.value = dailyEntryObj.journal;
+    foundEntry.isFlagged = dailyEntryObj.isFlagged;
+    reverseRadioValue(emotionTracker);
+    reverseRadioValue(waterTracker);
+    medList.textContent = dailyEntryObj.medications
+      .map((med) => `<li>${med}</li>`)
+      .join("");
+    exerciseList.textContent = dailyEntryObj.exercises
+      .map((ex) => `<li>${ex}</li>`)
+      .join("");
+    habitList.textContent = dailyEntryObj.habits
+      .map((hab) => `<li>${hab}</li>`)
+      .join("");
+
+    if (dailyEntryObj.isFlagged) {
+      flag.classList.add("flagged");
+    } else {
+      flag.classList.remove("flagged");
+    }
+  }
+}
+
 // Calling function for adding items to medication section
 addMedItem(
   localMedicationsArray,
@@ -409,7 +454,7 @@ async function fetchData(currentLat, currentLon) {
     // Append icon img to weather results
     dataWeatherResultsSection.appendChild(weatherIconElement);
 
-    dailyEntryObj.weather = dataWeatherResults;
+    // dailyEntryObj.weather = dataWeatherResults;
 
     // Handle the retrieved data
     console.log(data);
