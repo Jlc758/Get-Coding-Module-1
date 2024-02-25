@@ -28,48 +28,54 @@ const accordionItems = document.querySelectorAll(".accordion-item");
 // let habitsArray = [];
 
 // ---------- Local Storage Arrays ---------- //
-let localMedicationsArray =
-  JSON.parse(localStorage.getItem("medicationsArray")) || [];
-let localExercisesArray =
-  JSON.parse(localStorage.getItem("exercisesArray")) || [];
-let localHabitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
-console.log(localMedicationsArray);
+
+// Keys for local storage
+const entriesKey = "entriesArray";
+const medKey = "medicationsArray";
+const exKey = "exercisesArray";
+const habKey = "habitsArray";
+
+// Check if there is already arrays in local storage
+let entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
+let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
+let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
+
+// let dailyEntriesArray = JSON.parse(localStorage.getItem("dailyEntriesArray")) || [];
+
+// let medicationsArray =
+//   JSON.parse(localStorage.getItem("medicationsArray")) || [];
+// let exercisesArray =
+//   JSON.parse(localStorage.getItem("exercisesArray")) || [];
+// let habitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
+// console.log(medicationsArray);
 
 // ---------- Local Storage ---------- //
+let saveEntry = {};
 
 // Saving to local storage
-const saveUniqueItem = (input, date, globalArray, localArray) => {
-  try {
-    if (!globalArray.includes(input)) {
-      globalArray.push(input);
-
-      localStorage.setItem(localArray, JSON.stringify(globalArray));
-
-      if (!date) {
-        populateForm();
-
-        // dailyEntryObj.date.value = date;
-        // dailyEntryObj.objectKey.push = input;
-      } else {
-        console.error(error, "This date already has a saved entry.");
-      }
-    }
-  } catch (error) {
-    console.error("Error saving unique data to ");
-  }
-};
-// const saveData = (dailyEntryObj) => {
-//   // Check if any data already exists in local storage
+// const saveUniqueItem = (input, date, globalArray, localArray) => {
 //   try {
-//     const existingData = localStorage.getItem("dailyEntries");
-//     let dataToStore = existingData ? JSON.parse(existingData) : [];
-//     dataToStore.push(dailyEntryObj);
+//     if (!globalArray.includes(input)) {
+//       globalArray.push(input);
 
-//     // Add new data object to the existing data array for the selected date
-//     localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+//       localStorage.setItem(localArray, JSON.stringify(globalArray));
+//     }
 //   } catch (error) {
-//     console.error("Error saving data to localStorage", error);
+//     console.error("Error saving unique data to ");
 //   }
+// };
+// const saveData = (dailyEntryObj) => {
+// Check if any data already exists in local storage
+// try {
+//   const existingData = localStorage.getItem("dailyEntries");
+//   let dataToStore = existingData ? JSON.parse(existingData) : [];
+//   dataToStore.push(dailyEntryObj);
+//   // Add new data object to the existing data array for the selected date
+//   localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+// } catch (error) {
+//   console.error("Error saving data to localStorage", error);
+// }
 // };
 // ! I don't think this makes sense since it does not reference daily entry as being saved on a specific date
 
@@ -103,29 +109,12 @@ let dailyEntryObj = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  dailyEntryObj;
-
-  populateForm();
-
-  // Save the modified data back to the localStorage
-  saveData(foundEntry ? foundEntry : dailyEntryObj);
+  try {
+    populateForm();
+  } catch (error) {
+    console.error(error);
+  }
 });
-
-// ---------- Daily Entry Form Object ---------- //
-
-// const dailyEntryObj = foundEntry
-//   ? foundEntry
-//   : {
-//       date: currentDate.value,
-//       weather: "",
-//       journal: "",
-//       isFlagged: false,
-//       emotionTracker: "",
-//       waterTracker: "",
-//       medications: [],
-//       exercises: [],
-//       habits: [],
-//     };
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
 
@@ -135,22 +124,7 @@ currentDate.addEventListener("change", () => {
   } catch (error) {
     console.error(error);
   }
-
-  // Save the modified data back to the localStorage
-  saveData(foundEntry ? foundEntry : dailyEntryObj);
 });
-
-// // DOM Variables
-// const form = document.getElementById("dailyEntry");
-// const accordionItems = document.querySelectorAll(".accordion-item");
-
-// ---------- Date Picker ---------- //
-// let currentDate = document.getElementById("date");
-// currentDate.addEventListener("change", (event) => {
-//   if (currentDate.innerHTML === currentDate)
-// });
-
-// dailyEntryObj.date = selectedDate;
 
 // ---------- Accordion ---------- //
 accordionItems.forEach((item) => {
@@ -165,7 +139,6 @@ accordionItems.forEach((item) => {
     if (!event.target.closest("button, a, input")) {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
-      console.log("Header clicked");
     }
   });
 });
@@ -233,20 +206,7 @@ const reverseRadioValue = (name) => {
   }
 };
 
-// ---------- Medication Tracker ---------- //
-// const addMedBtn = document.getElementById("addMedicationBtn");
-// const medList = document.getElementById("medList");
-// const medInput = document.getElementById("newMedication");
-// const countInput = document.getElementById("medCount");
-
-function addMedItem(
-  medArray,
-  medInput,
-  countInput,
-  addMedBtn,
-  medList,
-  localStorageArray
-) {
+function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
   addMedBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newMedItemValue = medInput.value.trim();
@@ -258,7 +218,7 @@ function addMedItem(
         MedCount: newMedCountValue,
       };
       medArray.push(medObject);
-      localStorage.setItem(localStorageArray, JSON.stringify(medArray));
+      localStorage.setItem(medArray.JSON.stringify(medObject));
 
       updateMedList(medArray, medList);
       medInput.value = "";
@@ -282,23 +242,12 @@ const updateMedList = (medArray, medList) => {
   console.log(medArray);
 };
 
-updateMedList(localMedicationsArray, medList);
-
-// ---------- Exercise & Habit Trackers ---------- //
-
-// const newExerciseInput = document.getElementById("newExercise");
-// const addExerciseBtn = document.getElementById("addExerciseBtn");
-// const exerciseList = document.getElementById("exerciseList");
-
-// const newHabitInput = document.getElementById("newHabit");
-// const addHabitBtn = document.getElementById("addHabitBtn");
-// const habitList = document.getElementById("habitList");
+updateMedList(medicationsArray, medList);
 
 const addItem = (sectionArray, input, addBtn, listElement) => {
   addBtn.addEventListener("click", () => {
     addItemToArray(sectionArray, input, listElement);
     console.log("New item added to section!");
-    console.log(dailyEntryObj.exercises);
   });
 };
 
@@ -373,20 +322,13 @@ function populateForm() {
 }
 
 // Calling function for adding items to medication section
-addMedItem(
-  localMedicationsArray,
-  medInput,
-  countInput,
-  addMedBtn,
-  medList,
-  "medicationsArray"
-);
+addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
 
 // Calling function for adding items to exercise section
-addItem(localExercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
+addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
 
 // Calling function for adding items to habit section
-addItem(localHabitsArray, newHabitInput, addHabitBtn, habitList);
+addItem(habitsArray, newHabitInput, addHabitBtn, habitList);
 
 // Listening for flag click
 flagClick(flag);
@@ -395,18 +337,23 @@ flagClick(flag);
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  updateJournalEntry(journalInput);
 
-  dailyEntryObj.date = currentDate.value;
-  dailyEntryObj.emotionTracker = radioValue("emotionTracker");
-  dailyEntryObj.waterTracker = radioValue("waterTracker");
-  dailyEntryObj.medications = medList.innerText;
-  dailyEntryObj.exercises = exerciseList.innerText;
-  dailyEntryObj.habits = habitList.innerText;
+  let dailyEntryObj = {
+    date: currentDate.value,
+    journal: updateJournalEntry(journalInput),
+    emotionTracker: radioValue("emotionTracker"),
+    waterTracker: radioValue("waterTracker"),
+    medications: medList.innerText,
+    exercises: exerciseList.innerText,
+    habits: habitList.innerText,
+  };
+
+  entriesArray.push(dailyEntryObj);
+
+  localStorage.setItem(entriesArray, JSON.stringify(entriesArray));
 
   console.log("Form Submitted: ", dailyEntryObj);
-  console.log(localMedicationsArray, localExercisesArray, localHabitsArray);
-  saveData(dailyEntryObj);
+  console.log(entriesArray);
 });
 
 // ---------- Weather ---------- //
