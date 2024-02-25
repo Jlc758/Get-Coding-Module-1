@@ -81,6 +81,7 @@ let dailyEntryObj = {
 document.addEventListener("DOMContentLoaded", () => {
   try {
     populateForm();
+    updateMedList(medicationsArray, medList);
   } catch (error) {
     console.error(error);
   }
@@ -192,11 +193,12 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
       medArray.push(medObject);
       // localStorage.setItem(medArray.JSON.stringify(medObject));
 
-      medicationsArray.push(medList.innerText);
       updateMedList(medArray, medList);
       medInput.value = "";
       countInput.value = "";
     }
+
+    // console.log("Stored Medication Data:", medArray);
   });
 }
 
@@ -215,7 +217,7 @@ const updateMedList = (medArray, medList) => {
   console.log(medArray);
 };
 
-updateMedList(medicationsArray, medList);
+// updateMedList(medicationsArray, medList);
 
 // ---------- Exercises & Habits ---------- //
 
@@ -394,28 +396,30 @@ form.addEventListener("submit", (event) => {
     journal: updateJournalEntry(journalInput),
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: medList.innerText,
-    exercises: exerciseList.innerText,
-    habits: habitList.innerText,
+    medications: medicationsArray,
+    exercises: exercisesArray,
+    habits: habitsArray,
   };
+
+  // ^ this converts the values to strings before storing.
 
   entriesArray.push(dailyEntryObj);
   localStorage.setItem("entriesArray", JSON.stringify(entriesArray));
 
-  // Retrieve existing arrays from local storage
-  medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
-  exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
-  habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
+  // // Retrieve existing arrays from local storage
+  // medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
+  // exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+  // habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
-  // Concatenate the new data to the existing arrays
-  medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
-  exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
-  habitsArray = habitsArray.concat(dailyEntryObj.habits);
+  // // Concatenate the new data to the existing arrays
+  // medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
+  // exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
+  // habitsArray = habitsArray.concat(dailyEntryObj.habits);
 
   // Save the updated arrays to local storage
-  localStorage.setItem("medicationsArray", JSON.stringify(medicationsArray));
-  localStorage.setItem("exercisesArray", JSON.stringify(exercisesArray));
-  localStorage.setItem("habitsArray", JSON.stringify(habitsArray));
+  localStorage.setItem(medKey, JSON.stringify(medicationsArray));
+  localStorage.setItem(exKey, JSON.stringify(exercisesArray));
+  localStorage.setItem(habKey, JSON.stringify(habitsArray));
 
   console.log("Form Submitted: ", dailyEntryObj);
   console.log(entriesArray, medicationsArray, exercisesArray, habitsArray);
