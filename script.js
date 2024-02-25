@@ -82,6 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     populateForm();
     updateMedList(medicationsArray, medList);
+    updateList(exercisesArray, exerciseList);
+    updateList(habitsArray, habitList);
   } catch (error) {
     console.error(error);
   }
