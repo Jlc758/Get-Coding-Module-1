@@ -22,11 +22,6 @@ const habitList = document.getElementById("habitList");
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
 
-// // ---------- Global Arrays ---------- //
-// let medicationsArray = [];
-// let exercisesArray = [];
-// let habitsArray = [];
-
 // ---------- Local Storage Arrays ---------- //
 
 // Keys for local storage
@@ -41,60 +36,35 @@ let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
 let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
-// let dailyEntriesArray = JSON.parse(localStorage.getItem("dailyEntriesArray")) || [];
-
-// let medicationsArray =
-//   JSON.parse(localStorage.getItem("medicationsArray")) || [];
-// let exercisesArray =
-//   JSON.parse(localStorage.getItem("exercisesArray")) || [];
-// let habitsArray = JSON.parse(localStorage.getItem("habitsArray")) || [];
-// console.log(medicationsArray);
-
-// ---------- Local Storage ---------- //
-let saveEntry = {};
-
-// Saving to local storage
-// const saveUniqueItem = (input, date, globalArray, localArray) => {
+// Retrieving from local storage
+// const loadEntries = () => {
 //   try {
-//     if (!globalArray.includes(input)) {
-//       globalArray.push(input);
-
-//       localStorage.setItem(localArray, JSON.stringify(globalArray));
-//     }
+//     let storedData = localStorage.getItem("dailyEntries");
+//     return storedData ? JSON.parse(storedData) : [];
 //   } catch (error) {
-//     console.error("Error saving unique data to ");
+//     console.error("Error loading data from localStorage", error);
 //   }
 // };
-// const saveData = (dailyEntryObj) => {
-// Check if any data already exists in local storage
-// try {
-//   const existingData = localStorage.getItem("dailyEntries");
-//   let dataToStore = existingData ? JSON.parse(existingData) : [];
-//   dataToStore.push(dailyEntryObj);
-//   // Add new data object to the existing data array for the selected date
-//   localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
-// } catch (error) {
-//   console.error("Error saving data to localStorage", error);
-// }
-// };
-// ! I don't think this makes sense since it does not reference daily entry as being saved on a specific date
 
-// Retrieving from local storage
-const loadEntries = () => {
-  try {
-    let storedData = localStorage.getItem("dailyEntries");
-    return storedData ? JSON.parse(storedData) : [];
-  } catch (error) {
-    console.error("Error loading data from localStorage", error);
+const loadEntryData = () => {
+  const storedData = localStorage.getItem("dailyEntries");
+  if (storedData) {
+    const loadedEntries = JSON.parse(storedData);
+    const foundEntry = loadedEntries.find(
+      (entry) => entry.date === currentDate.value
+    );
+
+    return foundEntry;
   }
 };
 
-const dailyEntries = loadEntries();
-console.log(dailyEntries);
+const foundEntry = loadEntryData();
 
-const foundEntry = dailyEntries.find(
-  (entry) => entry.date === currentDate.value
-);
+console.log(foundEntry);
+
+// const foundEntry = dailyEntries.find(
+//   (entry) => entry.date === currentDate.value
+// );
 
 let dailyEntryObj = {
   date: currentDate.value,
@@ -206,6 +176,8 @@ const reverseRadioValue = (name) => {
   }
 };
 
+// ---------- Medications ---------- //
+
 function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
   addMedBtn.addEventListener("click", (event) => {
     event.preventDefault();
@@ -218,8 +190,9 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
         MedCount: newMedCountValue,
       };
       medArray.push(medObject);
-      localStorage.setItem(medArray.JSON.stringify(medObject));
+      // localStorage.setItem(medArray.JSON.stringify(medObject));
 
+      medicationsArray.push(medList.innerText);
       updateMedList(medArray, medList);
       medInput.value = "";
       countInput.value = "";
@@ -243,6 +216,8 @@ const updateMedList = (medArray, medList) => {
 };
 
 updateMedList(medicationsArray, medList);
+
+// ---------- Exercises & Habits ---------- //
 
 const addItem = (sectionArray, input, addBtn, listElement) => {
   addBtn.addEventListener("click", () => {
@@ -279,82 +254,6 @@ const updateList = (sectionArray, listElement) => {
   });
   listElement.appendChild(fragment);
 };
-
-// --------- Function Execution, Event Handling, & Form Submission --------- //
-
-function populateForm() {
-  const dailyEntryObj = foundEntry
-    ? foundEntry
-    : {
-        date: currentDate.value,
-        weather: "",
-        journal: "",
-        isFlagged: false,
-        emotionTracker: "",
-        waterTracker: "",
-        medications: [],
-        exercises: [],
-        habits: [],
-      };
-  if (foundEntry) {
-    currentDate.value = dailyEntryObj.date;
-    // weather
-    journalInput.value = dailyEntryObj.journal;
-    foundEntry.isFlagged = dailyEntryObj.isFlagged;
-    reverseRadioValue(emotionTracker);
-    reverseRadioValue(waterTracker);
-    medList.textContent = dailyEntryObj.medications
-      .map((med) => `<li>${med}</li>`)
-      .join("");
-    exerciseList.textContent = dailyEntryObj.exercises
-      .map((ex) => `<li>${ex}</li>`)
-      .join("");
-    habitList.textContent = dailyEntryObj.habits
-      .map((hab) => `<li>${hab}</li>`)
-      .join("");
-
-    if (dailyEntryObj.isFlagged) {
-      flag.classList.add("flagged");
-    } else {
-      flag.classList.remove("flagged");
-    }
-  }
-}
-
-// Calling function for adding items to medication section
-addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
-
-// Calling function for adding items to exercise section
-addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
-
-// Calling function for adding items to habit section
-addItem(habitsArray, newHabitInput, addHabitBtn, habitList);
-
-// Listening for flag click
-flagClick(flag);
-
-// ---------- Submit Daily Entry ---------- //
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  let dailyEntryObj = {
-    date: currentDate.value,
-    journal: updateJournalEntry(journalInput),
-    emotionTracker: radioValue("emotionTracker"),
-    waterTracker: radioValue("waterTracker"),
-    medications: medList.innerText,
-    exercises: exerciseList.innerText,
-    habits: habitList.innerText,
-  };
-
-  entriesArray.push(dailyEntryObj);
-
-  localStorage.setItem(entriesArray, JSON.stringify(entriesArray));
-
-  console.log("Form Submitted: ", dailyEntryObj);
-  console.log(entriesArray);
-});
 
 // ---------- Weather ---------- //
 
@@ -428,6 +327,99 @@ async function fetchData(currentLat, currentLon) {
     console.error("Fetch error:", error);
   }
 }
+
+// --------- Function Execution, Event Handling, & Form Submission --------- //
+
+function populateForm() {
+  const dailyEntryObj = foundEntry
+    ? foundEntry
+    : {
+        date: currentDate.value,
+        weather: "",
+        journal: "",
+        isFlagged: false,
+        emotionTracker: "",
+        waterTracker: "",
+        medications: [],
+        exercises: [],
+        habits: [],
+      };
+  if (foundEntry) {
+    currentDate.value = dailyEntryObj.date;
+    // weather
+    journalInput.value = dailyEntryObj.journal;
+    foundEntry.isFlagged = dailyEntryObj.isFlagged;
+    reverseRadioValue(emotionTracker);
+    reverseRadioValue(waterTracker);
+    medList.textContent = dailyEntryObj.medications
+      .map((med) => `<li>${med}</li>`)
+      .join("");
+    exerciseList.textContent = dailyEntryObj.exercises
+      .map((ex) => `<li>${ex}</li>`)
+      .join("");
+    habitList.textContent = dailyEntryObj.habits
+      .map((hab) => `<li>${hab}</li>`)
+      .join("");
+
+    if (dailyEntryObj.isFlagged) {
+      flag.classList.add("flagged");
+    } else {
+      flag.classList.remove("flagged");
+    }
+  }
+}
+
+// Calling function for adding items to medication section
+
+loadEntryData();
+
+addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
+
+// Calling function for adding items to exercise section
+addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
+
+// Calling function for adding items to habit section
+addItem(habitsArray, newHabitInput, addHabitBtn, habitList);
+
+// Listening for flag click
+flagClick(flag);
+
+// ---------- Submit Daily Entry ---------- //
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  let dailyEntryObj = {
+    date: currentDate.value,
+    journal: updateJournalEntry(journalInput),
+    emotionTracker: radioValue("emotionTracker"),
+    waterTracker: radioValue("waterTracker"),
+    medications: medList.innerText,
+    exercises: exerciseList.innerText,
+    habits: habitList.innerText,
+  };
+
+  entriesArray.push(dailyEntryObj);
+  localStorage.setItem("entriesArray", JSON.stringify(entriesArray));
+
+  // Retrieve existing arrays from local storage
+  medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
+  exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+  habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
+
+  // Concatenate the new data to the existing arrays
+  medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
+  exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
+  habitsArray = habitsArray.concat(dailyEntryObj.habits);
+
+  // Save the updated arrays to local storage
+  localStorage.setItem("medicationsArray", JSON.stringify(medicationsArray));
+  localStorage.setItem("exercisesArray", JSON.stringify(exercisesArray));
+  localStorage.setItem("habitsArray", JSON.stringify(habitsArray));
+
+  console.log("Form Submitted: ", dailyEntryObj);
+  console.log(entriesArray, medicationsArray, exercisesArray, habitsArray);
+});
 
 // ------------- All Entries Page -------------- //
 // let allEntriesList = document.getElementById("allEntriesList");
