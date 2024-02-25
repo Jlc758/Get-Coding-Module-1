@@ -257,6 +257,7 @@ const updateList = (sectionArray, listElement) => {
     fragment.appendChild(newItem); // append the new item to the fragment
   });
   listElement.appendChild(fragment);
+  console.log(sectionArray);
 };
 
 // ---------- Weather ---------- //
@@ -351,7 +352,7 @@ function populateForm() {
   if (foundEntry) {
     currentDate.value = dailyEntryObj.date;
     // weather
-    journalInput.value = dailyEntryObj.journal;
+    journalInput.textContent = dailyEntryObj.journal;
     foundEntry.isFlagged = dailyEntryObj.isFlagged;
     reverseRadioValue(emotionTracker);
     reverseRadioValue(waterTracker);
@@ -395,7 +396,7 @@ form.addEventListener("submit", (event) => {
 
   let dailyEntryObj = {
     date: currentDate.value,
-    journal: updateJournalEntry(journalInput),
+    journal: journalInput.value,
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
     medications: medicationsArray,
