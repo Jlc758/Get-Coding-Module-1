@@ -78,17 +78,6 @@ let dailyEntryObj = {
 
 document.addEventListener("DOMContentLoaded", () => {
   dailyEntryObj;
-  // const dailyEntryObj = {
-  //   date: currentDate.value,
-  //   weather: "",
-  //   journal: "",
-  //   isFlagged: false,
-  //   emotionTracker: "",
-  //   waterTracker: "",
-  //   medications: [],
-  //   exercises: [],
-  //   habits: [],
-  // };
 
   populateForm();
 
@@ -120,6 +109,9 @@ currentDate.addEventListener("change", () => {
   } catch (error) {
     console.error(error);
   }
+
+  // Save the modified data back to the localStorage
+  saveData(foundEntry ? foundEntry : dailyEntryObj);
 });
 
 // // DOM Variables
