@@ -22,7 +22,12 @@ const habitList = document.getElementById("habitList");
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
 
-// ---------- Global Arrays ---------- //
+// // ---------- Global Arrays ---------- //
+// let medicationsArray = [];
+// let exercisesArray = [];
+// let habitsArray = [];
+
+// ---------- Local Storage Arrays ---------- //
 let localMedicationsArray =
   JSON.parse(localStorage.getItem("medicationsArray")) || [];
 let localExercisesArray =
@@ -33,19 +38,40 @@ console.log(localMedicationsArray);
 // ---------- Local Storage ---------- //
 
 // Saving to local storage
-const saveData = (dailyEntryObj) => {
-  // Check if any data already exists in local storage
+const saveUniqueItem = (input, date, globalArray, localArray) => {
   try {
-    const existingData = localStorage.getItem("dailyEntries");
-    let dataToStore = existingData ? JSON.parse(existingData) : [];
-    dataToStore.push(dailyEntryObj);
+    if (!globalArray.includes(input)) {
+      globalArray.push(input);
 
-    // Add new data object to the existing data array for the selected date
-    localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+      localStorage.setItem(localArray, JSON.stringify(globalArray));
+
+      if (!date) {
+        populateForm();
+
+        // dailyEntryObj.date.value = date;
+        // dailyEntryObj.objectKey.push = input;
+      } else {
+        console.error(error, "This date already has a saved entry.");
+      }
+    }
   } catch (error) {
-    console.error("Error saving data to localStorage", error);
+    console.error("Error saving unique data to ");
   }
 };
+// const saveData = (dailyEntryObj) => {
+//   // Check if any data already exists in local storage
+//   try {
+//     const existingData = localStorage.getItem("dailyEntries");
+//     let dataToStore = existingData ? JSON.parse(existingData) : [];
+//     dataToStore.push(dailyEntryObj);
+
+//     // Add new data object to the existing data array for the selected date
+//     localStorage.setItem("dailyEntries", JSON.stringify(dataToStore));
+//   } catch (error) {
+//     console.error("Error saving data to localStorage", error);
+//   }
+// };
+// ! I don't think this makes sense since it does not reference daily entry as being saved on a specific date
 
 // Retrieving from local storage
 const loadEntries = () => {
