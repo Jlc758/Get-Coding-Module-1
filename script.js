@@ -78,7 +78,7 @@ let dailyEntryObj = {
   habits: [],
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(onload, () => {
   try {
     populateForm();
     updateMedList(medicationsArray, medList);
@@ -90,10 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
+let selectedDate = currentDate.value;
 
-currentDate.addEventListener("change", () => {
+selectedDate.addEventListener("change", () => {
   try {
-    populateForm();
+    populateForm(currentDate.value);
   } catch (error) {
     console.error(error);
   }
@@ -377,6 +378,8 @@ function populateForm() {
 // Calling function for adding items to medication section
 
 loadEntryData();
+
+populateForm();
 
 addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
 
