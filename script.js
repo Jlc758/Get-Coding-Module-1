@@ -90,11 +90,12 @@ document.addEventListener(onload, () => {
 });
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
-let selectedDate = currentDate.value;
+let dateElement = document.getElementById("date");
 
-selectedDate.addEventListener("change", () => {
+dateElement.addEventListener("change", (selectedDate) => {
   try {
-    populateForm(currentDate.value);
+    let selectedDate = dateElement.value;
+    populateForm(selectedDate);
   } catch (error) {
     console.error(error);
   }
@@ -123,7 +124,6 @@ const deleteButton = (sectionArray, index, listElement) => {
   let deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
-
   deleteButton.addEventListener("click", () => {
     sectionArray.splice(index, 1); //delete using index
     if (listElement.id === "medList") {
@@ -336,7 +336,9 @@ async function fetchData(currentLat, currentLon) {
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
-function populateForm() {
+function populateForm(selectedDate) {
+  let foundEntry = loadEntryData(selectedDate);
+
   const dailyEntryObj = foundEntry
     ? foundEntry
     : {
@@ -357,15 +359,15 @@ function populateForm() {
     foundEntry.isFlagged = dailyEntryObj.isFlagged;
     reverseRadioValue(emotionTracker);
     reverseRadioValue(waterTracker);
-    medList.textContent = dailyEntryObj.medications
-      .map((med) => `<li>${med}</li>`)
-      .join("");
-    exerciseList.textContent = dailyEntryObj.exercises
-      .map((ex) => `<li>${ex}</li>`)
-      .join("");
-    habitList.textContent = dailyEntryObj.habits
-      .map((hab) => `<li>${hab}</li>`)
-      .join("");
+    medList.textContent = Array.isArray(dailyEntryObj.medications)
+      ? dailyEntryObj.medications.map((med) => `<li>${med}</li>`).join("")
+      : "";
+    exerciseList.textContent = Array.isArray(dailyEntryObj.exercises)
+      ? dailyEntryObj.exercises.map((ex) => `<li>${ex}</li>`).join("")
+      : "";
+    habitList.textContent = Array.isArray(dailyEntryObj.habits)
+      ? dailyEntryObj.habits.map((hab) => `<li>${hab}</li>`).join("")
+      : "";
 
     if (dailyEntryObj.isFlagged) {
       flag.classList.add("flagged");
