@@ -46,21 +46,21 @@ let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 //   }
 // };
 
-const loadEntryData = () => {
-  const storedData = localStorage.getItem("dailyEntries");
-  if (storedData) {
-    const loadedEntries = JSON.parse(storedData);
-    const foundEntry = loadedEntries.find(
-      (entry) => entry.date === currentDate.value
-    );
+// const loadEntryData = () => {
+//   const storedData = localStorage.getItem("dailyEntries");
+//   if (storedData) {
+//     const loadedEntries = JSON.parse(storedData);
+//     const foundEntry = loadedEntries.find(
+//       (entry) => entry.date === currentDate.value
+//     );
 
-    return foundEntry;
-  }
-};
+//     return foundEntry;
+//   }
+// };
 
-const foundEntry = loadEntryData();
+// const foundEntry = loadEntryData();
 
-console.log(foundEntry);
+// console.log(foundEntry);
 
 // const foundEntry = dailyEntries.find(
 //   (entry) => entry.date === currentDate.value
@@ -263,6 +263,9 @@ const updateList = (sectionArray, listElement) => {
 
 // ---------- Weather ---------- //
 
+let currentLat;
+let currentLon;
+
 // Weather API
 window.onload = function currentLocation() {
   if (navigator.geolocation) {
@@ -273,8 +276,8 @@ window.onload = function currentLocation() {
 };
 
 const showPosition = (position) => {
-  let currentLat = position.coords.latitude;
-  let currentLon = position.coords.longitude;
+  currentLat = position.coords.latitude;
+  currentLon = position.coords.longitude;
   fetchData(currentLat, currentLon);
 
   const refreshLocationBtn = document.getElementById("refreshLocationBtn");
@@ -285,6 +288,13 @@ const showPosition = (position) => {
 };
 
 async function fetchData(currentLat, currentLon) {
+  // check if currentLat & currentLon are defined
+  if (currentLat === undefined || currentLon === undefined) {
+    // if not defined, wait fora  short period and then retry
+    setTimeout(() => fetchData(currentLat, currentLon), 1000);
+    return;
+  }
+
   const weatherAPIKey = "f8c05dc88b6f863790f21354538cb343";
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${currentLat}&lon=${currentLon}&appid=${weatherAPIKey}`;
 
@@ -336,50 +346,96 @@ async function fetchData(currentLat, currentLon) {
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
-function populateForm(selectedDate) {
-  let foundEntry = loadEntryData(selectedDate);
+function populateForm() {
+  // This is the date to look for in dailyEntryObj objects within entriesArray
+  let targetDate = currentDate.value;
 
-  const dailyEntryObj = foundEntry
-    ? foundEntry
-    : {
-        date: currentDate.value,
-        weather: "",
-        journal: "",
-        isFlagged: false,
-        emotionTracker: "",
-        waterTracker: "",
-        medications: [],
-        exercises: [],
-        habits: [],
-      };
+  // Find the entry with the target date
+  let foundEntry = entriesArray.find(
+    (entry) => entry.dailyEntryObj && entry.dailyEntryObj.date === targetDate
+  );
+
   if (foundEntry) {
-    currentDate.value = dailyEntryObj.date;
-    // weather
-    journalInput.textContent = dailyEntryObj.journal;
-    foundEntry.isFlagged = dailyEntryObj.isFlagged;
-    reverseRadioValue(emotionTracker);
-    reverseRadioValue(waterTracker);
-    medList.textContent = Array.isArray(dailyEntryObj.medications)
-      ? dailyEntryObj.medications.map((med) => `<li>${med}</li>`).join("")
-      : "";
-    exerciseList.textContent = Array.isArray(dailyEntryObj.exercises)
-      ? dailyEntryObj.exercises.map((ex) => `<li>${ex}</li>`).join("")
-      : "";
-    habitList.textContent = Array.isArray(dailyEntryObj.habits)
-      ? dailyEntryObj.habits.map((hab) => `<li>${hab}</li>`).join("")
-      : "";
+    let savedDate = foundEntry.dailyEntryObj.date;
+    let savedWeather = foundEntry.dailyEntryObj.weather;
+    let savedJournal = foundEntry.dailyEntryObj.journal;
+    let savedFlag = foundEntry.dailyEntryObj.isFlagged;
+    let savedEmotion = foundEntry.dailyEntryObj.emotionTracker;
+    let savedWater = foundEntry.dailyEntryObj.waterTracker;
+    let savedMedObj = foundEntry.dailyEntryObj.medications;
+    let savedExercises = foundEntry.dailyEntryObj.exercises;
+    let savedHabits = foundEntry.dailyEntryObj.habits;
 
-    if (dailyEntryObj.isFlagged) {
-      flag.classList.add("flagged");
-    } else {
-      flag.classList.remove("flagged");
-    }
+    console.log(
+      savedDate,
+      savedWeather,
+      savedJournal,
+      savedFlag,
+      savedEmotion,
+      savedWater,
+      savedMedObj,
+      savedExercises,
+      savedHabits
+    );
+  } else {
+    fetchData(currentLat, currentLon);
+
+    dailyEntryObj = {
+      date: currentDate.value,
+      weather: "",
+      journal: "",
+      isFlagged: false,
+      emotionTracker: "",
+      waterTracker: "",
+      medications: [],
+      exercises: [],
+      habits: [],
+    };
   }
 }
 
+// function populateForm() {
+//   const dailyEntryObj = foundEntry
+//     ? foundEntry
+//     : {
+//         date: currentDate.value,
+//         weather: "",
+//         journal: "",
+//         isFlagged: false,
+//         emotionTracker: "",
+//         waterTracker: "",
+//         medications: [],
+//         exercises: [],
+//         habits: [],
+//       };
+//   if (foundEntry) {
+//     // currentDate.value = savedDate;
+//     // weather
+//     journalInput.textContent = dailyEntryObj.journal;
+//     foundEntry.isFlagged = dailyEntryObj.isFlagged;
+//     reverseRadioValue(emotionTracker);
+//     reverseRadioValue(waterTracker);
+//     medList.textContent = Array.isArray(dailyEntryObj.medications)
+//       ? dailyEntryObj.medications.map((med) => `<li>${med}</li>`).join("")
+//       : "";
+//     exerciseList.textContent = Array.isArray(dailyEntryObj.exercises)
+//       ? dailyEntryObj.exercises.map((ex) => `<li>${ex}</li>`).join("")
+//       : "";
+//     habitList.textContent = Array.isArray(dailyEntryObj.habits)
+//       ? dailyEntryObj.habits.map((hab) => `<li>${hab}</li>`).join("")
+//       : "";
+
+//     if (dailyEntryObj.isFlagged) {
+//       flag.classList.add("flagged");
+//     } else {
+//       flag.classList.remove("flagged");
+//     }
+//   }
+// }
+
 // Calling function for adding items to medication section
 
-loadEntryData();
+// loadEntryData();
 
 populateForm();
 
