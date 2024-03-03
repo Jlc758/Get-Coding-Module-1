@@ -78,8 +78,15 @@ let dailyEntryObj = {
   habits: [],
 };
 
-document.addEventListener(onload, () => {
+document.addEventListener("DOMContentLoaded", () => {
   try {
+    console.log("Onload");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+
     populateForm();
     updateMedList(medicationsArray, medList);
     updateList(exercisesArray, exerciseList);
@@ -92,10 +99,9 @@ document.addEventListener(onload, () => {
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
 let dateElement = document.getElementById("date");
 
-dateElement.addEventListener("change", (selectedDate) => {
+dateElement.addEventListener("change", () => {
   try {
-    let selectedDate = dateElement.value;
-    populateForm(selectedDate);
+    populateForm();
   } catch (error) {
     console.error(error);
   }
@@ -120,12 +126,18 @@ accordionItems.forEach((item) => {
 
 // ---------- General Functions ---------- //
 
-const deleteButton = (sectionArray, index, listElement) => {
+const deleteButton = (sectionArray, index, listElement, key) => {
   let deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
+  console.log("section array:", sectionArray);
   deleteButton.addEventListener("click", () => {
     sectionArray.splice(index, 1); //delete using index
+    console.log("section array spliced:", sectionArray);
+
+    localStorage.setItem(key, JSON.stringify(sectionArray));
+
+    // ! save to local storage
     if (listElement.id === "medList") {
       // if it's in the medication list, call updateMedList
       updateMedList(sectionArray, listElement);
@@ -169,20 +181,31 @@ const radioValue = (name) => {
   return "";
 };
 
-const reverseRadioValue = (name) => {
+const reverseRadioValue = (name, value) => {
   const radios = document.getElementsByName(name);
+  console.log("Radio value name", name);
+  console.log("Radio value ", value);
+  // for (let radio of radios) {
+  console.log("Radio ", radios);
   for (let radio of radios) {
-    for (let i = 1; i <= 5; i++) {
-      if (i === dailyEntryObj.radio.value) {
-        radio.checked === true;
-      }
+    if (radio.value === value) {
+      radio.checked = true;
     }
   }
+
+  // for (let i = 0; i < radios.length; i++) {
+  //   console.log(radios[i].value);
+  //   console.log(radios[i].value === value);
+  //   if (radios[i].value === value) {
+  //     radios[i].checked = true;
+  //   }
+  // }
+  // // }
 };
 
 // ---------- Medications ---------- //
 
-function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
+function addMedItem(medArray, medInput, countInput, addMedBtn, medList, key) {
   addMedBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newMedItemValue = medInput.value.trim();
@@ -194,9 +217,9 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
         MedCount: newMedCountValue,
       };
       medArray.push(medObject);
-      // localStorage.setItem(medArray.JSON.stringify(medObject));
+      localStorage.setItem(key, JSON.stringify(medArray));
 
-      updateMedList(medArray, medList);
+      updateMedList(medArray, medList, key);
       medInput.value = "";
       countInput.value = "";
     }
@@ -205,14 +228,15 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList) {
   });
 }
 
-const updateMedList = (medArray, medList) => {
+const updateMedList = (medArray, medList, key) => {
+  console.log("This is the med list");
   medList.textContent = "";
   const fragment = document.createDocumentFragment();
 
   medArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-    let deleteBtn = deleteButton(medArray, index, medList); //pass index here
+    let deleteBtn = deleteButton(medArray, index, medList, key); //pass index here
     newItem.append(deleteBtn);
     fragment.appendChild(newItem);
   });
@@ -224,31 +248,35 @@ const updateMedList = (medArray, medList) => {
 
 // ---------- Exercises & Habits ---------- //
 
-const addItem = (sectionArray, input, addBtn, listElement) => {
+const addItem = (sectionArray, input, addBtn, listElement, key) => {
   addBtn.addEventListener("click", () => {
-    addItemToArray(sectionArray, input, listElement);
+    addItemToArray(sectionArray, input, listElement, key);
     console.log("New item added to section!");
   });
 };
 
-const addItemToArray = (sectionArray, input, listElement) => {
+const addItemToArray = (sectionArray, input, listElement, key) => {
   let newItemText = input.value.trim();
 
   if (newItemText) {
     sectionArray.push(newItemText);
-    updateList(sectionArray, listElement);
+    //! save to local storage
+
+    localStorage.setItem(key, JSON.stringify(sectionArray));
+    updateList(sectionArray, listElement, key);
     input.value = "";
   }
 };
 
-const updateList = (sectionArray, listElement) => {
+const updateList = (sectionArray, listElement, key) => {
   listElement.textContent = "";
   const fragment = document.createDocumentFragment();
+  // save local storage
 
   sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = updatedItem;
-    let deleteBtn = deleteButton(sectionArray, index, listElement); //pass index here
+    let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = "itemCheckbox";
@@ -267,13 +295,13 @@ let currentLat;
 let currentLon;
 
 // Weather API
-window.onload = function currentLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
-};
+// window.onload = function currentLocation() {
+// if (navigator.geolocation) {
+//   navigator.geolocation.getCurrentPosition(showPosition);
+// } else {
+//   console.log("Geolocation is not supported by this browser.");
+// }
+// };
 
 const showPosition = (position) => {
   currentLat = position.coords.latitude;
@@ -351,25 +379,33 @@ async function fetchData(currentLat, currentLon) {
 function populateForm() {
   // This is the date to look for in dailyEntryObj objects within entriesArray
   let targetDate = currentDate.value;
+  console.log("date: ", targetDate);
+
+  console.log("Entries Array", entriesArray);
 
   // Find the entry with the target date
-  let foundEntry = entriesArray.find(
-    (entry) => entry.dailyEntryObj && entry.dailyEntryObj.date === targetDate
-  );
+  let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+
+  console.log("Found Entry", foundEntry);
 
   if (foundEntry) {
-    let savedDate = foundEntry.dailyEntryObj.date;
-    let savedWeather = foundEntry.dailyEntryObj.weather;
-    let savedJournal = foundEntry.dailyEntryObj.journal;
-    let savedFlag = foundEntry.dailyEntryObj.isFlagged;
-    let savedEmotion = foundEntry.dailyEntryObj.emotionTracker;
-    let savedWater = foundEntry.dailyEntryObj.waterTracker;
-    let savedMedObj = foundEntry.dailyEntryObj.medications;
-    let savedExercises = foundEntry.dailyEntryObj.exercises;
-    let savedHabits = foundEntry.dailyEntryObj.habits;
+    let savedDate = foundEntry.date;
+    let savedWeather = foundEntry.weather;
+    let savedJournal = foundEntry.journal;
+    let savedFlag = foundEntry.isFlagged;
+    let savedEmotion = foundEntry.emotionTracker;
+    let savedWater = foundEntry.waterTracker;
+    let savedMedObj = foundEntry.medications;
+    let savedExercises = foundEntry.exercises;
+    let savedHabits = foundEntry.habits;
 
     currentDate.value = savedDate;
     journalInput.value = savedJournal;
+    reverseRadioValue("emotionTracker", savedEmotion);
+    reverseRadioValue("waterTracker", savedWater);
+    updateMedList(savedMedObj, medList);
+    updateList(savedExercises, exerciseList);
+    updateList(savedHabits, habitList);
 
     console.log(
       savedDate,
@@ -384,6 +420,9 @@ function populateForm() {
     );
   } else {
     form.reset();
+    updateMedList(medicationsArray, medList);
+    updateList(exercisesArray, exerciseList);
+    updateList(habitsArray, habitList);
     fetchData(currentLat, currentLon);
 
     dailyEntryObj = {
@@ -445,13 +484,13 @@ function populateForm() {
 
 populateForm();
 
-addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList);
+addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList, medKey);
 
 // Calling function for adding items to exercise section
-addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList);
+addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList, exKey);
 
 // Calling function for adding items to habit section
-addItem(habitsArray, newHabitInput, addHabitBtn, habitList);
+addItem(habitsArray, newHabitInput, addHabitBtn, habitList, habKey);
 
 // Listening for flag click
 flagClick(flag);
@@ -474,7 +513,7 @@ form.addEventListener("submit", (event) => {
   // ^ this converts the values to strings before storing.
 
   entriesArray.push(dailyEntryObj);
-  localStorage.setItem("entriesArray", JSON.stringify(entriesArray));
+  localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
   // Retrieve existing arrays from local storage
   medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
