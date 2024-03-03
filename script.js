@@ -356,6 +356,8 @@ function populateForm() {
   );
 
   if (foundEntry) {
+    form.reset();
+
     let savedDate = foundEntry.dailyEntryObj.date;
     let savedWeather = foundEntry.dailyEntryObj.weather;
     let savedJournal = foundEntry.dailyEntryObj.journal;
@@ -365,6 +367,9 @@ function populateForm() {
     let savedMedObj = foundEntry.dailyEntryObj.medications;
     let savedExercises = foundEntry.dailyEntryObj.exercises;
     let savedHabits = foundEntry.dailyEntryObj.habits;
+
+    //! Weather - need to figure this one out
+    journalInput.textContent = savedJournal;
 
     console.log(
       savedDate,
@@ -378,6 +383,7 @@ function populateForm() {
       savedHabits
     );
   } else {
+    form.reset();
     fetchData(currentLat, currentLon);
 
     dailyEntryObj = {
