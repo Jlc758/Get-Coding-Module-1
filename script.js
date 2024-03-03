@@ -318,6 +318,9 @@ async function fetchData(currentLat, currentLon) {
     const dataWeatherIcon = data.weather[0].icon;
     const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
 
+    // Handle the retrieved data
+    dailyEntryObj.weather = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
+
     // Create img element for the weather icon
     const weatherIconElement = document.createElement("img");
     weatherIconElement.src = dataWeatherUrl;
@@ -329,12 +332,11 @@ async function fetchData(currentLat, currentLon) {
     const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
 
     const dataWeatherResultsSection = document.getElementById("weatherResults");
-    dataWeatherResultsSection.textContent = dataWeatherResults;
+    dataWeatherResultsSection.textContent = dailyEntryObj.weather;
 
     // Append icon img to weather results
-    dataWeatherResultsSection.appendChild(weatherIconElement);
 
-    // dailyEntryObj.weather = dataWeatherResults;
+    dataWeatherResultsSection.appendChild(weatherIconElement);
 
     // Handle the retrieved data
     console.log(data);
@@ -356,8 +358,6 @@ function populateForm() {
   );
 
   if (foundEntry) {
-    form.reset();
-
     let savedDate = foundEntry.dailyEntryObj.date;
     let savedWeather = foundEntry.dailyEntryObj.weather;
     let savedJournal = foundEntry.dailyEntryObj.journal;
@@ -368,8 +368,8 @@ function populateForm() {
     let savedExercises = foundEntry.dailyEntryObj.exercises;
     let savedHabits = foundEntry.dailyEntryObj.habits;
 
-    //! Weather - need to figure this one out
-    journalInput.textContent = savedJournal;
+    currentDate.value = savedDate;
+    journalInput.value = savedJournal;
 
     console.log(
       savedDate,
@@ -476,15 +476,15 @@ form.addEventListener("submit", (event) => {
   entriesArray.push(dailyEntryObj);
   localStorage.setItem("entriesArray", JSON.stringify(entriesArray));
 
-  // // Retrieve existing arrays from local storage
-  // medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
-  // exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
-  // habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
+  // Retrieve existing arrays from local storage
+  medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
+  exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+  habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
-  // // Concatenate the new data to the existing arrays
-  // medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
-  // exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
-  // habitsArray = habitsArray.concat(dailyEntryObj.habits);
+  // Concatenate the new data to the existing arrays
+  medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
+  exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
+  habitsArray = habitsArray.concat(dailyEntryObj.habits);
 
   // Save the updated arrays to local storage
   localStorage.setItem(medKey, JSON.stringify(medicationsArray));
