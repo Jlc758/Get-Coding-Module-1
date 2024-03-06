@@ -251,6 +251,7 @@ const updateList = (sectionArray, listElement, key) => {
 
 let currentLat;
 let currentLon;
+// let dataWeatherResults;
 
 // Weather API
 // window.onload = function currentLocation() {
@@ -419,7 +420,9 @@ form.addEventListener("submit", (event) => {
 
   let dailyEntryObj = {
     date: currentDate.value,
+    weather: dataWeatherResults,
     journal: journalInput.value,
+    isFlagged: "",
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
     medications: medicationsArray,
