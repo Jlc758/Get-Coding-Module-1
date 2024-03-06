@@ -36,36 +36,6 @@ let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
 let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
-// Retrieving from local storage
-// const loadEntries = () => {
-//   try {
-//     let storedData = localStorage.getItem("dailyEntries");
-//     return storedData ? JSON.parse(storedData) : [];
-//   } catch (error) {
-//     console.error("Error loading data from localStorage", error);
-//   }
-// };
-
-// const loadEntryData = () => {
-//   const storedData = localStorage.getItem("dailyEntries");
-//   if (storedData) {
-//     const loadedEntries = JSON.parse(storedData);
-//     const foundEntry = loadedEntries.find(
-//       (entry) => entry.date === currentDate.value
-//     );
-
-//     return foundEntry;
-//   }
-// };
-
-// const foundEntry = loadEntryData();
-
-// console.log(foundEntry);
-
-// const foundEntry = dailyEntries.find(
-//   (entry) => entry.date === currentDate.value
-// );
-
 let dailyEntryObj = {
   date: currentDate.value,
   weather: "",
@@ -80,7 +50,7 @@ let dailyEntryObj = {
 
 document.addEventListener("DOMContentLoaded", () => {
   try {
-    console.log("Onload");
+    // console.log("Onload");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
     } else {
@@ -130,14 +100,12 @@ const deleteButton = (sectionArray, index, listElement, key) => {
   let deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
-  console.log("section array:", sectionArray);
   deleteButton.addEventListener("click", () => {
     sectionArray.splice(index, 1); //delete using index
     console.log("section array spliced:", sectionArray);
 
     localStorage.setItem(key, JSON.stringify(sectionArray));
 
-    // ! save to local storage
     if (listElement.id === "medList") {
       // if it's in the medication list, call updateMedList
       updateMedList(sectionArray, listElement);
@@ -183,24 +151,15 @@ const radioValue = (name) => {
 
 const reverseRadioValue = (name, value) => {
   const radios = document.getElementsByName(name);
-  console.log("Radio value name", name);
-  console.log("Radio value ", value);
+  // console.log("Radio value name", name);
+  // console.log("Radio value ", value);
   // for (let radio of radios) {
-  console.log("Radio ", radios);
+  // console.log("Radio ", radios);
   for (let radio of radios) {
     if (radio.value === value) {
       radio.checked = true;
     }
   }
-
-  // for (let i = 0; i < radios.length; i++) {
-  //   console.log(radios[i].value);
-  //   console.log(radios[i].value === value);
-  //   if (radios[i].value === value) {
-  //     radios[i].checked = true;
-  //   }
-  // }
-  // // }
 };
 
 // ---------- Medications ---------- //
@@ -229,7 +188,7 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList, key) {
 }
 
 const updateMedList = (medArray, medList, key) => {
-  console.log("This is the med list");
+  // console.log("This is the med list");
   medList.textContent = "";
   const fragment = document.createDocumentFragment();
 
@@ -241,7 +200,7 @@ const updateMedList = (medArray, medList, key) => {
     fragment.appendChild(newItem);
   });
   medList.appendChild(fragment);
-  console.log(medArray);
+  // console.log(medArray);
 };
 
 // updateMedList(medicationsArray, medList);
@@ -251,7 +210,7 @@ const updateMedList = (medArray, medList, key) => {
 const addItem = (sectionArray, input, addBtn, listElement, key) => {
   addBtn.addEventListener("click", () => {
     addItemToArray(sectionArray, input, listElement, key);
-    console.log("New item added to section!");
+    // console.log("New item added to section!");
   });
 };
 
@@ -260,7 +219,6 @@ const addItemToArray = (sectionArray, input, listElement, key) => {
 
   if (newItemText) {
     sectionArray.push(newItemText);
-    //! save to local storage
 
     localStorage.setItem(key, JSON.stringify(sectionArray));
     updateList(sectionArray, listElement, key);
@@ -286,7 +244,7 @@ const updateList = (sectionArray, listElement, key) => {
     fragment.appendChild(newItem); // append the new item to the fragment
   });
   listElement.appendChild(fragment);
-  console.log(sectionArray);
+  // console.log(sectionArray);
 };
 
 // ---------- Weather ---------- //
@@ -367,7 +325,7 @@ async function fetchData(currentLat, currentLon) {
     dataWeatherResultsSection.appendChild(weatherIconElement);
 
     // Handle the retrieved data
-    console.log(data);
+    // console.log(data);
   } catch (error) {
     // Handle any errors that occurred during the fetch
     console.error("Fetch error:", error);
@@ -381,7 +339,7 @@ function populateForm() {
   let targetDate = currentDate.value;
   console.log("date: ", targetDate);
 
-  console.log("Entries Array", entriesArray);
+  // console.log("Entries Array", entriesArray);
 
   // Find the entry with the target date
   let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
@@ -439,48 +397,7 @@ function populateForm() {
   }
 }
 
-// function populateForm() {
-//   const dailyEntryObj = foundEntry
-//     ? foundEntry
-//     : {
-//         date: currentDate.value,
-//         weather: "",
-//         journal: "",
-//         isFlagged: false,
-//         emotionTracker: "",
-//         waterTracker: "",
-//         medications: [],
-//         exercises: [],
-//         habits: [],
-//       };
-//   if (foundEntry) {
-//     // currentDate.value = savedDate;
-//     // weather
-//     journalInput.textContent = dailyEntryObj.journal;
-//     foundEntry.isFlagged = dailyEntryObj.isFlagged;
-//     reverseRadioValue(emotionTracker);
-//     reverseRadioValue(waterTracker);
-//     medList.textContent = Array.isArray(dailyEntryObj.medications)
-//       ? dailyEntryObj.medications.map((med) => `<li>${med}</li>`).join("")
-//       : "";
-//     exerciseList.textContent = Array.isArray(dailyEntryObj.exercises)
-//       ? dailyEntryObj.exercises.map((ex) => `<li>${ex}</li>`).join("")
-//       : "";
-//     habitList.textContent = Array.isArray(dailyEntryObj.habits)
-//       ? dailyEntryObj.habits.map((hab) => `<li>${hab}</li>`).join("")
-//       : "";
-
-//     if (dailyEntryObj.isFlagged) {
-//       flag.classList.add("flagged");
-//     } else {
-//       flag.classList.remove("flagged");
-//     }
-//   }
-// }
-
-// Calling function for adding items to medication section
-
-// loadEntryData();
+// ---------- Call Functions ---------- //
 
 populateForm();
 
@@ -515,20 +432,20 @@ form.addEventListener("submit", (event) => {
   entriesArray.push(dailyEntryObj);
   localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
-  // Retrieve existing arrays from local storage
-  medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
-  exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
-  habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
+  // // Retrieve existing arrays from local storage
+  // medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
+  // exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+  // habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
-  // Concatenate the new data to the existing arrays
-  medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
-  exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
-  habitsArray = habitsArray.concat(dailyEntryObj.habits);
+  // // Concatenate the new data to the existing arrays
+  // medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
+  // exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
+  // habitsArray = habitsArray.concat(dailyEntryObj.habits);
 
   // Save the updated arrays to local storage
-  localStorage.setItem(medKey, JSON.stringify(medicationsArray));
-  localStorage.setItem(exKey, JSON.stringify(exercisesArray));
-  localStorage.setItem(habKey, JSON.stringify(habitsArray));
+  // localStorage.setItem(medKey, JSON.stringify(medicationsArray));
+  // localStorage.setItem(exKey, JSON.stringify(exercisesArray));
+  // localStorage.setItem(habKey, JSON.stringify(habitsArray));
 
   console.log("Form Submitted: ", dailyEntryObj);
   console.log(entriesArray, medicationsArray, exercisesArray, habitsArray);
