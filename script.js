@@ -251,7 +251,7 @@ const updateList = (sectionArray, listElement, key) => {
 
 let currentLat;
 let currentLon;
-// let dataWeatherResults;
+let dataWeatherResultsSection;
 
 // Weather API
 // window.onload = function currentLocation() {
@@ -350,8 +350,10 @@ function populateForm() {
   if (foundEntry) {
     let savedDate = foundEntry.date;
     let savedWeather = foundEntry.weather;
+    console.log(savedWeather);
     let savedJournal = foundEntry.journal;
     let savedFlag = foundEntry.isFlagged;
+    console.log(savedFlag);
     let savedEmotion = foundEntry.emotionTracker;
     let savedWater = foundEntry.waterTracker;
     let savedMedObj = foundEntry.medications;
@@ -365,18 +367,6 @@ function populateForm() {
     updateMedList(savedMedObj, medList);
     updateList(savedExercises, exerciseList);
     updateList(savedHabits, habitList);
-
-    console.log(
-      savedDate,
-      savedWeather,
-      savedJournal,
-      savedFlag,
-      savedEmotion,
-      savedWater,
-      savedMedObj,
-      savedExercises,
-      savedHabits
-    );
   } else {
     form.reset();
     updateMedList(medicationsArray, medList);
@@ -400,6 +390,8 @@ function populateForm() {
 
 // ---------- Call Functions ---------- //
 
+fetchData(currentLat, currentLon);
+
 populateForm();
 
 addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList, medKey);
@@ -420,7 +412,7 @@ form.addEventListener("submit", (event) => {
 
   let dailyEntryObj = {
     date: currentDate.value,
-    weather: dataWeatherResults,
+    weather: "",
     journal: journalInput.value,
     isFlagged: "",
     emotionTracker: radioValue("emotionTracker"),
@@ -430,25 +422,12 @@ form.addEventListener("submit", (event) => {
     habits: habitsArray,
   };
 
+  console.log(dailyEntryObj.exercises);
+
   // ^ this converts the values to strings before storing.
 
   entriesArray.push(dailyEntryObj);
   localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
-
-  // // Retrieve existing arrays from local storage
-  // medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
-  // exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
-  // habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
-
-  // // Concatenate the new data to the existing arrays
-  // medicationsArray = medicationsArray.concat(dailyEntryObj.medications);
-  // exercisesArray = exercisesArray.concat(dailyEntryObj.exercises);
-  // habitsArray = habitsArray.concat(dailyEntryObj.habits);
-
-  // Save the updated arrays to local storage
-  // localStorage.setItem(medKey, JSON.stringify(medicationsArray));
-  // localStorage.setItem(exKey, JSON.stringify(exercisesArray));
-  // localStorage.setItem(habKey, JSON.stringify(habitsArray));
 
   console.log("Form Submitted: ", dailyEntryObj);
   console.log(entriesArray, medicationsArray, exercisesArray, habitsArray);
