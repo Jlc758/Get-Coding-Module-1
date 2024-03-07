@@ -210,7 +210,7 @@ const updateMedList = (medArray, medList, key) => {
 const addItem = (sectionArray, input, addBtn, listElement, key) => {
   addBtn.addEventListener("click", () => {
     addItemToArray(sectionArray, input, listElement, key);
-    // console.log("New item added to section!");
+    console.log("New item added to section!");
   });
 };
 
@@ -230,21 +230,25 @@ const updateList = (sectionArray, listElement, key) => {
   listElement.textContent = "";
   const fragment = document.createDocumentFragment();
   // save local storage
+  if (Array.isArray(sectionArray)) {
+    sectionArray.forEach((updatedItem, index) => {
+      let newItem = document.createElement("li");
+      newItem.textContent = updatedItem;
+      let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = "itemCheckbox${i}";
 
-  sectionArray.forEach((updatedItem, index) => {
-    let newItem = document.createElement("li");
-    newItem.textContent = updatedItem;
-    let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = "itemCheckbox";
+      newItem.append(checkbox, deleteBtn); // append the delete button to the new item
 
-    newItem.append(checkbox, deleteBtn); // append the delete button to the new item
+      listElement.appendChild(fragment);
+      fragment.appendChild(newItem); // append the new item to the fragment
+    });
 
-    fragment.appendChild(newItem); // append the new item to the fragment
-  });
-  listElement.appendChild(fragment);
-  // console.log(sectionArray);
+    // console.log(sectionArray);}
+  } else {
+    console.error("Section is not an array", sectionArray);
+  }
 };
 
 // ---------- Weather ---------- //
@@ -364,14 +368,14 @@ function populateForm() {
     journalInput.value = savedJournal;
     reverseRadioValue("emotionTracker", savedEmotion);
     reverseRadioValue("waterTracker", savedWater);
-    updateMedList(savedMedObj, medList);
-    updateList(savedExercises, exerciseList);
-    updateList(savedHabits, habitList);
+    updateMedList(savedMedObj, medList, medKey);
+    updateList(savedExercises, exerciseList, exKey);
+    updateList(savedHabits, habitList, habKey);
   } else {
     form.reset();
-    updateMedList(medicationsArray, medList);
-    updateList(exercisesArray, exerciseList);
-    updateList(habitsArray, habitList);
+    updateMedList(medicationsArray, medList, medKey);
+    updateList(exercisesArray, exerciseList, exKey);
+    updateList(habitsArray, habitList, habKey);
     fetchData(currentLat, currentLon);
 
     dailyEntryObj = {
