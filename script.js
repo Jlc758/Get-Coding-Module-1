@@ -151,10 +151,7 @@ const radioValue = (name) => {
 
 const reverseRadioValue = (name, value) => {
   const radios = document.getElementsByName(name);
-  // console.log("Radio value name", name);
-  // console.log("Radio value ", value);
-  // for (let radio of radios) {
-  // console.log("Radio ", radios);
+
   for (let radio of radios) {
     if (radio.value === value) {
       radio.checked = true;
@@ -182,8 +179,6 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList, key) {
       medInput.value = "";
       countInput.value = "";
     }
-
-    // console.log("Stored Medication Data:", medArray);
   });
 }
 
@@ -200,10 +195,7 @@ const updateMedList = (medArray, medList, key) => {
     fragment.appendChild(newItem);
   });
   medList.appendChild(fragment);
-  // console.log(medArray);
 };
-
-// updateMedList(medicationsArray, medList);
 
 // ---------- Exercises & Habits ---------- //
 
@@ -247,8 +239,6 @@ const updateList = (sectionArray, listElement, key) => {
       listElement.appendChild(fragment);
       fragment.appendChild(newItem); // append the new item to the fragment
     });
-
-    // console.log(sectionArray);}
   } else {
     console.error("Section is not an array", sectionArray);
   }
@@ -417,6 +407,10 @@ flagClick(flag);
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  let selectedExercises = Array.from(exerciseList).map(
+    (checkbox) => checkbox.value
+  );
+
   let dailyEntryObj = {
     date: currentDate.value,
     weather: "",
@@ -424,9 +418,9 @@ form.addEventListener("submit", (event) => {
     isFlagged: "",
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: selectedMedications,
+    // medications: selectedMedications,
     exercises: selectedExercises,
-    habits: selectedHabits,
+    // habits: selectedHabits,
   };
 
   console.log(dailyEntryObj.exercises);
