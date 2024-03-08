@@ -235,9 +235,12 @@ const updateList = (sectionArray, listElement, key) => {
       let newItem = document.createElement("li");
       newItem.textContent = updatedItem;
       let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
+
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.id = "itemCheckbox${i}";
+      checkbox.id = `${key}Checkbox${index}`;
+
+      console.log(checkbox);
 
       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
 
@@ -421,9 +424,9 @@ form.addEventListener("submit", (event) => {
     isFlagged: "",
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: medicationsArray,
-    exercises: exercisesArray,
-    habits: habitsArray,
+    medications: selectedMedications,
+    exercises: selectedExercises,
+    habits: selectedHabits,
   };
 
   console.log(dailyEntryObj.exercises);
