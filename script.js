@@ -161,7 +161,14 @@ const reverseRadioValue = (name, value) => {
 
 // ---------- Medications ---------- //
 
-function addMedItem(medArray, medInput, countInput, addMedBtn, medList, key) {
+function addMedItem(
+  medicationsArray,
+  medInput,
+  countInput,
+  addMedBtn,
+  medList,
+  key
+) {
   addMedBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newMedItemValue = medInput.value.trim();
@@ -172,25 +179,25 @@ function addMedItem(medArray, medInput, countInput, addMedBtn, medList, key) {
         MedText: newMedItemValue,
         MedCount: newMedCountValue,
       };
-      medArray.push(medObject);
-      localStorage.setItem(key, JSON.stringify(medArray));
+      medicationsArray.push(medObject);
+      localStorage.setItem(key, JSON.stringify(medicationsArray));
 
-      updateMedList(medArray, medList, key);
+      updateMedList(medicationsArray, medList, key);
       medInput.value = "";
       countInput.value = "";
     }
   });
 }
 
-const updateMedList = (medArray, medList, key) => {
+const updateMedList = (medicationsArray, medList, key) => {
   // console.log("This is the med list");
   medList.textContent = "";
   const fragment = document.createDocumentFragment();
 
-  medArray.forEach((updatedItem, index) => {
+  medicationsArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-    let deleteBtn = deleteButton(medArray, index, medList, key); //pass index here
+    let deleteBtn = deleteButton(medicationsArray, index, medList, key); //pass index here
     newItem.append(deleteBtn);
     fragment.appendChild(newItem);
   });
@@ -237,14 +244,29 @@ const updateList = (sectionArray, listElement, key) => {
       console.log(checkbox);
 
       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
-
-      listElement.appendChild(fragment);
       fragment.appendChild(newItem); // append the new item to the fragment
+      listElement.appendChild(fragment);
     });
   } else {
     console.error("Section is not an array", sectionArray);
   }
 };
+
+// ---------- Checkboxes ---------- //
+
+let checkboxStates = {};
+
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener("change", updateCheckboxState);
+});
+
+function updateCheckboxState() {
+  checkboxes.forEach((checkbox) => {
+    checkboxStates[checkbox.id] = checkbox.checked;
+  });
+}
 
 // ---------- Weather ---------- //
 
