@@ -198,7 +198,12 @@ const updateMedList = (medicationsArray, medList, key) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
     let deleteBtn = deleteButton(medicationsArray, index, medList, key); //pass index here
-    newItem.append(deleteBtn);
+
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = "medicationsCheckbox{index}";
+
+    newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
   });
   medList.appendChild(fragment);
@@ -240,8 +245,6 @@ const updateList = (sectionArray, listElement, key) => {
       checkbox.id = `${
         sectionArray === exercisesArray ? "exercises" : "habits"
       }Checkbox${index}`;
-
-      console.log(checkbox);
 
       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
       fragment.appendChild(newItem); // append the new item to the fragment
