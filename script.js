@@ -258,21 +258,35 @@ const updateList = (sectionArray, listElement, key) => {
 // ---------- Checkboxes ---------- //
 
 let checkboxStates = {};
+let checkedExercises = {};
+let checkedHabits = {};
+let checkedMedications = {};
 
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", updateCheckboxState);
-});
-
-function updateCheckboxState() {
-  checkboxes.forEach((checkbox) => {
-    checkboxStates[checkbox.id] = checkbox.checked;
-    console.log(checkboxStates);
-  });
+for (let i = 0; i < numberOfCheckboxes; i++) {
+  let checkboxes =
+    document.getElementById(`exercisesCheckbox${index}`) ||
+    document.getElementById(`habitsCheckbox${index}`) ||
+    document.getElementById(`medicationsCheckbox${index}`);
 }
 
-updateCheckboxState();
+// if (checkboxes.checked) {
+//   if (id === `exercisesCheckbox${index}`) {
+//     checkedExercises.push(`exercisesCheckbox${index}`);
+//   }
+// }
+checkboxes.addEventListener("change", function () {
+  if (checkboxes.checked) {
+    if (id === `exercisesCheckbox${index}`) {
+      checkedExercises.push(`exercisesCheckbox${index}`);
+    } else if (id === `habitsCheckbox${index}`) {
+      checkedHabits.push(`habitsCheckbox${index}`);
+    } else if (id === `medicationsCheckbox${index}`) {
+      checkedMedications.push(`medicationsCheckbox${index}`);
+    }
+  } else {
+    console.log("Error with checkboxes");
+  }
+});
 
 // ---------- Weather ---------- //
 
