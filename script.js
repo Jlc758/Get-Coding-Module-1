@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateList(exercisesArray, exerciseList);
     updateList(habitsArray, habitList);
   } catch (error) {
-    console.error(error);
+    console.log("DomContentLoaded not working");
   }
 });
 
@@ -268,8 +268,11 @@ checkboxes.forEach((checkbox) => {
 function updateCheckboxState() {
   checkboxes.forEach((checkbox) => {
     checkboxStates[checkbox.id] = checkbox.checked;
+    console.log(checkboxStates);
   });
 }
+
+updateCheckboxState();
 
 // ---------- Weather ---------- //
 
@@ -383,6 +386,8 @@ function populateForm() {
     let savedMedObj = foundEntry.medications;
     let savedExercises = foundEntry.exercises;
     let savedHabits = foundEntry.habits;
+
+    // ! I think I need to have savedItems set to the checkbox items for this to work
 
     currentDate.value = savedDate;
     journalInput.value = savedJournal;
