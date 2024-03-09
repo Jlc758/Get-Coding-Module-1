@@ -230,7 +230,9 @@ const updateList = (sectionArray, listElement, key) => {
 
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.id = `${key}Checkbox${index}`;
+      checkbox.id = `${
+        sectionArray === exercisesArray ? "exercises" : "habits"
+      }Checkbox${index}`;
 
       console.log(checkbox);
 
