@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     populateForm();
-    updateMedList(medicationsArray, medList);
-    updateList(exercisesArray, exerciseList);
-    updateList(habitsArray, habitList);
+    updateMedList(medicationsArray, medList, medKey);
+    updateList(exercisesArray, exerciseList, exKey);
+    updateList(habitsArray, habitList, habKey);
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -415,9 +415,9 @@ function populateForm() {
     journalInput.value = savedJournal;
     reverseRadioValue("emotionTracker", savedEmotion);
     reverseRadioValue("waterTracker", savedWater);
-    updateMedList(savedMedObj, medList, medKey);
-    updateList(savedExercises, exerciseList, exKey);
-    updateList(savedHabits, habitList, habKey);
+    updateMedList(medicationsArray, savedMedObj, medKey);
+    updateList(exercisesArray, savedExercises, exKey);
+    updateList(habitsArray, savedHabits, habKey);
   } else {
     form.reset();
     updateMedList(medicationsArray, medList, medKey);
