@@ -189,19 +189,19 @@ function addMedItem(
   });
 }
 
-const updateMedList = (medicationsArray, medList, key) => {
-  // console.log("This is the med list");
+const updateMedList = (medicationsArray, medList, medKey) => {
   medList.textContent = "";
   const fragment = document.createDocumentFragment();
 
   medicationsArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-    let deleteBtn = deleteButton(medicationsArray, index, medList, key); //pass index here
+    let deleteBtn = deleteButton(medicationsArray, index, medList, medKey); //pass index here
 
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = "medicationsCheckbox{index}";
+    checkbox.className = "checkboxes";
 
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
@@ -245,6 +245,7 @@ const updateList = (sectionArray, listElement, key) => {
       checkbox.id = `${
         sectionArray === exercisesArray ? "exercises" : "habits"
       }Checkbox${index}`;
+      checkbox.className = "checkboxes";
 
       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
       fragment.appendChild(newItem); // append the new item to the fragment
@@ -257,36 +258,43 @@ const updateList = (sectionArray, listElement, key) => {
 
 // ---------- Checkboxes ---------- //
 
-let checkboxStates = {};
+// let checkbox = document.createElement("input");
+// checkbox.type = "checkbox";
+// checkbox.id = `${
+//   sectionArray === exercisesArray ? "exercises" : "habits"
+// }Checkbox${index}`;
+
+let checkboxes = document.getElementsByClassName("checkboxes");
 let checkedExercises = {};
 let checkedHabits = {};
 let checkedMedications = {};
 
-for (let i = 0; i < numberOfCheckboxes; i++) {
-  let checkboxes =
-    document.getElementById(`exercisesCheckbox${index}`) ||
-    document.getElementById(`habitsCheckbox${index}`) ||
-    document.getElementById(`medicationsCheckbox${index}`);
+for (let i = 0; i < checkboxes.length; i++) {
+  checkboxes.addEventListener("change", () => {
+    checkboxes.forEach(function (checkbox) {
+      let id = checkbox.id;
+      if (checkbox.checked) {
+        if (id.startsWith("exercisesCheckbox")) {
+          checkedExercises[id] = true;
+        } else if (id.startsWith("habitsCheckbox")) {
+          checkedHabits[id] = true;
+        } else if (id.startsWith("medicationsCheckbox")) {
+          checkedMedications[id] = true;
+        }
+      } else {
+        console.log("Error with checkboxes");
+      }
+      console.log(
+        "Ex: ",
+        checkedExercises,
+        "Hab: ",
+        checkedHabits,
+        "Med: ",
+        checkedMedications
+      );
+    });
+  });
 }
-
-// if (checkboxes.checked) {
-//   if (id === `exercisesCheckbox${index}`) {
-//     checkedExercises.push(`exercisesCheckbox${index}`);
-//   }
-// }
-checkboxes.addEventListener("change", function () {
-  if (checkboxes.checked) {
-    if (id === `exercisesCheckbox${index}`) {
-      checkedExercises.push(`exercisesCheckbox${index}`);
-    } else if (id === `habitsCheckbox${index}`) {
-      checkedHabits.push(`habitsCheckbox${index}`);
-    } else if (id === `medicationsCheckbox${index}`) {
-      checkedMedications.push(`medicationsCheckbox${index}`);
-    }
-  } else {
-    console.log("Error with checkboxes");
-  }
-});
 
 // ---------- Weather ---------- //
 
@@ -464,9 +472,9 @@ form.addEventListener("submit", (event) => {
     isFlagged: "",
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    // medications: selectedMedications,
-    exercises: selectedExercises,
-    // habits: selectedHabits,
+    medications: checkedMedications,
+    exercises: checkedExercises,
+    habits: checkedHabits,
   };
 
   console.log(dailyEntryObj.exercises);
