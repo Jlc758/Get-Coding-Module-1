@@ -397,6 +397,18 @@ function populateForm() {
   console.log("Found Entry", foundEntry);
 
   if (foundEntry) {
+    let {
+      date,
+      weather,
+      journal,
+      isFlagged,
+      emotionTracker,
+      waterTracker,
+      checkedMedications,
+      checkedExercises,
+      checkedHabits,
+    } = foundEntry;
+
     let savedDate = foundEntry.date;
     let savedWeather = foundEntry.weather;
     console.log(savedWeather);
@@ -405,11 +417,9 @@ function populateForm() {
     console.log(savedFlag);
     let savedEmotion = foundEntry.emotionTracker;
     let savedWater = foundEntry.waterTracker;
-    let savedMedObj = foundEntry.medications;
-    let savedExercises = foundEntry.exercises;
-    let savedHabits = foundEntry.habits;
-
-    // ! I think I need to have savedItems set to the checkbox items for this to work
+    let savedMedObj = foundEntry.checkedMedications;
+    let savedExercises = foundEntry.checkedExercises;
+    let savedHabits = foundEntry.checkedHabits;
 
     currentDate.value = savedDate;
     journalInput.value = savedJournal;
