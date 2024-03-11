@@ -394,9 +394,15 @@ async function fetchData(currentLat, currentLon) {
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
 function populateForm() {
+  // The 'date' property is a string, whereas 'selectedDate' is a 'Date' object
   let selectedDate = new Date(formattedDate);
 
-  let foundEntry = entriesArray.find((entry) => entry.date === selectedDate);
+  // let foundEntry = entriesArray.find((entry) => entry.date === selectedDate);
+  let foundEntry = entriesArray.find((entry) => {
+    // Convert the entry.date to a Date object for comparison (otherwise, DEV Tools showing foundEntry as undefined)
+    let entryDate = new Date(entry.date);
+    return entryDate.getTime() === selectedDate.getTime();
+  });
 
   console.log("Found Entry", foundEntry);
 
