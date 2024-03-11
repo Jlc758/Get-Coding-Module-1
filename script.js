@@ -1,9 +1,13 @@
+// localStorage.clear();
 let dateElement = document.getElementById("date");
 let currentDate = new Date();
 let timezoneOffset = currentDate.getTimezoneOffset();
 currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
 let formattedDate = currentDate.toISOString().slice(0, 10);
 dateElement.value = formattedDate;
+let entryDate;
+let selectedDate;
+
 // currentDate.value = new Date().toISOString().slice(0, 10);
 
 //  ---------- Variables ---------- //
@@ -76,7 +80,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 dateElement.addEventListener("change", () => {
   try {
-    populateForm();
+    // update formattedDate when the user changes the date
+    let selectedDate = new Date(dateElement.value);
+    let formattedDate = selectedDate.toISOString().slice(0, 10);
+    entryDate = formattedDate;
+
+    console.log(formattedDate);
   } catch (error) {
     console.error(error);
   }
@@ -395,14 +404,10 @@ async function fetchData(currentLat, currentLon) {
 
 function populateForm() {
   // The 'date' property is a string, whereas 'selectedDate' is a 'Date' object
-  let selectedDate = new Date(formattedDate);
+  // let selectedDate = new Date(formattedDate);
 
-  // let foundEntry = entriesArray.find((entry) => entry.date === selectedDate);
-  let foundEntry = entriesArray.find((entry) => {
-    // Convert the entry.date to a Date object for comparison (otherwise, DEV Tools showing foundEntry as undefined)
-    let entryDate = new Date(entry.date);
-    return entryDate.getTime() === selectedDate.getTime();
-  });
+  // // let foundEntry = entriesArray.find((entry) => entry.date === selectedDate);
+  let foundEntry = entriesArray.find((entry) => entry.date === entryDate);
 
   console.log("Found Entry", foundEntry);
 
@@ -431,7 +436,7 @@ function populateForm() {
     let savedExercises = checkedExercises;
     let savedHabits = checkedHabits;
 
-    formattedDate = savedDate;
+    dateElement = savedDate;
     journalInput.value = savedJournal;
     reverseRadioValue("emotionTracker", savedEmotion);
     reverseRadioValue("waterTracker", savedWater);
@@ -486,7 +491,7 @@ form.addEventListener("submit", (event) => {
   );
 
   let dailyEntryObj = {
-    date: formattedDate,
+    date: dateElement.value,
     weather: "",
     journal: journalInput.value,
     isFlagged: "",
