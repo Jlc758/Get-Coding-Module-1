@@ -1,5 +1,10 @@
-const currentDate = document.getElementById("date");
-currentDate.value = new Date().toISOString().slice(0, 10);
+let dateElement = document.getElementById("date");
+let currentDate = new Date();
+let timezoneOffset = currentDate.getTimezoneOffset();
+currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
+let formattedDate = currentDate.toISOString().slice(0, 10);
+dateElement.value = formattedDate;
+// currentDate.value = new Date().toISOString().slice(0, 10);
 
 //  ---------- Variables ---------- //
 const journalInput = document.getElementById("fillableEntry");
@@ -37,7 +42,7 @@ let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
 let dailyEntryObj = {
-  date: currentDate.value,
+  date: formattedDate,
   weather: "",
   journal: "",
   isFlagged: false,
@@ -67,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
-let dateElement = document.getElementById("date");
+// let dateElement = document.getElementById("date");
 
 dateElement.addEventListener("change", () => {
   try {
@@ -265,21 +270,25 @@ const updateList = (sectionArray, listElement, key) => {
 // }Checkbox${index}`;
 
 let checkboxes = document.getElementsByClassName("checkboxes");
-let checkedExercises = {};
-let checkedHabits = {};
-let checkedMedications = {};
+let checkedExercises = [];
+let checkedHabits = [];
+let checkedMedications = [];
 
 for (let i = 0; i < checkboxes.length; i++) {
   checkboxes.addEventListener("change", () => {
     checkboxes.forEach(function (checkbox) {
       let id = checkbox.id;
+      let itemText = checkbox.parentElement.textContent.trim();
       if (checkbox.checked) {
         if (id.startsWith("exercisesCheckbox")) {
-          checkedExercises[id] = true;
+          checkedExercises.push(itemText);
+          // checkedExercises[id] = true;
         } else if (id.startsWith("habitsCheckbox")) {
-          checkedHabits[id] = true;
+          checkedHabits.push(itemText);
+          // checkedHabits[id] = true;
         } else if (id.startsWith("medicationsCheckbox")) {
-          checkedMedications[id] = true;
+          checkedMedications.push(itemText);
+          // checkedMedications[id] = true;
         }
       } else {
         console.log("Error with checkboxes");
@@ -385,14 +394,9 @@ async function fetchData(currentLat, currentLon) {
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 
 function populateForm() {
-  // This is the date to look for in dailyEntryObj objects within entriesArray
-  let targetDate = currentDate.value;
-  console.log("date: ", targetDate);
+  let selectedDate = new Date(formattedDate);
 
-  // console.log("Entries Array", entriesArray);
-
-  // Find the entry with the target date
-  let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+  let foundEntry = entriesArray.find((entry) => entry.date === selectedDate);
 
   console.log("Found Entry", foundEntry);
 
@@ -409,19 +413,19 @@ function populateForm() {
       checkedHabits,
     } = foundEntry;
 
-    let savedDate = foundEntry.date;
-    let savedWeather = foundEntry.weather;
+    let savedDate = date;
+    let savedWeather = weather;
     console.log(savedWeather);
-    let savedJournal = foundEntry.journal;
-    let savedFlag = foundEntry.isFlagged;
+    let savedJournal = journal;
+    let savedFlag = isFlagged;
     console.log(savedFlag);
-    let savedEmotion = foundEntry.emotionTracker;
-    let savedWater = foundEntry.waterTracker;
-    let savedMedObj = foundEntry.checkedMedications;
-    let savedExercises = foundEntry.checkedExercises;
-    let savedHabits = foundEntry.checkedHabits;
+    let savedEmotion = emotionTracker;
+    let savedWater = waterTracker;
+    let savedMedObj = checkedMedications;
+    let savedExercises = checkedExercises;
+    let savedHabits = checkedHabits;
 
-    currentDate.value = savedDate;
+    formattedDate = savedDate;
     journalInput.value = savedJournal;
     reverseRadioValue("emotionTracker", savedEmotion);
     reverseRadioValue("waterTracker", savedWater);
@@ -436,7 +440,7 @@ function populateForm() {
     fetchData(currentLat, currentLon);
 
     dailyEntryObj = {
-      date: currentDate.value,
+      date: formattedDate,
       weather: "",
       journal: "",
       isFlagged: false,
@@ -476,7 +480,7 @@ form.addEventListener("submit", (event) => {
   );
 
   let dailyEntryObj = {
-    date: currentDate.value,
+    date: formattedDate,
     weather: "",
     journal: journalInput.value,
     isFlagged: "",
