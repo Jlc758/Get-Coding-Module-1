@@ -13,6 +13,7 @@ let selectedDate;
 //  ---------- Variables ---------- //
 const journalInput = document.getElementById("fillableEntry");
 const flagButton = document.getElementById("flag");
+let newObjIsFlagged = false;
 
 const addMedBtn = document.getElementById("addMedicationBtn");
 const medList = document.getElementById("medList");
@@ -43,19 +44,20 @@ const habKey = "habitsArray";
 let entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
 let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
-let dailyEntryObj = {};
-//   date: formattedDate,
-//   weather: "",
-//   journal: "",
-//   isFlagged: false,
-//   emotionTracker: "",
-//   waterTracker: "",
-//   medications: [],
-//   exercises: [],
-//   habits: [],
-// };
+let dailyEntryObj = {
+  date: formattedDate,
+  weather: "",
+  journal: "",
+  isFlagged: newObjIsFlagged,
+  emotionTracker: "",
+  waterTracker: "",
+  medications: [],
+  exercises: [],
+  habits: [],
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   try {
@@ -90,6 +92,8 @@ dateElement.addEventListener("change", () => {
     let selectedDate = new Date(dateElement.value);
     let formattedDate = selectedDate.toISOString().slice(0, 10);
     entryDate = formattedDate;
+
+    populateForm();
 
     console.log(formattedDate);
   } catch (error) {
@@ -148,14 +152,18 @@ const updateJournalEntry = (input) => {
 
 function flagClick(flag) {
   flag.addEventListener("click", () => {
-    dailyEntryObj.isFlagged = !dailyEntryObj.isFlagged;
-    if (dailyEntryObj.isFlagged) {
+    // dailyEntryObj.isFlagged = !dailyEntryObj.isFlagged;
+    if (!newObjIsFlagged) {
       flag.classList.add("flagged");
+      newObjIsFlagged = true;
     } else {
       flag.classList.remove("flagged");
+      newObjIsFlagged = false;
     }
   });
 }
+
+// ! Use filter for flagged entries
 
 // --=-------- Radio Trackers ---------- //
 
@@ -198,9 +206,12 @@ function addMedItem(
       let medObject = {
         MedText: newMedItemValue,
         MedCount: newMedCountValue,
+        IsChecked: false,
       };
-      medicationsArray.push(medObject);
+      //! Add the new item without IsChecked to local storage
       localStorage.setItem(key, JSON.stringify(medicationsArray));
+
+      medicationsArray.push(medObject);
 
       updateMedList(medicationsArray, medList, medKey);
       medInput.value = "";
@@ -219,10 +230,16 @@ const updateMedList = (medicationsArray, medList, medKey) => {
     let deleteBtn = deleteButton(medicationsArray, index, medList, medKey); //pass index here
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    for (i = 0; i < medList.length; i++) {
-      checkbox.id = `medicationsCheckbox{i}`;
-      checkbox.className = "checkboxes";
-    }
+    checkbox.id = `medicationsCheckbox${index}`;
+    checkbox.className = "checkboxes";
+    checkbox.checked = updatedItem.IsChecked;
+    checkbox.dataset.index = index;
+    checkbox.addEventListener("change", (event) => {
+      const itemIndex = event.target.dataset.index;
+      medicationsArray[itemIndex].IsChecked = event.target.checked;
+    });
+
+    // !Read up on dataset
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
   });
@@ -230,7 +247,7 @@ const updateMedList = (medicationsArray, medList, medKey) => {
 };
 
 // ---------- Exercises & Habits ---------- //
-
+// !Convert ex & hab to objs
 const addItem = (sectionArray, input, addBtn, listElement, key) => {
   addBtn.addEventListener("click", () => {
     addItemToArray(sectionArray, input, listElement, key);
@@ -262,10 +279,16 @@ const updateList = (sectionArray, listElement, key) => {
 
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.id = `${
-        sectionArray === exercisesArray ? "exercises" : "habits"
-      }Checkbox${index}`;
+      // checkbox.id = `${
+      //   sectionArray === exercisesArray ? "exercises" : "habits"
+      // }Checkbox${index}`;
       checkbox.className = "checkboxes";
+      // checkbox.checked = updatedItem.IsChecked;
+      // checkbox.dataset.index = index;
+      // checkbox.addEventListener("change", (event) => {
+      //   const itemIndex = event.target.dataset.index;
+      //   sectionArray[itemIndex].IsChecked = event.target.checked;
+      // });
 
       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
       fragment.appendChild(newItem); // append the new item to the fragment
@@ -399,44 +422,111 @@ async function fetchData(currentLat, currentLon) {
 }
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
+function populateForm() {
+  // This is the date to look for in dailyEntryObj objects within entriesArray
+  let targetDate = dateElement.value;
+  console.log("type of date: ", typeof targetDate);
+  console.log("date: ", targetDate);
 
-async function populateForm() {
-  try {
-    let foundEntry = entriesArray.find((entry) => entry.date === entryDate);
+  console.log("Entries Array", entriesArray);
 
-    console.log("Found Entry", foundEntry);
-    const weatherData = await fetchData(currentLat, currentLon);
+  entriesArray.forEach((entry) => {
+    console.log("Entry Date", typeof entry.date, entry.date);
+  });
 
-    if (foundEntry) {
-      journalInput.value = foundEntry.journal;
-      reverseRadioValue("emotionTracker", foundEntry.emotionTracker);
-      reverseRadioValue("waterTracker", foundEntry.waterTracker);
-      updateMedList(medicationsArray, medList, medKey);
-      updateList(exercisesArray, exerciseList, exKey);
-      updateList(habitsArray, habitList, habKey);
+  // Find the entry with the target date
+  let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+
+  console.log("Found Entry", foundEntry);
+
+  if (foundEntry) {
+    const {
+      date,
+      weather,
+      journal,
+      isFlagged,
+      emotionTracker,
+      waterTracker,
+      medications,
+      exercises,
+      habits,
+    } = foundEntry;
+
+    currentDate.value = date;
+    journalInput.value = journal;
+
+    if (isFlagged) {
+      flagButton.classList.add("flagged");
+      newObjIsFlagged = true;
     } else {
-      form.reset();
-      updateMedList(medicationsArray, medList, medKey);
-      updateList(exercisesArray, exerciseList, exKey);
-      updateList(habitsArray, habitList, habKey);
-      fetchData(currentLat, currentLon);
-
-      dailyEntryObj = {
-        date: formattedDate,
-        weather: "",
-        journal: "",
-        isFlagged: false,
-        emotionTracker: "",
-        waterTracker: "",
-        medications: [],
-        exercises: [],
-        habits: [],
-      };
+      flagButton.classList.remove("flagged");
+      newObjIsFlagged = false;
+      //! if this breaks, condition to leave as is
     }
-  } catch (error) {
-    console.error("Error in populating form", error);
+
+    reverseRadioValue("emotionTracker", emotionTracker);
+    reverseRadioValue("waterTracker", waterTracker);
+    updateMedList(medications, medList, medKey);
+    updateList(exercises, exerciseList, exKey);
+    updateList(habits, habitList, habKey);
+  } else {
+    form.reset();
+    updateMedList(medicationsArray, medList, medKey);
+    updateList(exercisesArray, exerciseList, exKey);
+    updateList(habitsArray, habitList, habKey);
+    fetchData(currentLat, currentLon);
+
+    dailyEntryObj = {
+      date: currentDate.value,
+      weather: "",
+      journal: "",
+      isFlagged: false,
+      emotionTracker: "",
+      waterTracker: "",
+      medications: [],
+      exercises: [],
+      habits: [],
+    };
   }
 }
+
+// async function populateForm() {
+//   try {
+//     let foundEntry = entriesArray.find((entry) => entry.date === entryDate);
+
+//     console.log("Found Entry", foundEntry);
+
+//     if (foundEntry) {
+//       journalInput.value = foundEntry.dailyEntryObj.journal;
+//       reverseRadioValue("emotionTracker", foundEntry.emotionTracker);
+//       reverseRadioValue("waterTracker", foundEntry.waterTracker);
+//       updateCheckedItems();
+//       medInput.innerHTML = foundEntry.dailyEntryObj.checkedMedications;
+//       newExerciseInput.value = foundEntry.dailyEntryObj.checkedExercises;
+//       newHabitInput.value = foundEntry.dailyEntryObj.checkedHabits;
+//     } else {
+//       form.reset();
+//       updateMedList(medicationsArray, medList, medKey);
+//       updateList(exercisesArray, exerciseList, exKey);
+//       updateList(habitsArray, habitList, habKey);
+//       fetchData(currentLat, currentLon);
+
+//       dailyEntryObj = {
+//         date: formattedDate,
+//         weather: "",
+//         journal: "",
+//         isFlagged: false,
+//         emotionTracker: "",
+//         waterTracker: "",
+//         medications: [],
+//         exercises: [],
+//         habits: [],
+//       };
+//     }
+//   } catch (error) {
+//     console.error("Error in populating form", error);
+//   }
+// }
 
 // ---------- Call Functions ---------- //
 
@@ -460,31 +550,31 @@ flagClick(flag);
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  updateCheckedItems();
-  let checkedExercises = Array.from(exerciseList).map(
-    (checkbox) => checkbox.value
-  );
+  // updateCheckedItems();
+  // let checkedExercises = Array.from(exerciseList).map(
+  //   (checkbox) => checkbox.value
+  // );
 
   let dailyEntryObj = {
     date: entryDate,
     weather: weatherResults.textContent,
     journal: journalInput.value,
-    isFlagged: "",
+    isFlagged: newObjIsFlagged,
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: checkedMedications,
-    exercises: checkedExercises,
-    habits: checkedHabits,
+    medications: medicationsArray,
+    exercises: exercisesArray,
+    habits: habitsArray,
   };
 
-  console.log(
-    "Ex: ",
-    checkedExercises,
-    "Hab: ",
-    checkedHabits,
-    "Med: ",
-    checkedMedications
-  );
+  // console.log(
+  //   "Ex: ",
+  //   checkedExercises,
+  //   "Hab: ",
+  //   checkedHabits,
+  //   "Med: ",
+  //   checkedMedications
+  // );
 
   // ^ this converts the values to strings before storing.
 

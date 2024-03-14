@@ -72,6 +72,15 @@ button.submit {
   border-color: #1b2043;
 }
 
+button.flagged {
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  border-color: #1b2043;
+}
+
 #confirmLocationBtn {
   height: 1rem;
   width: 10px;
