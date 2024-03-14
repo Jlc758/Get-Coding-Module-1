@@ -253,6 +253,7 @@ function addExerciseItem(
   exerciseInput,
   repCount,
   addExerciseBtn,
+  exerciseList,
   exKey
 ) {
   addExerciseBtn.addEventListener("click", (event) => {
@@ -273,6 +274,36 @@ function addExerciseItem(
       updateMedList(exercisesArray, exerciseList, exKey);
       exerciseInput.value = "";
       repCount.value = "";
+    }
+  });
+}
+
+function addHabitBtn(
+  habitsArray,
+  habitInput,
+  countInput,
+  addHabitBtn,
+  habitList,
+  habKey
+) {
+  addHabitBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    const newHabitInput = habitInput.value.trim();
+    const newCountInput = countInput.value;
+
+    if (newHabitInput && newCountInput > 0) {
+      let habitObject = {
+        MedText: newHabitInput,
+        MedCount: newCountInput,
+        IsChecked: false,
+      };
+      localStorage.setItem(key, JSON.stringify(habitsArray));
+
+      habitsArray.push(habitObject);
+
+      updateMedList(habitsArray, habitList, habKey);
+      habitInput.value = "";
+      countInput.value = "";
     }
   });
 }
