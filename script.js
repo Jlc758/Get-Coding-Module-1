@@ -208,7 +208,6 @@ function addMedItem(
         MedCount: newMedCountValue,
         IsChecked: false,
       };
-      //! Add the new item without IsChecked to local storage
       localStorage.setItem(key, JSON.stringify(medicationsArray));
 
       medicationsArray.push(medObject);
@@ -248,24 +247,57 @@ const updateMedList = (medicationsArray, medList, medKey) => {
 
 // ---------- Exercises & Habits ---------- //
 // !Convert ex & hab to objs
-const addItem = (sectionArray, input, addBtn, listElement, key) => {
-  addBtn.addEventListener("click", () => {
-    addItemToArray(sectionArray, input, listElement, key);
-    console.log("New item added to section!");
+
+function addExerciseItem(
+  exercisesArray,
+  exerciseInput,
+  repCount,
+  addExerciseBtn,
+  exKey
+) {
+  addExerciseBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    const newExerciseInput = exerciseInput.value.trim();
+    const newRepCount = repCount.value;
+
+    if (newExerciseInput && newRepCount > 0) {
+      let exerciseObject = {
+        MedText: newExerciseInput,
+        MedCount: newRepCount,
+        IsChecked: false,
+      };
+      localStorage.setItem(key, JSON.stringify(exercisesArray));
+
+      exercisesArray.push(exerciseObject);
+
+      updateMedList(exercisesArray, exerciseList, exKey);
+      exerciseInput.value = "";
+      repCount.value = "";
+    }
   });
-};
+}
+// const addItem = (sectionArray, input, addBtn, listElement, key) => {
+//   addBtn.addEventListener("click", () => {
+//     addItemToArray(sectionArray, input, listElement, key);
+//     console.log("New item added to section!");
+//   });
+// };
 
-const addItemToArray = (sectionArray, input, listElement, key) => {
-  let newItemText = input.value.trim();
+// const addItemToArray = (sectionArray, input, listElement, key) => {
+//   let newExerciseItem = input.value.trim();
 
-  if (newItemText) {
-    sectionArray.push(newItemText);
+//   if (newItemText) {
+//     let exerciseObject = {
+//       ExerciseText: ,
+//       RepCount: ,
+//     }
+//     sectionArray.push(newItemText);
 
-    localStorage.setItem(key, JSON.stringify(sectionArray));
-    updateList(sectionArray, listElement, key);
-    input.value = "";
-  }
-};
+//     localStorage.setItem(key, JSON.stringify(sectionArray));
+//     updateList(sectionArray, listElement, key);
+//     input.value = "";
+//   }
+// };
 
 const updateList = (sectionArray, listElement, key) => {
   listElement.textContent = "";
