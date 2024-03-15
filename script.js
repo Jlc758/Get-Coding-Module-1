@@ -28,6 +28,7 @@ const repCount = document.getElementById("repCount");
 const habitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
+const habitCount = document.getElementById("habitCount");
 
 // ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
@@ -71,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     populateForm();
     updateMedList(medicationsArray, medList, medKey);
-    updateList(exercisesArray, exerciseList, exKey);
-    updateList(habitsArray, habitList, habKey);
+    updateExerciseList(exercisesArray, exerciseList, exKey);
+    updatehabitList(habitsArray, habitList, habKey);
     console.log(
       "Entries Array: ",
       entriesArray,
@@ -134,9 +135,11 @@ const deleteButton = (sectionArray, index, listElement, key) => {
     if (listElement.id === "medList") {
       // if it's in the medication list, call updateMedList
       updateMedList(sectionArray, listElement);
-    } else {
+    } else if (listElement.id === "exerciseList") {
       // for other lists, call update list
-      updateList(sectionArray, listElement);
+      updateExerciseList(sectionArray, listElement);
+    } else if (listElement.id === "habitList") {
+      updatehabitList(habitsArray, habitList, habKey);
     }
     console.log("Item Deleted");
   });
@@ -246,7 +249,7 @@ const updateMedList = (medicationsArray, medList, medKey) => {
   medList.appendChild(fragment);
 };
 
-// ---------- Exercises & Habits ---------- //
+// ---------- Exercises  ---------- //
 // !Convert ex & hab to objs
 
 function addExerciseItem(
@@ -272,12 +275,39 @@ function addExerciseItem(
 
       exercisesArray.push(exerciseObject);
 
-      updateList(exercisesArray, exerciseList, exKey);
+      updateExerciseList(exercisesArray, exerciseList, exKey);
       exerciseInput.value = "";
       repCount.value = "";
     }
   });
 }
+
+const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
+  exerciseList.textContent = "";
+  const fragment = document.createDocumentFragment();
+
+  exercisesArray.forEach((updatedItem, index) => {
+    let newItem = document.createElement("li");
+    newItem.textContent = `${updatedItem.exerciseInput} - Reps: ${updatedItem.repCount}`;
+    let deleteBtn = deleteButton(exercisesArray, index, exerciseList, exKey);
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `exercisesCheckbox${index}`;
+    checkbox.className = "checkboxes";
+    checkbox.checked = updatedItem.IsChecked;
+    checkbox.dataset.index = index;
+    checkbox.addEventListener("change", (event) => {
+      const itemIndex = event.target.dataset.index;
+      exercisesArray[itemIndex].IsChecked = event.target.checked;
+    });
+
+    newItem.append(checkbox, deleteBtn);
+    fragment.appendChild(newItem);
+  });
+  exerciseList.appendChild(fragment);
+};
+
+// ---------- Habits ---------- //
 
 function addHabiItem(
   habitsArray,
@@ -302,12 +332,38 @@ function addHabiItem(
 
       habitsArray.push(habitObject);
 
-      updateList(habitsArray, habitList, habKey);
+      updatehabitList(habitsArray, habitList, habKey);
       habitInput.value = "";
-      countInput.value = "N/A";
+      countInput.value = "";
     }
   });
 }
+
+const updatehabitList = (habitsArray, habitList, habKey) => {
+  habitList.textContent = "";
+  const fragment = document.createDocumentFragment();
+
+  habitsArray.forEach((updatedItem, index) => {
+    let newItem = document.createElement("li");
+    newItem.textContent = `${updatedItem.Habit} - Reps: ${updatedItem.HabitCount}`;
+    let deleteBtn = deleteButton(habitsArray, index, habitList, habKey);
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = `habitsCheckbox${index}`;
+    checkbox.className = "checkboxes";
+    checkbox.checked = updatedItem.IsChecked;
+    checkbox.dataset.index = index;
+    checkbox.addEventListener("change", (event) => {
+      const itemIndex = event.target.dataset.index;
+      habitsArray[itemIndex].IsChecked = event.target.checked;
+    });
+
+    newItem.append(checkbox, deleteBtn);
+    fragment.appendChild(newItem);
+  });
+  habitList.appendChild(fragment);
+};
+
 // const addItem = (sectionArray, input, addBtn, listElement, key) => {
 //   addBtn.addEventListener("click", () => {
 //     addItemToArray(sectionArray, input, listElement, key);
@@ -331,49 +387,49 @@ function addHabiItem(
 //   }
 // };
 
-const updateList = (sectionArray, listElement, key) => {
-  listElement.textContent = "";
-  const fragment = document.createDocumentFragment();
-  // save local storage
-  if (Array.isArray(sectionArray)) {
-    sectionArray.forEach((updatedItem, index) => {
-      let newItem = document.createElement("li");
-      newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
-      let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
+// const updateList = (sectionArray, listElement, key) => {
+//   listElement.textContent = "";
+//   const fragment = document.createDocumentFragment();
+//   // save local storage
+//   if (Array.isArray(sectionArray)) {
+//     sectionArray.forEach((updatedItem, index) => {
+//       let newItem = document.createElement("li");
+//       newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
+//       let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
 
-      let checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.id = `${
-        sectionArray === exercisesArray ? "exercises" : "habits"
-      }Checkbox${index}`;
-      checkbox.className = "checkboxes";
-      checkbox.checked = updatedItem.IsChecked;
-      checkbox.dataset.index = index;
-      checkbox.addEventListener("change", (event) => {
-        const itemIndex = event.target.dataset.index;
-        if (sectionArray === exercisesArray) {
-          exercisesArray[itemIndex].IsChecked = event.target.checked;
-        } else if (sectionArray === habitsArray) {
-          habitsArray[itemIndex].IsChecked = event.target.checked;
-        } else {
-          console.log("Error in updateList re ex or hab");
-        }
-      });
-      // checkbox.checked = updatedItem.IsChecked;
-      // checkbox.dataset.index = index;
-      // checkbox.addEventListener("change", (event) => {
-      //   const itemIndex = event.target.dataset.index;
-      //   sectionArray[itemIndex].IsChecked = event.target.checked;
-      // });
+//       let checkbox = document.createElement("input");
+//       checkbox.type = "checkbox";
+//       checkbox.id = `${
+//         sectionArray === exercisesArray ? "exercises" : "habits"
+//       }Checkbox${index}`;
+//       checkbox.className = "checkboxes";
+//       checkbox.checked = updatedItem.IsChecked;
+//       checkbox.dataset.index = index;
+//       checkbox.addEventListener("change", (event) => {
+//         const itemIndex = event.target.dataset.index;
+//         if (sectionArray === exercisesArray) {
+//           exercisesArray[itemIndex].IsChecked = event.target.checked;
+//         } else if (sectionArray === habitsArray) {
+//           habitsArray[itemIndex].IsChecked = event.target.checked;
+//         } else {
+//           console.log("Error in updateList re ex or hab");
+//         }
+//       });
+//       // checkbox.checked = updatedItem.IsChecked;
+//       // checkbox.dataset.index = index;
+//       // checkbox.addEventListener("change", (event) => {
+//       //   const itemIndex = event.target.dataset.index;
+//       //   sectionArray[itemIndex].IsChecked = event.target.checked;
+//       // });
 
-      newItem.append(checkbox, deleteBtn); // append the delete button to the new item
-      fragment.appendChild(newItem); // append the new item to the fragment
-      listElement.appendChild(fragment);
-    });
-  } else {
-    console.error("Section is not an array", sectionArray);
-  }
-};
+//       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
+//       fragment.appendChild(newItem); // append the new item to the fragment
+//       listElement.appendChild(fragment);
+//     });
+//   } else {
+//     console.error("Section is not an array", sectionArray);
+//   }
+// };
 
 // ---------- Checkboxes ---------- //
 
@@ -543,13 +599,13 @@ function populateForm() {
     reverseRadioValue("emotionTracker", emotionTracker);
     reverseRadioValue("waterTracker", waterTracker);
     updateMedList(medications, medList, medKey);
-    updateList(exercises, exerciseList, exKey);
-    updateList(habits, habitList, habKey);
+    updateExerciseList(exercises, exerciseList, exKey);
+    updatehabitList(habits, habitList, habKey);
   } else {
     form.reset();
     updateMedList(medicationsArray, medList, medKey);
-    updateList(exercisesArray, exerciseList, exKey);
-    updateList(habitsArray, habitList, habKey);
+    updateExerciseList(exercisesArray, exerciseList, exKey);
+    updatehabitList(habitsArray, habitList, habKey);
     fetchData(currentLat, currentLon);
 
     dailyEntryObj = {
