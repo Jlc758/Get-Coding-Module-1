@@ -15,16 +15,17 @@ const journalInput = document.getElementById("fillableEntry");
 const flagButton = document.getElementById("flag");
 let newObjIsFlagged = false;
 
+const medInput = document.getElementById("newMedication");
 const addMedBtn = document.getElementById("addMedicationBtn");
 const medList = document.getElementById("medList");
-const medInput = document.getElementById("newMedication");
 const countInput = document.getElementById("medCount");
 
-const newExerciseInput = document.getElementById("newExercise");
+const exerciseInput = document.getElementById("newExercise");
 const addExerciseBtn = document.getElementById("addExerciseBtn");
 const exerciseList = document.getElementById("exerciseList");
+const repCount = document.getElementById("repCount");
 
-const newHabitInput = document.getElementById("newHabit");
+const habitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
 
@@ -263,22 +264,22 @@ function addExerciseItem(
 
     if (newExerciseInput && newRepCount > 0) {
       let exerciseObject = {
-        MedText: newExerciseInput,
-        MedCount: newRepCount,
+        Exercise: newExerciseInput,
+        RepCount: newRepCount,
         IsChecked: false,
       };
       localStorage.setItem(key, JSON.stringify(exercisesArray));
 
       exercisesArray.push(exerciseObject);
 
-      updateMedList(exercisesArray, exerciseList, exKey);
+      updateList(exercisesArray, exerciseList, exKey);
       exerciseInput.value = "";
       repCount.value = "";
     }
   });
 }
 
-function addHabitBtn(
+function addHabiItem(
   habitsArray,
   habitInput,
   countInput,
@@ -293,17 +294,17 @@ function addHabitBtn(
 
     if (newHabitInput && newCountInput > 0) {
       let habitObject = {
-        MedText: newHabitInput,
-        MedCount: newCountInput,
+        Habit: newHabitInput,
+        HabitCount: newCountInput,
         IsChecked: false,
       };
       localStorage.setItem(key, JSON.stringify(habitsArray));
 
       habitsArray.push(habitObject);
 
-      updateMedList(habitsArray, habitList, habKey);
+      updateList(habitsArray, habitList, habKey);
       habitInput.value = "";
-      countInput.value = "";
+      countInput.value = "N/A";
     }
   });
 }
@@ -337,15 +338,27 @@ const updateList = (sectionArray, listElement, key) => {
   if (Array.isArray(sectionArray)) {
     sectionArray.forEach((updatedItem, index) => {
       let newItem = document.createElement("li");
-      newItem.textContent = updatedItem;
+      newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
       let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
 
       let checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      // checkbox.id = `${
-      //   sectionArray === exercisesArray ? "exercises" : "habits"
-      // }Checkbox${index}`;
+      checkbox.id = `${
+        sectionArray === exercisesArray ? "exercises" : "habits"
+      }Checkbox${index}`;
       checkbox.className = "checkboxes";
+      checkbox.checked = updatedItem.IsChecked;
+      checkbox.dataset.index = index;
+      checkbox.addEventListener("change", (event) => {
+        const itemIndex = event.target.dataset.index;
+        if (sectionArray === exercisesArray) {
+          exercisesArray[itemIndex].IsChecked = event.target.checked;
+        } else if (sectionArray === habitsArray) {
+          habitsArray[itemIndex].IsChecked = event.target.checked;
+        } else {
+          console.log("Error in updateList re ex or hab");
+        }
+      });
       // checkbox.checked = updatedItem.IsChecked;
       // checkbox.dataset.index = index;
       // checkbox.addEventListener("change", (event) => {
@@ -600,10 +613,16 @@ populateForm();
 addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList, medKey);
 
 // Calling function for adding items to exercise section
-addItem(exercisesArray, newExerciseInput, addExerciseBtn, exerciseList, exKey);
+addExerciseItem(
+  exercisesArray,
+  exerciseInput,
+  addExerciseBtn,
+  exerciseList,
+  exKey
+);
 
 // Calling function for adding items to habit section
-addItem(habitsArray, newHabitInput, addHabitBtn, habitList, habKey);
+addHabiItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
 
 // Listening for flag click
 flagClick(flag);
