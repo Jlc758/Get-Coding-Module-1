@@ -357,31 +357,34 @@ const updateHabitList = (habitsArray, habitList, habKey) => {
   habitList.appendChild(fragment);
 };
 
-let checkboxes = document.getElementsByClassName("checkboxes");
-let checkedExercises = [];
-let checkedHabits = [];
-let checkedMedications = [];
+// ---------- Checkboxes ---------- //
 
-const updateCheckedItems = () => {
-  for (let i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener("change", () => {
-      let id = checkboxes[i].id;
-      let itemText = checkboxes[i].parentElement.textContent.trim();
+function checkedItems(sectionArray) {
+  return sectionArray.filter((updatedItem) => updatedItem.IsChecked === true);
+}
 
-      if (checkboxes[i].checked) {
-        if (id.startsWith("exercisesCheckbox")) {
-          checkedExercises.push(itemText);
-        } else if (id.startsWith("habitsCheckbox")) {
-          checkedHabits.push(itemText);
-        } else if (id.startsWith("medicationsCheckbox")) {
-          checkedMedications.push(itemText);
-        }
-      } else {
-        console.log("Error with checkboxes");
-      }
-    });
-  }
-};
+// ! I think I need to make a new function and call checkedItems() for each array to get the relevant list, and then compile it into a list to be saved as the day-of entry
+
+// const updateCheckedItems = () => {
+//   for (let i = 0; i < checkboxes.length; i++) {
+//     checkboxes[i].addEventListener("change", () => {
+//       let id = checkboxes[i].id;
+//       let itemText = checkboxes[i].parentElement.textContent.trim();
+
+//       if (checkboxes[i].checked) {
+//         if (id.startsWith("exercisesCheckbox")) {
+//           checkedExercises.push(itemText);
+//         } else if (id.startsWith("habitsCheckbox")) {
+//           checkedHabits.push(itemText);
+//         } else if (id.startsWith("medicationsCheckbox")) {
+//           checkedMedications.push(itemText);
+//         }
+//       } else {
+//         console.log("Error with checkboxes");
+//       }
+//     });
+//   }
+// };
 
 // ---------- Weather ---------- //
 
