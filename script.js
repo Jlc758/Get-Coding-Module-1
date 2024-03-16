@@ -258,12 +258,15 @@ function addExerciseItem(
   repCount,
   addExerciseBtn,
   exerciseList,
-  exKey
+  key
 ) {
   addExerciseBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newExerciseInput = exerciseInput.value.trim();
     const newRepCount = repCount.value;
+
+    // console.log("ExInput: ", newExerciseInput);
+    // console.log("RepCount: ", newRepCount);
 
     if (newExerciseInput && newRepCount > 0) {
       let exerciseObject = {
@@ -288,7 +291,7 @@ const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
 
   exercisesArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
-    newItem.textContent = `${updatedItem.exerciseInput} - Reps: ${updatedItem.repCount}`;
+    newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
     let deleteBtn = deleteButton(exercisesArray, index, exerciseList, exKey);
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -309,23 +312,14 @@ const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
 
 // ---------- Habits ---------- //
 
-function addHabiItem(
-  habitsArray,
-  habitInput,
-  countInput,
-  addHabitBtn,
-  habitList,
-  habKey
-) {
+function addHabiItem(habitsArray, habitInput, addHabitBtn, habitList, key) {
   addHabitBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newHabitInput = habitInput.value.trim();
-    const newCountInput = countInput.value;
 
-    if (newHabitInput && newCountInput > 0) {
+    if (newHabitInput > 0) {
       let habitObject = {
         Habit: newHabitInput,
-        HabitCount: newCountInput,
         IsChecked: false,
       };
       localStorage.setItem(key, JSON.stringify(habitsArray));
@@ -345,7 +339,7 @@ const updatehabitList = (habitsArray, habitList, habKey) => {
 
   habitsArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
-    newItem.textContent = `${updatedItem.Habit} - Reps: ${updatedItem.HabitCount}`;
+    newItem.textContent = `${updatedItem.Habit}`;
     let deleteBtn = deleteButton(habitsArray, index, habitList, habKey);
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -672,6 +666,7 @@ addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList, medKey);
 addExerciseItem(
   exercisesArray,
   exerciseInput,
+  repCount,
   addExerciseBtn,
   exerciseList,
   exKey
