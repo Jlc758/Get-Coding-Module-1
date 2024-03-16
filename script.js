@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     populateForm();
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
-    updatehabitList(habitsArray, habitList, habKey);
+    updateHabitList(habitsArray, habitList, habKey);
     console.log(
       "Entries Array: ",
       entriesArray,
@@ -139,7 +139,7 @@ const deleteButton = (sectionArray, index, listElement, key) => {
       // for other lists, call update list
       updateExerciseList(sectionArray, listElement);
     } else if (listElement.id === "habitList") {
-      updatehabitList(habitsArray, habitList, habKey);
+      updateHabitList(habitsArray, habitList, habKey);
     }
     console.log("Item Deleted");
   });
@@ -312,12 +312,12 @@ const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
 
 // ---------- Habits ---------- //
 
-function addHabiItem(habitsArray, habitInput, addHabitBtn, habitList, key) {
+function addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, key) {
   addHabitBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newHabitInput = habitInput.value.trim();
 
-    if (newHabitInput > 0) {
+    if (newHabitInput) {
       let habitObject = {
         Habit: newHabitInput,
         IsChecked: false,
@@ -326,14 +326,13 @@ function addHabiItem(habitsArray, habitInput, addHabitBtn, habitList, key) {
 
       habitsArray.push(habitObject);
 
-      updatehabitList(habitsArray, habitList, habKey);
+      updateHabitList(habitsArray, habitList, key);
       habitInput.value = "";
-      countInput.value = "";
     }
   });
 }
 
-const updatehabitList = (habitsArray, habitList, habKey) => {
+const updateHabitList = (habitsArray, habitList, habKey) => {
   habitList.textContent = "";
   const fragment = document.createDocumentFragment();
 
@@ -357,81 +356,6 @@ const updatehabitList = (habitsArray, habitList, habKey) => {
   });
   habitList.appendChild(fragment);
 };
-
-// const addItem = (sectionArray, input, addBtn, listElement, key) => {
-//   addBtn.addEventListener("click", () => {
-//     addItemToArray(sectionArray, input, listElement, key);
-//     console.log("New item added to section!");
-//   });
-// };
-
-// const addItemToArray = (sectionArray, input, listElement, key) => {
-//   let newExerciseItem = input.value.trim();
-
-//   if (newItemText) {
-//     let exerciseObject = {
-//       ExerciseText: ,
-//       RepCount: ,
-//     }
-//     sectionArray.push(newItemText);
-
-//     localStorage.setItem(key, JSON.stringify(sectionArray));
-//     updateList(sectionArray, listElement, key);
-//     input.value = "";
-//   }
-// };
-
-// const updateList = (sectionArray, listElement, key) => {
-//   listElement.textContent = "";
-//   const fragment = document.createDocumentFragment();
-//   // save local storage
-//   if (Array.isArray(sectionArray)) {
-//     sectionArray.forEach((updatedItem, index) => {
-//       let newItem = document.createElement("li");
-//       newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
-//       let deleteBtn = deleteButton(sectionArray, index, listElement, key); //pass index here
-
-//       let checkbox = document.createElement("input");
-//       checkbox.type = "checkbox";
-//       checkbox.id = `${
-//         sectionArray === exercisesArray ? "exercises" : "habits"
-//       }Checkbox${index}`;
-//       checkbox.className = "checkboxes";
-//       checkbox.checked = updatedItem.IsChecked;
-//       checkbox.dataset.index = index;
-//       checkbox.addEventListener("change", (event) => {
-//         const itemIndex = event.target.dataset.index;
-//         if (sectionArray === exercisesArray) {
-//           exercisesArray[itemIndex].IsChecked = event.target.checked;
-//         } else if (sectionArray === habitsArray) {
-//           habitsArray[itemIndex].IsChecked = event.target.checked;
-//         } else {
-//           console.log("Error in updateList re ex or hab");
-//         }
-//       });
-//       // checkbox.checked = updatedItem.IsChecked;
-//       // checkbox.dataset.index = index;
-//       // checkbox.addEventListener("change", (event) => {
-//       //   const itemIndex = event.target.dataset.index;
-//       //   sectionArray[itemIndex].IsChecked = event.target.checked;
-//       // });
-
-//       newItem.append(checkbox, deleteBtn); // append the delete button to the new item
-//       fragment.appendChild(newItem); // append the new item to the fragment
-//       listElement.appendChild(fragment);
-//     });
-//   } else {
-//     console.error("Section is not an array", sectionArray);
-//   }
-// };
-
-// ---------- Checkboxes ---------- //
-
-// let checkbox = document.createElement("input");
-// checkbox.type = "checkbox";
-// checkbox.id = `${
-//   sectionArray === exercisesArray ? "exercises" : "habits"
-// }Checkbox${index}`;
 
 let checkboxes = document.getElementsByClassName("checkboxes");
 let checkedExercises = [];
@@ -464,15 +388,6 @@ const updateCheckedItems = () => {
 let currentLat;
 let currentLon;
 let dataWeatherResultsSection;
-
-// Weather API
-// window.onload = function currentLocation() {
-// if (navigator.geolocation) {
-//   navigator.geolocation.getCurrentPosition(showPosition);
-// } else {
-//   console.log("Geolocation is not supported by this browser.");
-// }
-// };
 
 const showPosition = (position) => {
   currentLat = position.coords.latitude;
@@ -594,12 +509,12 @@ function populateForm() {
     reverseRadioValue("waterTracker", waterTracker);
     updateMedList(medications, medList, medKey);
     updateExerciseList(exercises, exerciseList, exKey);
-    updatehabitList(habits, habitList, habKey);
+    updateHabitList(habits, habitList, habKey);
   } else {
     form.reset();
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
-    updatehabitList(habitsArray, habitList, habKey);
+    updateHabitList(habitsArray, habitList, habKey);
     fetchData(currentLat, currentLon);
 
     dailyEntryObj = {
@@ -615,44 +530,6 @@ function populateForm() {
     };
   }
 }
-
-// async function populateForm() {
-//   try {
-//     let foundEntry = entriesArray.find((entry) => entry.date === entryDate);
-
-//     console.log("Found Entry", foundEntry);
-
-//     if (foundEntry) {
-//       journalInput.value = foundEntry.dailyEntryObj.journal;
-//       reverseRadioValue("emotionTracker", foundEntry.emotionTracker);
-//       reverseRadioValue("waterTracker", foundEntry.waterTracker);
-//       updateCheckedItems();
-//       medInput.innerHTML = foundEntry.dailyEntryObj.checkedMedications;
-//       newExerciseInput.value = foundEntry.dailyEntryObj.checkedExercises;
-//       newHabitInput.value = foundEntry.dailyEntryObj.checkedHabits;
-//     } else {
-//       form.reset();
-//       updateMedList(medicationsArray, medList, medKey);
-//       updateList(exercisesArray, exerciseList, exKey);
-//       updateList(habitsArray, habitList, habKey);
-//       fetchData(currentLat, currentLon);
-
-//       dailyEntryObj = {
-//         date: formattedDate,
-//         weather: "",
-//         journal: "",
-//         isFlagged: false,
-//         emotionTracker: "",
-//         waterTracker: "",
-//         medications: [],
-//         exercises: [],
-//         habits: [],
-//       };
-//     }
-//   } catch (error) {
-//     console.error("Error in populating form", error);
-//   }
-// }
 
 // ---------- Call Functions ---------- //
 
@@ -673,7 +550,7 @@ addExerciseItem(
 );
 
 // Calling function for adding items to habit section
-addHabiItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
+addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
 
 // Listening for flag click
 flagClick(flag);
@@ -682,11 +559,6 @@ flagClick(flag);
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  // updateCheckedItems();
-  // let checkedExercises = Array.from(exerciseList).map(
-  //   (checkbox) => checkbox.value
-  // );
 
   let dailyEntryObj = {
     date: entryDate,
@@ -699,15 +571,6 @@ form.addEventListener("submit", (event) => {
     exercises: exercisesArray,
     habits: habitsArray,
   };
-
-  // console.log(
-  //   "Ex: ",
-  //   checkedExercises,
-  //   "Hab: ",
-  //   checkedHabits,
-  //   "Med: ",
-  //   checkedMedications
-  // );
 
   // ^ this converts the values to strings before storing.
 
