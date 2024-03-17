@@ -28,7 +28,6 @@ const repCount = document.getElementById("repCount");
 const habitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
-const habitCount = document.getElementById("habitCount");
 
 // ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
@@ -60,15 +59,14 @@ let dailyEntryObj = {
   habits: [],
 };
 
+// const showPosition = (position) => {
+//   currentLat = position.coords.latitude;
+//   currentLon = position.coords.longitude;
+// };
+
 document.addEventListener("DOMContentLoaded", () => {
   try {
-    // console.log("Onload");
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-
+    fetchLocationData();
     populateForm();
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
@@ -77,6 +75,36 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("DomContentLoaded not working");
   }
 });
+
+// ---------- Location ---------- //
+// Need to move location to separate function as it is repopulating & duplicating location results on DOM
+
+let locationDataLoaded = false;
+
+const fetchLocationData = () => {
+  if (!locationDataLoaded) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      ("Geolocation is not supported by this browser.");
+    }
+  }
+};
+
+const refreshLocationBtn = document.getElementById("refreshLocationBtn");
+refreshLocationBtn.addEventListener("click", () => {
+  fetchLocationData();
+  console.log("Refreshed location");
+});
+
+const showPosition = (position) => {
+  currentLat = position.coords.latitude;
+  currentLon = position.coords.longitude;
+
+  locationDataLoaded = true;
+
+  fetchData(currentLat, currentLon);
+};
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
 // let dateElement = document.getElementById("date");
@@ -362,17 +390,17 @@ let currentLon;
 let dataWeatherResultsSection;
 let dataWeatherResults;
 
-const showPosition = (position) => {
-  currentLat = position.coords.latitude;
-  currentLon = position.coords.longitude;
-  fetchData(currentLat, currentLon);
+// const showPosition = (position) => {
+//   currentLat = position.coords.latitude;
+//   currentLon = position.coords.longitude;
+//   fetchData(currentLat, currentLon);
+// };
 
-  const refreshLocationBtn = document.getElementById("refreshLocationBtn");
-  refreshLocationBtn.addEventListener("click", () => {
-    fetchData(currentLat, currentLon);
-    console.log("Refreshed location");
-  });
-};
+// const refreshLocationBtn = document.getElementById("refreshLocationBtn");
+// refreshLocationBtn.addEventListener("click", () => {
+//   fetchData(currentLat, currentLon);
+//   console.log("Refreshed location");
+// });
 
 async function fetchData(currentLat, currentLon) {
   // check if currentLat & currentLon are defined
@@ -416,19 +444,19 @@ async function fetchData(currentLat, currentLon) {
     const dataCityElement = document.getElementById("locationResults");
     dataCityElement.textContent = dataCity;
 
-    // const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
+    // const dataWeatherResults = dailyEntryObj.weather;
 
-    dataWeatherResultsSection = document.getElementById("weatherResults");
+    const dataWeatherResultsSection = document.getElementById("weatherResults");
+    dataWeatherResultsSection.innerHTML = "";
     // dataWeatherResultsSection.textContent = dailyEntryObj.weather;
+    // ? dataWeatherResults
+    // : "Past Entry - No Weather Data Available";
 
     // Append icon img to weather results
-
     dataWeatherResultsSection.append(dataWeatherResults);
-    dataWeatherResultsSection.appendChild(weatherIconElement);
+    dataWeatherResultsSection.append(weatherIconElement);
 
-    // Handle the retrieved data
-    // console.log(data);
-    // return dataWeatherResultsSection;
+    return dataWeatherResults;
   } catch (error) {
     // Handle any errors that occurred during the fetch
     console.error("Fetch error:", error);
@@ -438,70 +466,66 @@ async function fetchData(currentLat, currentLon) {
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
 function populateForm() {
-  // This is the date to look for in dailyEntryObj objects within entriesArray
-  let targetDate = dateElement.value;
-  console.log("type of date: ", typeof targetDate);
-  console.log("date: ", targetDate);
+  try {
+    let targetDate = dateElement.value;
 
-  console.log("Entries Array", entriesArray);
+    console.log("type of date: ", typeof targetDate);
+    console.log("date: ", targetDate);
 
-  entriesArray.forEach((entry) => {
-    console.log("Entry Date", typeof entry.date, entry.date);
-  });
+    let foundEntry = entriesArray.find((entry) => entry.date === entryDate);
+    console.log("Found Entry", foundEntry);
 
-  // Find the entry with the target date
-  let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+    if (foundEntry) {
+      const {
+        date,
+        weather,
+        journal,
+        isFlagged,
+        emotionTracker,
+        waterTracker,
+        medications,
+        exercises,
+        habits,
+      } = foundEntry;
 
-  console.log("Found Entry", foundEntry);
+      currentDate.value = date;
+      journalInput.value = journal;
 
-  if (foundEntry) {
-    const {
-      date,
-      weather,
-      journal,
-      isFlagged,
-      emotionTracker,
-      waterTracker,
-      medications,
-      exercises,
-      habits,
-    } = foundEntry;
+      if (isFlagged) {
+        flagButton.classList.add("flagged");
+        newObjIsFlagged = true;
+      } else {
+        flagButton.classList.remove("flagged");
+        newObjIsFlagged = false;
+        //! if this breaks, condition to leave as is
+      }
 
-    currentDate.value = date;
-    journalInput.value = journal;
-
-    if (isFlagged) {
-      flagButton.classList.add("flagged");
-      newObjIsFlagged = true;
+      reverseRadioValue("emotionTracker", emotionTracker);
+      reverseRadioValue("waterTracker", waterTracker);
+      updateMedList(medications, medList, medKey);
+      updateExerciseList(exercises, exerciseList, exKey);
+      updateHabitList(habits, habitList, habKey);
     } else {
-      flagButton.classList.remove("flagged");
-      newObjIsFlagged = false;
-      //! if this breaks, condition to leave as is
+      form.reset();
+      updateMedList(medicationsArray, medList, medKey);
+      updateExerciseList(exercisesArray, exerciseList, exKey);
+      updateHabitList(habitsArray, habitList, habKey);
+      fetchData(currentLat, currentLon);
+
+      dailyEntryObj = {
+        date: currentDate.value,
+        weather: "",
+        journal: "",
+        isFlagged: false,
+        emotionTracker: "",
+        waterTracker: "",
+        medications: [],
+        exercises: [],
+        habits: [],
+      };
     }
-
-    reverseRadioValue("emotionTracker", emotionTracker);
-    reverseRadioValue("waterTracker", waterTracker);
-    updateMedList(medications, medList, medKey);
-    updateExerciseList(exercises, exerciseList, exKey);
-    updateHabitList(habits, habitList, habKey);
-  } else {
-    form.reset();
-    updateMedList(medicationsArray, medList, medKey);
-    updateExerciseList(exercisesArray, exerciseList, exKey);
-    updateHabitList(habitsArray, habitList, habKey);
-    fetchData(currentLat, currentLon);
-
-    dailyEntryObj = {
-      date: currentDate.value,
-      weather: "",
-      journal: "",
-      isFlagged: false,
-      emotionTracker: "",
-      waterTracker: "",
-      medications: [],
-      exercises: [],
-      habits: [],
-    };
+  } catch {
+    console.error("Error in populating form", error);
   }
 }
 
