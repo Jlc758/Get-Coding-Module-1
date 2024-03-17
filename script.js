@@ -423,11 +423,12 @@ async function fetchData(currentLat, currentLon) {
 
     // Append icon img to weather results
 
+    dataWeatherResultsSection.append(dataWeatherResults);
     dataWeatherResultsSection.appendChild(weatherIconElement);
 
     // Handle the retrieved data
     // console.log(data);
-    return dataWeatherResultsSection;
+    // return dataWeatherResultsSection;
   } catch (error) {
     // Handle any errors that occurred during the fetch
     console.error("Fetch error:", error);
