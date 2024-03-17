@@ -355,42 +355,12 @@ function checkedItems(sectionArray) {
   return sectionArray.filter((updatedItem) => updatedItem.IsChecked === true);
 }
 
-// const checkedMedications = checkedItems(medicationsArray).map(
-//   (item) => item.MedText
-// );
-// const checkedExercises = checkedItems(exercisesArray).map(
-//   (item) => item.Exercise
-// );
-// const checkedHabits = checkedItems(habitsArray).map((item) => item.Habit);
-
-// ! I think I need to make a new function and call checkedItems() for each array to get the relevant list, and then compile it into a list to be saved as the day-of entry
-
-// const updateCheckedItems = () => {
-//   for (let i = 0; i < checkboxes.length; i++) {
-//     checkboxes[i].addEventListener("change", () => {
-//       let id = checkboxes[i].id;
-//       let itemText = checkboxes[i].parentElement.textContent.trim();
-
-//       if (checkboxes[i].checked) {
-//         if (id.startsWith("exercisesCheckbox")) {
-//           checkedExercises.push(itemText);
-//         } else if (id.startsWith("habitsCheckbox")) {
-//           checkedHabits.push(itemText);
-//         } else if (id.startsWith("medicationsCheckbox")) {
-//           checkedMedications.push(itemText);
-//         }
-//       } else {
-//         console.log("Error with checkboxes");
-//       }
-//     });
-//   }
-// };
-
 // ---------- Weather ---------- //
 
 let currentLat;
 let currentLon;
 let dataWeatherResultsSection;
+let dataWeatherResults;
 
 const showPosition = (position) => {
   currentLat = position.coords.latitude;
@@ -436,7 +406,7 @@ async function fetchData(currentLat, currentLon) {
     const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
 
     // Handle the retrieved data
-    dailyEntryObj.weather = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
+    dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
 
     // Create img element for the weather icon
     const weatherIconElement = document.createElement("img");
@@ -448,8 +418,8 @@ async function fetchData(currentLat, currentLon) {
 
     // const dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
 
-    const dataWeatherResultsSection = document.getElementById("weatherResults");
-    dataWeatherResultsSection.textContent = dailyEntryObj.weather;
+    dataWeatherResultsSection = document.getElementById("weatherResults");
+    // dataWeatherResultsSection.textContent = dailyEntryObj.weather;
 
     // Append icon img to weather results
 
@@ -457,7 +427,7 @@ async function fetchData(currentLat, currentLon) {
 
     // Handle the retrieved data
     // console.log(data);
-    return data;
+    return dataWeatherResultsSection;
   } catch (error) {
     // Handle any errors that occurred during the fetch
     console.error("Fetch error:", error);
@@ -560,8 +530,10 @@ flagClick(flag);
 
 // ---------- Submit Daily Entry ---------- //
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  await fetchData(currentLat, currentLon);
 
   const checkedMedications = checkedItems(medicationsArray).map(
     (item) => item.MedText
@@ -573,7 +545,7 @@ form.addEventListener("submit", (event) => {
 
   let dailyEntryObj = {
     date: entryDate,
-    weather: dataWeatherResultsSection,
+    weather: dataWeatherResults,
     journal: journalInput.value,
     isFlagged: newObjIsFlagged,
     emotionTracker: radioValue("emotionTracker"),
@@ -589,6 +561,14 @@ form.addEventListener("submit", (event) => {
   localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
   console.log("Form Submitted: ", dailyEntryObj);
+  console.log(
+    "Meds",
+    dailyEntryObj.medications,
+    "Ex",
+    dailyEntryObj.exercises,
+    "Hab",
+    dailyEntryObj.habits
+  );
 });
 
 // ------------- All Entries Page -------------- //
