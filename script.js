@@ -46,7 +46,6 @@ const habKey = "habitsArray";
 let entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
 let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
-
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
 let dailyEntryObj = {
@@ -74,12 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
     updateHabitList(habitsArray, habitList, habKey);
-    console.log(
-      "Entries Array: ",
-      entriesArray,
-      "Checked Meds: ",
-      checkedMedications
-    );
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -164,10 +157,9 @@ function flagClick(flag) {
       flag.classList.remove("flagged");
       newObjIsFlagged = false;
     }
+    return newObjIsFlagged;
   });
 }
-
-// ! Use filter for flagged entries
 
 // --=-------- Radio Trackers ---------- //
 
@@ -362,6 +354,14 @@ const updateHabitList = (habitsArray, habitList, habKey) => {
 function checkedItems(sectionArray) {
   return sectionArray.filter((updatedItem) => updatedItem.IsChecked === true);
 }
+
+// const checkedMedications = checkedItems(medicationsArray).map(
+//   (item) => item.MedText
+// );
+// const checkedExercises = checkedItems(exercisesArray).map(
+//   (item) => item.Exercise
+// );
+// const checkedHabits = checkedItems(habitsArray).map((item) => item.Habit);
 
 // ! I think I need to make a new function and call checkedItems() for each array to get the relevant list, and then compile it into a list to be saved as the day-of entry
 
@@ -563,16 +563,24 @@ flagClick(flag);
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  const checkedMedications = checkedItems(medicationsArray).map(
+    (item) => item.MedText
+  );
+  const checkedExercises = checkedItems(exercisesArray).map(
+    (item) => item.Exercise
+  );
+  const checkedHabits = checkedItems(habitsArray).map((item) => item.Habit);
+
   let dailyEntryObj = {
     date: entryDate,
-    weather: weatherResults.textContent,
+    weather: dataWeatherResultsSection,
     journal: journalInput.value,
     isFlagged: newObjIsFlagged,
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: medicationsArray,
-    exercises: exercisesArray,
-    habits: habitsArray,
+    medications: checkedMedications,
+    exercises: checkedExercises,
+    habits: checkedHabits,
   };
 
   // ^ this converts the values to strings before storing.
@@ -581,7 +589,6 @@ form.addEventListener("submit", (event) => {
   localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
   console.log("Form Submitted: ", dailyEntryObj);
-  console.log(entriesArray, medicationsArray, exercisesArray, habitsArray);
 });
 
 // ------------- All Entries Page -------------- //
