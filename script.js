@@ -497,8 +497,10 @@ function populateForm() {
       } else {
         flagButton.classList.remove("flagged");
         newObjIsFlagged = false;
-        //! if this breaks, condition to leave as is
       }
+
+      dataWeatherResults.textContent = weather;
+      // ! I don't know if this will populate prior strings of weather because I can't test it
 
       reverseRadioValue("emotionTracker", emotionTracker);
       reverseRadioValue("waterTracker", waterTracker);
