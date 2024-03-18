@@ -608,9 +608,12 @@ form.addEventListener("submit", async (event) => {
 });
 
 // ---------- Flagged Entries ---------- //
-const flaggedEntries = entriesArray.filter((entry) => entry.isFlagged);
+const flaggedEntries = (entriesArray) => {
+  let flaggedEntriesResults = entriesArray.filter((entry) => entry.isFlagged);
+  return flaggedEntriesResults;
+};
 
-const flaggedEntriesString = `?flaggedEntries`;
+export { flaggedEntries };
 
 // ------------- All Entries Page -------------- //
 // let allEntriesList = document.getElementById("allEntriesList");
