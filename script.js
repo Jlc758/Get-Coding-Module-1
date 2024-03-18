@@ -117,7 +117,6 @@ dateElement.addEventListener("change", () => {
     entryDate = formattedDate;
 
     populateForm();
-
     console.log(formattedDate);
   } catch (error) {
     console.error(error);
@@ -138,6 +137,24 @@ accordionItems.forEach((item) => {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
     }
+    accordionItems.forEach((otherItem) => {
+      if (otherItem !== item) {
+        let content = otherItem.querySelector(".accordion-content");
+        if (content.style.display !== "none") {
+          content.style.display = "none";
+        }
+      }
+    });
+  });
+});
+
+let expandButton = document.getElementById("expandAll");
+
+expandButton.addEventListener("click", () => {
+  accordionItems.forEach((item) => {
+    let content = item.querySelector(".accordion-content");
+
+    content.style.display = "block";
   });
 });
 
@@ -270,7 +287,6 @@ const updateMedList = (medicationsArray, medList, medKey) => {
 };
 
 // ---------- Exercises  ---------- //
-// !Convert ex & hab to objs
 
 function addExerciseItem(
   exercisesArray,
@@ -387,20 +403,8 @@ function checkedItems(sectionArray) {
 
 let currentLat;
 let currentLon;
-let dataWeatherResultsSection;
+let dataWeatherResultsSection = document.getElementById("weatherResults");
 let dataWeatherResults;
-
-// const showPosition = (position) => {
-//   currentLat = position.coords.latitude;
-//   currentLon = position.coords.longitude;
-//   fetchData(currentLat, currentLon);
-// };
-
-// const refreshLocationBtn = document.getElementById("refreshLocationBtn");
-// refreshLocationBtn.addEventListener("click", () => {
-//   fetchData(currentLat, currentLon);
-//   console.log("Refreshed location");
-// });
 
 async function fetchData(currentLat, currentLon) {
   // check if currentLat & currentLon are defined
@@ -446,7 +450,7 @@ async function fetchData(currentLat, currentLon) {
 
     // const dataWeatherResults = dailyEntryObj.weather;
 
-    const dataWeatherResultsSection = document.getElementById("weatherResults");
+    // const dataWeatherResultsSection = document.getElementById("weatherResults");
     dataWeatherResultsSection.innerHTML = "";
     // dataWeatherResultsSection.textContent = dailyEntryObj.weather;
     // ? dataWeatherResults
@@ -499,8 +503,7 @@ function populateForm() {
         newObjIsFlagged = false;
       }
 
-      dataWeatherResults.textContent = weather;
-      // ! I don't know if this will populate prior strings of weather because I can't test it
+      dataWeatherResultsSection.textContent = weather;
 
       reverseRadioValue("emotionTracker", emotionTracker);
       reverseRadioValue("waterTracker", waterTracker);
@@ -513,10 +516,14 @@ function populateForm() {
       updateExerciseList(exercisesArray, exerciseList, exKey);
       updateHabitList(habitsArray, habitList, habKey);
       fetchData(currentLat, currentLon);
+      newObjIsFlagged = false;
+
+      dataWeatherResultsSection.textContent =
+        "Past Entry - No Weather Data Available";
 
       dailyEntryObj = {
         date: currentDate.value,
-        weather: "",
+        weather: dataWeatherResultsSection.textContent,
         journal: "",
         isFlagged: false,
         emotionTracker: "",
@@ -526,7 +533,7 @@ function populateForm() {
         habits: [],
       };
     }
-  } catch {
+  } catch (error) {
     console.error("Error in populating form", error);
   }
 }
@@ -591,6 +598,8 @@ form.addEventListener("submit", async (event) => {
   console.log(
     "Meds",
     dailyEntryObj.medications,
+    "MedArray",
+    medicationsArray,
     "Ex",
     dailyEntryObj.exercises,
     "Hab",
@@ -598,8 +607,18 @@ form.addEventListener("submit", async (event) => {
   );
 });
 
+// ---------- Flagged Entries ---------- //
+const flaggedEntries = entriesArray.filter((entry) => entry.isFlagged);
+
+const flaggedEntriesString = `?flaggedEntries`;
+
 // ------------- All Entries Page -------------- //
 // let allEntriesList = document.getElementById("allEntriesList");
 // function addToAllEntriesList() {
 //   allEntriesList = dailyEntryObj;
 // }
+
+// ? Ask Andrew for Help:
+// 1. I would like the weather section to reflect a string of "No Weather Data Available" when a prior date is selected and there isn't an entry saved for that date.
+// 2. Flag for Doctor is staying red / flagged even after a different date is selected.  How do I get the flag to revert to white / false when a new date is selected that has no entry saved?
+// 3. Lock entries older than 2 days prior for editing
