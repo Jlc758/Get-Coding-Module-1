@@ -1,12 +1,12 @@
 * {
-  border: 1px solid red;
+  border: 1px solid rgb(8, 8, 8);
 }
 
 /* General styles for all devices */
 body {
-  background-color: #feeafa;
+  background-color: #2a233b;
   font-family: "KayPhoDu", "Courier New", Courier, monospace;
-  color: #1b2043;
+  color: #b5d8f0;
   font-size: small;
 }
 
@@ -38,7 +38,7 @@ body {
 .main-header-title {
   font-size: x-large;
   font-family: "Dosis", Arial, Helvetica, sans-serif;
-  text-shadow: 2px 2px 2px #83c5be;
+  text-shadow: 2px 2px 2px #acaab1;
   text-align: center;
   padding-top: 2em;
 }
@@ -59,7 +59,7 @@ body {
 }
 
 .accordion-content {
-  background-color: pink;
+  background-color: rgb(225, 192, 255);
   border-top: 4em;
 }
 

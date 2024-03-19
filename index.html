@@ -212,14 +212,16 @@
             <header class="accordion-header">Exercise Tracker</header>
             <div class="accordion-content">
               <fieldset id="addExerciseForm">
-                <input type="text" id="newExercise" />
-                <input type="number" id="repCount" />
-                <button type="button" id="addExerciseBtn">
-                  <img
-                    src="./icons_images/plus-64.png"
-                    alt="Add New Exercise"
-                  />
-                </button>
+                <div>
+                  <input type="text" id="newExercise" />
+                  <input type="number" id="repCount" />
+                  <button type="button" id="addExerciseBtn">
+                    <img
+                      src="./icons_images/plus-64.png"
+                      alt="Add New Exercise"
+                    />
+                  </button>
+                </div>
                 <div id="exerciseListContainer">Type of Exercise</div>
                 <ul id="exerciseList"></ul>
               </fieldset>
@@ -252,6 +254,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="script.js"></script>
+    <script src="script.js" type="module"></script>
   </body>
 </html>

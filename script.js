@@ -3,6 +3,16 @@ let dateElement = document.getElementById("date");
 let currentDate = new Date();
 let timezoneOffset = currentDate.getTimezoneOffset();
 currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
+
+let previousDate = new Date(currentDate.getTime());
+previousDate.setDate(currentDate.getDate() - 2);
+
+console.log(
+  "Dates: ",
+  currentDate.toISOString().slice(0, 10),
+  previousDate.toISOString().slice(0, 10)
+);
+
 let formattedDate = currentDate.toISOString().slice(0, 10);
 dateElement.value = formattedDate;
 let entryDate;
@@ -45,6 +55,7 @@ const habKey = "habitsArray";
 let entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
 let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
+console.log("Exercises:", exercisesArray);
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
 let dailyEntryObj = {
@@ -200,6 +211,7 @@ function flagClick(flag) {
       newObjIsFlagged = true;
     } else {
       flag.classList.remove("flagged");
+      // ! Add to populate form
       newObjIsFlagged = false;
     }
     return newObjIsFlagged;
@@ -310,9 +322,10 @@ function addExerciseItem(
         RepCount: newRepCount,
         IsChecked: false,
       };
-      localStorage.setItem(key, JSON.stringify(exercisesArray));
 
       exercisesArray.push(exerciseObject);
+
+      localStorage.setItem(key, JSON.stringify(exercisesArray));
 
       updateExerciseList(exercisesArray, exerciseList, exKey);
       exerciseInput.value = "";
@@ -335,6 +348,7 @@ const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
     checkbox.className = "checkboxes";
     checkbox.checked = updatedItem.IsChecked;
     checkbox.dataset.index = index;
+    checkbox.disabled = true;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
       exercisesArray[itemIndex].IsChecked = event.target.checked;
@@ -525,7 +539,7 @@ function populateForm() {
         date: currentDate.value,
         weather: dataWeatherResultsSection.textContent,
         journal: "",
-        isFlagged: false,
+        isFlagged: newObjIsFlagged,
         emotionTracker: "",
         waterTracker: "",
         medications: [],
@@ -572,9 +586,7 @@ form.addEventListener("submit", async (event) => {
   const checkedMedications = checkedItems(medicationsArray).map(
     (item) => item.MedText
   );
-  const checkedExercises = checkedItems(exercisesArray).map(
-    (item) => item.Exercise
-  );
+  const checkedExercises = checkedItems(exercisesArray);
   const checkedHabits = checkedItems(habitsArray).map((item) => item.Habit);
 
   let dailyEntryObj = {
@@ -625,3 +637,7 @@ export { flaggedEntries };
 // 1. I would like the weather section to reflect a string of "No Weather Data Available" when a prior date is selected and there isn't an entry saved for that date.
 // 2. Flag for Doctor is staying red / flagged even after a different date is selected.  How do I get the flag to revert to white / false when a new date is selected that has no entry saved?
 // 3. Lock entries older than 2 days prior for editing
+
+// ? Things to do
+// disable form for more than 2 days ago
+// Fix weather formatting
