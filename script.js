@@ -211,7 +211,6 @@ function flagClick(flag) {
       newObjIsFlagged = true;
     } else {
       flag.classList.remove("flagged");
-      // ! Add to populate form
       newObjIsFlagged = false;
     }
     return newObjIsFlagged;
@@ -531,6 +530,7 @@ function populateForm() {
       updateHabitList(habitsArray, habitList, habKey);
       fetchData(currentLat, currentLon);
       newObjIsFlagged = false;
+      flag.classList.remove("flagged");
 
       dataWeatherResultsSection.textContent =
         "Past Entry - No Weather Data Available";
