@@ -625,19 +625,6 @@ const flaggedEntries = (entriesArray) => {
   return flaggedEntriesResults;
 };
 
-export { flaggedEntries };
-
-// ------------- All Entries Page -------------- //
-// let allEntriesList = document.getElementById("allEntriesList");
-// function addToAllEntriesList() {
-//   allEntriesList = dailyEntryObj;
-// }
-
-// ? Ask Andrew for Help:
-// 1. I would like the weather section to reflect a string of "No Weather Data Available" when a prior date is selected and there isn't an entry saved for that date.
-// 2. Flag for Doctor is staying red / flagged even after a different date is selected.  How do I get the flag to revert to white / false when a new date is selected that has no entry saved?
-// 3. Lock entries older than 2 days prior for editing
-
 // ? Things to do
 // disable form for more than 2 days ago
 // Fix weather formatting
