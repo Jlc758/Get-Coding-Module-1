@@ -164,8 +164,16 @@ let expandButton = document.getElementById("expandAll");
 expandButton.addEventListener("click", () => {
   accordionItems.forEach((item) => {
     let content = item.querySelector(".accordion-content");
-
     content.style.display = "block";
+  });
+});
+
+let collapseButton = document.getElementById("collapseAll");
+
+collapseButton.addEventListener("click", () => {
+  accordionItems.forEach((item) => {
+    let content = item.querySelector(".accordion-content");
+    content.style.display = "none";
   });
 });
 
@@ -209,6 +217,11 @@ function flagClick(flag) {
     if (!newObjIsFlagged) {
       flag.classList.add("flagged");
       newObjIsFlagged = true;
+      let checkmark = document.createElement("img");
+      checkmark.style.border = "none";
+      checkmark.src = "./icons_images/checkmark-20.png";
+
+      flagButton.append(checkmark);
     } else {
       flag.classList.remove("flagged");
       newObjIsFlagged = false;

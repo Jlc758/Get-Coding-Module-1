@@ -6,7 +6,7 @@
 body {
   background-color: #2a233b;
   font-family: "KayPhoDu", "Courier New", Courier, monospace;
-  color: #b5d8f0;
+  color: #b8d0eb;
   font-size: small;
 }
 
@@ -63,6 +63,10 @@ body {
   border-top: 4em;
 }
 
+#menu {
+  border: none;
+}
+
 button.flag,
 button.submit {
   background-color: #83c5be;
@@ -73,7 +77,16 @@ button.submit {
 }
 
 button.flagged {
-  background-color: red;
+  background-color: #b8d0eb;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  border-color: #1b2043;
+}
+
+button {
+  background-color: #b298dc;
   color: white;
   font-size: 14px;
   font-weight: bold;
