@@ -242,9 +242,11 @@ img {
 }
 
 .flagged-header {
-  background-color: white;
+  background-color: #bcbcf4;
 }
 
 .flagged-content {
-  background-color: grey;
+  white-space: pre-line;
+
+  background-color: #8e9aaf;
 }

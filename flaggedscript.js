@@ -32,13 +32,13 @@ flaggedEntries.forEach((entry) => {
   const flaggedOther = document.createElement("div");
   flaggedOther.classList = "flagged-content";
   flaggedOther.style.display = "none";
-  flaggedOther.textContent =
-    entry.weather +
-    entry.emotionTracker +
-    entry.waterTracker +
-    entry.medications +
-    entry.exercises +
-    entry.habits;
+
+  flaggedOther.textContent = ` ${entry.weather}
+    ${entry.emotionTracker}
+    ${entry.waterTracker}
+    ${entry.medications}
+    ${entry.exercises}
+    ${entry.habits}`;
 
   flaggedJournal.append(flaggedOther);
   container.appendChild(flaggedJournal);
