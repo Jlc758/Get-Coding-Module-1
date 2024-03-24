@@ -4,19 +4,16 @@ let currentDate = new Date();
 let timezoneOffset = currentDate.getTimezoneOffset();
 currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
 
-let twoDaysAgo = new Date(currentDate.getTime());
-twoDaysAgo.setDate(currentDate.getDate() - 2);
-
-console.log(
-  "Dates: ",
-  currentDate.toISOString().slice(0, 10),
-  twoDaysAgo.toISOString().slice(0, 10)
-);
+let previousDate = new Date(currentDate.getTime());
+previousDate.setDate(currentDate.getDate() - 2);
+let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
 let formattedDate = currentDate.toISOString().slice(0, 10);
 dateElement.value = formattedDate;
 let entryDate;
 let selectedDate;
+
+console.log("Dates: ", formattedDate, twoDaysAgo);
 
 // currentDate.value = new Date().toISOString().slice(0, 10);
 
@@ -126,6 +123,19 @@ dateElement.addEventListener("change", () => {
     let selectedDate = new Date(dateElement.value);
     let formattedDate = selectedDate.toISOString().slice(0, 10);
     entryDate = formattedDate;
+
+    if (formattedDate <= twoDaysAgo) {
+      journalInput.disabled = true;
+      medInput.disabled = true;
+      countInput.disabled = true;
+      exerciseInput.disabled = true;
+      repCount.disabled = true;
+      habitInput.disabled = true;
+
+      // let checkboxes = document.querySelectorAll("input[type='checkbox']");
+    } else {
+      console.log("within 2 days");
+    }
 
     populateForm();
     console.log(formattedDate);
@@ -303,6 +313,11 @@ const updateMedList = (medicationsArray, medList, medKey) => {
       medicationsArray[itemIndex].IsChecked = event.target.checked;
     });
 
+    if (formattedDate <= twoDaysAgo) {
+      checkboxes.forEach(function (checkbox) {
+        checkbox.disabled = true;
+      });
+    }
     // !Read up on dataset
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
@@ -630,6 +645,8 @@ form.addEventListener("submit", async (event) => {
     dailyEntryObj.habits
   );
 });
+
+// --------- Lock Down Entries +2 Days Old ---------- //
 
 // ? Things to do
 // disable form for more than 2 days ago
