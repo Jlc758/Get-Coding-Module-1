@@ -4,13 +4,13 @@ let currentDate = new Date();
 let timezoneOffset = currentDate.getTimezoneOffset();
 currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
 
-let previousDate = new Date(currentDate.getTime());
-previousDate.setDate(currentDate.getDate() - 2);
+let twoDaysAgo = new Date(currentDate.getTime());
+twoDaysAgo.setDate(currentDate.getDate() - 2);
 
 console.log(
   "Dates: ",
   currentDate.toISOString().slice(0, 10),
-  previousDate.toISOString().slice(0, 10)
+  twoDaysAgo.toISOString().slice(0, 10)
 );
 
 let formattedDate = currentDate.toISOString().slice(0, 10);
@@ -360,7 +360,6 @@ const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
     checkbox.className = "checkboxes";
     checkbox.checked = updatedItem.IsChecked;
     checkbox.dataset.index = index;
-    checkbox.disabled = true;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
       exercisesArray[itemIndex].IsChecked = event.target.checked;
@@ -632,12 +631,9 @@ form.addEventListener("submit", async (event) => {
   );
 });
 
-// ---------- Flagged Entries ---------- //
-const flaggedEntries = (entriesArray) => {
-  let flaggedEntriesResults = entriesArray.filter((entry) => entry.isFlagged);
-  return flaggedEntriesResults;
-};
-
 // ? Things to do
 // disable form for more than 2 days ago
 // Fix weather formatting
+// Figure out why checked habits aren't saving
+// populate flagged entries on cards on other page
+// if all this is done, investigate charts

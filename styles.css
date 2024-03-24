@@ -56,14 +56,16 @@ body {
 }
 
 .accordion-header {
-  background-color: rgb(188, 188, 244);
+  background-color: #bcbcf4;
   border-bottom: 4em;
 }
 
 .accordion-content {
   /* background-color: rgb(225, 192, 255); */
-  background-color: #bbd0ff;
+  background: linear-gradient(to bottom, #bcbcf4, transparent);
   border-top: 4em;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 #menu {
@@ -148,7 +150,7 @@ ul {
   width: 16px;
   height: 16px;
 
-  border: 2px solid #83c5be;
+  border: 2px solid #2f2e30;
   transition: 0.2s all linear;
   margin-right: 5px;
 
