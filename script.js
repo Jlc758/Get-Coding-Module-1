@@ -15,6 +15,12 @@ let selectedDate;
 
 console.log("Dates: ", formattedDate, twoDaysAgo);
 
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+  }
+});
+
 // currentDate.value = new Date().toISOString().slice(0, 10);
 
 //  ---------- Variables ---------- //
@@ -124,18 +130,18 @@ dateElement.addEventListener("change", () => {
     let formattedDate = selectedDate.toISOString().slice(0, 10);
     entryDate = formattedDate;
 
-    if (formattedDate <= twoDaysAgo) {
-      journalInput.disabled = true;
-      medInput.disabled = true;
-      countInput.disabled = true;
-      exerciseInput.disabled = true;
-      repCount.disabled = true;
-      habitInput.disabled = true;
+    // if (formattedDate <= twoDaysAgo) {
+    //   journalInput.disabled = true;
+    //   medInput.disabled = true;
+    //   countInput.disabled = true;
+    //   exerciseInput.disabled = true;
+    //   repCount.disabled = true;
+    //   habitInput.disabled = true;
 
-      // let checkboxes = document.querySelectorAll("input[type='checkbox']");
-    } else {
-      console.log("within 2 days");
-    }
+    //   // let checkboxes = document.querySelectorAll("input[type='checkbox']");
+    // } else {
+    //   console.log("within 2 days");
+    // }
 
     populateForm();
     console.log(formattedDate);
@@ -559,9 +565,6 @@ function populateForm() {
       newObjIsFlagged = false;
       flag.classList.remove("flagged");
 
-      dataWeatherResultsSection.textContent =
-        "Past Entry - No Weather Data Available";
-
       dailyEntryObj = {
         date: currentDate.value,
         weather: dataWeatherResultsSection.textContent,
@@ -644,6 +647,9 @@ form.addEventListener("submit", async (event) => {
     "Hab",
     dailyEntryObj.habits
   );
+
+  form.reset();
+  journalInput.value = "Entry Saved";
 });
 
 // --------- Lock Down Entries +2 Days Old ---------- //
