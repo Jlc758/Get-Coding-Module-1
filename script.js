@@ -648,8 +648,10 @@ form.addEventListener("submit", async (event) => {
     dailyEntryObj.habits
   );
 
-  form.reset();
+  // form.reset();
   journalInput.value = "Entry Saved";
+
+  console.log("Flagged Entries: ");
 });
 
 // --------- Lock Down Entries +2 Days Old ---------- //

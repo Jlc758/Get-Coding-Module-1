@@ -43,13 +43,21 @@ body {
   padding-top: 2em;
 }
 
-.accordion {
+.instructions {
+  display: flex;
+  justify-content: right;
+  padding-right: 4em;
+}
+
+.accordion,
+#flaggedItemsContainer {
   margin-left: 4em;
   margin-right: 4em;
   min-width: max-content;
 }
 
-.accordion-item {
+.accordion-item,
+#flaggedItemsContainer {
   background-color: #b8d0eb;
 
   padding: 20px;
@@ -226,4 +234,17 @@ img {
 #locationSection {
   padding: 2em;
   align-items: baseline;
+}
+
+.flagged-header,
+.flagged-content {
+  color: #2a233b;
+}
+
+.flagged-header {
+  background-color: white;
+}
+
+.flagged-content {
+  background-color: grey;
 }
