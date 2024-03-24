@@ -1,6 +1,6 @@
-* {
+/* * {
   border: 1px solid rgb(8, 8, 8);
-}
+} */
 
 /* General styles for all devices */
 body {
@@ -50,6 +50,8 @@ body {
 }
 
 .accordion-item {
+  background-color: #b8d0eb;
+
   padding: 20px;
 }
 
@@ -59,12 +61,30 @@ body {
 }
 
 .accordion-content {
-  background-color: rgb(225, 192, 255);
+  /* background-color: rgb(225, 192, 255); */
+  background-color: #bbd0ff;
   border-top: 4em;
 }
 
 #menu {
   border: none;
+}
+
+#fillableEntry {
+  width: 100%;
+  border: none;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+  background-color: rgb(228, 228, 228);
+  border-radius: 5px;
+  border-color: #acaab1;
+}
+
+input[type="number"] {
+  width: 3rem;
 }
 
 button.flag,
@@ -94,6 +114,16 @@ button {
   border-color: #1b2043;
 }
 
+.dateAndLocation {
+  display: flex;
+}
+
+.locationSection {
+  display: flex;
+  align-items: auto;
+  padding-left: 10px;
+}
+
 #confirmLocationBtn {
   height: 1rem;
   width: 10px;
@@ -107,10 +137,6 @@ ul {
 
 #exampleFormControlTextarea1 {
   border-width: 3px;
-}
-
-.fillableForm {
-  appearance: none;
 }
 
 /* Radio Buttons */
@@ -146,10 +172,27 @@ button:active {
 }
 
 /* Add Button */
-button.addItem {
+#addMedicationBtn,
+#addExerciseBtn,
+#addHabitBtn {
   background-color: transparent;
   border: none;
   padding: 0.5em;
+}
+
+.expandCollapse {
+  display: flex;
+  justify-content: center;
+}
+
+.delete-button {
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  justify-content: center;
+  height: 1rem;
+  font-size: x-small;
+  text-align: center;
 }
 
 img {
@@ -167,11 +210,11 @@ img {
   padding: 10px;
 }
 
-.delete-button {
+/* .delete-button {
   height: auto;
   width: 50px;
   background-color: green;
-}
+} */
 
 .weatherContainer {
   display: flex;

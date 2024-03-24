@@ -47,6 +47,7 @@
         <nav class="offcanvas-body">
           <div>
             <ul>
+              <li><a href="index.html">Main</a></li>
               <li><a href="weeklysum.html">Weekly Summary</a></li>
               <li><a href="flagged.html">Flagged Entries</a></li>
               <li><a href="allentries.html">All Entries</a></li>
@@ -54,35 +55,39 @@
           </div>
         </nav>
       </div>
-      <div id="datePicker">
-        <input type="date" name="date" id="date" />
+      <div class="dateAndLocation">
+        <div id="datePicker">
+          <input type="date" name="date" id="date" />
+        </div>
+        <div class="locationSection">
+          <div id="locationResults"></div>
+          <div>
+            Refresh location?
+            <button type="button" id="refreshLocationBtn">X</button>
+          </div>
+        </div>
       </div>
     </header>
 
     <main>
       <form id="dailyEntry">
         <div class="weatherContainer">
-          <div class="locationSection">
-            <div id="locationResults"></div>
-            <div>
-              Refresh location?
-              <button type="button" id="refreshLocationBtn">X</button>
-            </div>
+          <div class="weatherResultsSection">
+            <div id="weatherResults"></div>
           </div>
-          <div class="weatherResultsSection"></div>
-          <div id="weatherResults"></div>
         </div>
-        <button type="button" id="expandAll">Expand All</button>
-        <button type="button" id="collapseAll">Collapse All</button>
 
         <div class="accordion">
+          <div class="expandCollapse">
+            <button type="button" id="expandAll">Expand All</button>
+            <button type="button" id="collapseAll">Collapse All</button>
+          </div>
           <section class="accordion-item">
             <header class="accordion-header">Journal Entry</header>
 
             <div class="accordion-content">
               <div class="fillableForm"></div>
-              <input type="text" name="fillable" id="fillableEntry" />
-
+              <input type="text" id="fillableEntry" />
               <p>
                 <button type="button" id="flag">Flag for Doctor</button>
               </p>
@@ -198,13 +203,13 @@
               <fieldset id="addMedicationForm">
                 <input type="text" id="newMedication" />
                 <input type="number" id="medCount" />
-                <button type="click" id="addMedicationBtn" class="addItem">
+                <button type="button" id="addMedicationBtn" class="addItem">
                   <img
                     src="./icons_images/plus-64.png"
                     alt="Add New Medication"
                   />
                 </button>
-                <div class="medListContainer">Name of Medication</div>
+                <div class="medListContainer"></div>
                 <ul id="medList"></ul>
               </fieldset>
             </div>
@@ -224,7 +229,7 @@
                     />
                   </button>
                 </div>
-                <div id="exerciseListContainer">Type of Exercise</div>
+                <div id="exerciseListContainer"></div>
                 <ul id="exerciseList"></ul>
               </fieldset>
             </div>
@@ -238,7 +243,7 @@
                 <button type="button" id="addHabitBtn">
                   <img src="./icons_images/plus-64.png" alt="Add New Habit" />
                 </button>
-                <div id="habitListContainer">Name of Habit</div>
+                <div id="habitListContainer"></div>
                 <ul id="habitList"></ul>
               </fieldset>
             </div>
@@ -247,8 +252,6 @@
         <button type="submit" id="submitButton">Submit</button>
       </form>
     </main>
-
-    <!-- jQuery UI -->
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
