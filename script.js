@@ -484,7 +484,7 @@ async function fetchData(currentLat, currentLon) {
     const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
 
     // Handle the retrieved data
-    dataWeatherResults = `Temperature: ${dataTemp}  Feels Like: ${dataFeelsLike}  Description:  ${dataDescription}`;
+    dataWeatherResults = `Temperature: ${dataTemp}\nFeels Like: ${dataFeelsLike}\n${dataDescription} `;
 
     // Create img element for the weather icon
     const weatherIconElement = document.createElement("img");

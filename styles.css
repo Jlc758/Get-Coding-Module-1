@@ -36,7 +36,7 @@ body {
 }
 
 .main-header-title {
-  font-size: x-large;
+  font-size: xx-large;
   font-family: "Dosis", Arial, Helvetica, sans-serif;
   text-shadow: 2px 2px 2px #acaab1;
   text-align: center;
@@ -63,7 +63,9 @@ body {
   padding: 20px;
 }
 
-.accordion-header {
+.accordion-header,
+.offcanvas-body,
+.offcanvas-header {
   background-color: #bcbcf4;
   border-bottom: 4em;
 }
@@ -124,20 +126,9 @@ button {
   border-color: #1b2043;
 }
 
-.dateAndLocation {
+.dateSection {
   display: flex;
-}
-
-.locationSection {
-  display: flex;
-  align-items: auto;
-  padding-left: 10px;
-}
-
-#confirmLocationBtn {
-  height: 1rem;
-  width: 10px;
-  background-color: yellow;
+  justify-content: center;
 }
 
 ul {
@@ -193,6 +184,7 @@ button:active {
 .expandCollapse {
   display: flex;
   justify-content: center;
+  padding: 1em;
 }
 
 .delete-button {
@@ -220,21 +212,36 @@ img {
   padding: 10px;
 }
 
-/* .delete-button {
-  height: auto;
-  width: 50px;
-  background-color: green;
-} */
+.navAndLocation {
+  display: flex;
+  padding-left: 2em;
+}
 
 .weatherContainer {
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  height: fit-content;
+  margin-top: -30px;
+  margin-bottom: -50px;
 }
 
-#locationSection {
-  padding: 2em;
-  align-items: baseline;
+.locationSection {
+  display: flexbox;
+  padding-left: 2em;
 }
+
+.weatherResultsSection {
+  display: flexbox;
+  text-align: right;
+  white-space: pre-wrap;
+  padding-right: 2em;
+}
+
+/* .locationSection {
+  display: flexbox;
+  justify-items: start;
+} */
 
 .flagged-header,
 .flagged-content {
@@ -249,4 +256,10 @@ img {
   white-space: pre-line;
 
   background-color: #8e9aaf;
+}
+
+.submitButton {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
 }

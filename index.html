@@ -19,16 +19,17 @@
   <body>
     <header class="main-header">
       <h1 class="main-header-title">Mental Health & Wellbeing Tracker</h1>
-
-      <button
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasExample"
-        aria-controls="offcanvasExample"
-        aria-label="Toggle Navigation Menu"
-        ;
-      >
-        <img src="./icons_images/menu.png" alt="Navigation Menu" id="menu" />
-      </button>
+      <div class="navAndLocation">
+        <button
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasExample"
+          aria-controls="offcanvasExample"
+          aria-label="Toggle Navigation Menu"
+          ;
+        >
+          <img src="./icons_images/menu.png" alt="Navigation Menu" id="menu" />
+        </button>
+      </div>
 
       <div
         class="offcanvas offcanvas-top"
@@ -55,23 +56,18 @@
           </div>
         </nav>
       </div>
-      <div class="dateAndLocation">
-        <div id="datePicker">
-          <input type="date" name="date" id="date" />
-        </div>
-        <div class="locationSection">
-          <div id="locationResults"></div>
-          <div>
-            Refresh location?
-            <button type="button" id="refreshLocationBtn">X</button>
-          </div>
-        </div>
-      </div>
     </header>
 
     <main>
       <form id="dailyEntry">
         <div class="weatherContainer">
+          <div class="locationSection">
+            <div id="locationResults"></div>
+            <div>
+              Refresh location?
+              <button type="button" id="refreshLocationBtn">X</button>
+            </div>
+          </div>
           <div class="weatherResultsSection">
             <div id="weatherResults"></div>
           </div>
@@ -81,6 +77,11 @@
           <div class="expandCollapse">
             <button type="button" id="expandAll">Expand All</button>
             <button type="button" id="collapseAll">Collapse All</button>
+          </div>
+          <div class="dateSection">
+            <div id="datePicker">
+              <input type="date" name="date" id="date" />
+            </div>
           </div>
           <section class="accordion-item">
             <header class="accordion-header">Journal Entry</header>
@@ -249,7 +250,9 @@
             </div>
           </section>
         </div>
-        <button type="submit" id="submitButton">Submit</button>
+        <div class="submitButton">
+          <button type="submit" id="submitButton">Submit</button>
+        </div>
       </form>
     </main>
 
