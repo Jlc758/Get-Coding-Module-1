@@ -1,25 +1,21 @@
 // localStorage.clear();
-
 let dateElement = document.getElementById("date");
-let currentDate = new Date().toISOString().slice(0, 10);
-dateElement.value = currentDate;
-
-// let dateElement = document.getElementById("date");
-// let currentDate = new Date();
-// let timezoneOffset = currentDate.getTimezoneOffset();
-// let formattedDate = (
-//   currentDate.getMilliseconds() - currentDate.getTimezoneOffset()
-// )
-//   .toString()
-//   .slice(0, 10);
-// // let formattedDate = currentDate.setMinutes(
-// //   currentDate.getMinutes() - timezoneOffset
-// // );
-// // let formattedDate = currentDate.toString().slice(0, 10);
-
+let currentDate = new Date();
+let timezoneOffset = currentDate.getTimezoneOffset();
+currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
 let previousDate = new Date(currentDate.getTime());
 previousDate.setDate(currentDate.getDate() - 2);
-let twoDaysAgo = previousDate.toISOString().slice(0, 10);
+console.log(
+  "Dates: ",
+  currentDate.toISOString().slice(0, 10),
+  previousDate.toISOString().slice(0, 10)
+);
+let formattedDate = currentDate.toISOString().slice(0, 10);
+dateElement.value = formattedDate;
+let entryDate;
+let selectedDate;
+
+console.log("formatted: ", formattedDate, "prev: ", previousDate);
 
 // dateElement.value = formattedDate;
 // // let entryDate;
@@ -92,6 +88,7 @@ let dailyEntryObj = {
 document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
+
     populateForm();
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
