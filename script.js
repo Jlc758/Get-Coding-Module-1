@@ -1,22 +1,30 @@
 // localStorage.clear();
+
 let dateElement = document.getElementById("date");
-let currentDate = new Date();
-let timezoneOffset = currentDate.getTimezoneOffset();
-let formattedDate = currentDate.setMinutes(
-  currentDate.getMinutes() - timezoneOffset
-);
-formattedDate.toString().slice(0, 10);
+let currentDate = new Date().toISOString().slice(0, 10);
+dateElement.value = currentDate;
+
+// let dateElement = document.getElementById("date");
+// let currentDate = new Date();
+// let timezoneOffset = currentDate.getTimezoneOffset();
+// let formattedDate = (
+//   currentDate.getMilliseconds() - currentDate.getTimezoneOffset()
+// )
+//   .toString()
+//   .slice(0, 10);
+// // let formattedDate = currentDate.setMinutes(
+// //   currentDate.getMinutes() - timezoneOffset
+// // );
+// // let formattedDate = currentDate.toString().slice(0, 10);
 
 let previousDate = new Date(currentDate.getTime());
 previousDate.setDate(currentDate.getDate() - 2);
 let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
-dateElement.value = formattedDate;
-// let entryDate;
-let selectedDate;
-// let selectedDate = new Date(dateElement.value);
-
-console.log("Dates: ", formattedDate, twoDaysAgo);
+// dateElement.value = formattedDate;
+// // let entryDate;
+// let selectedDate;
+// // let selectedDate = new Date(dateElement.value);
 
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
@@ -65,7 +73,7 @@ console.log("Exercises:", exercisesArray);
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
 let dailyEntryObj = {
-  date: formattedDate,
+  date: "", //! Need to update once date issue is fixed
   weather: "",
   journal: "",
   isFlagged: newObjIsFlagged,
@@ -309,11 +317,11 @@ const updateMedList = (medicationsArray, medList, medKey) => {
       medicationsArray[itemIndex].IsChecked = event.target.checked;
     });
 
-    if (formattedDate <= twoDaysAgo) {
-      checkboxes.forEach(function (checkbox) {
-        checkbox.disabled = true;
-      });
-    }
+    // if (formattedDate <= twoDaysAgo) {
+    //   checkboxes.forEach(function (checkbox) {
+    //     checkbox.disabled = true;
+    //   });
+    // }
     // !Read up on dataset
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
