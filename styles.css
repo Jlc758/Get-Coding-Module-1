@@ -126,7 +126,7 @@ button {
   border-color: #1b2043;
 }
 
-.dateSection {
+#datePicker {
   display: flex;
   justify-content: center;
 }

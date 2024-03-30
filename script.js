@@ -2,16 +2,19 @@
 let dateElement = document.getElementById("date");
 let currentDate = new Date();
 let timezoneOffset = currentDate.getTimezoneOffset();
-currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
+let formattedDate = currentDate.setMinutes(
+  currentDate.getMinutes() - timezoneOffset
+);
+formattedDate.toString().slice(0, 10);
 
 let previousDate = new Date(currentDate.getTime());
 previousDate.setDate(currentDate.getDate() - 2);
 let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
-let formattedDate = currentDate.toISOString().slice(0, 10);
 dateElement.value = formattedDate;
-let entryDate;
+// let entryDate;
 let selectedDate;
+// let selectedDate = new Date(dateElement.value);
 
 console.log("Dates: ", formattedDate, twoDaysAgo);
 
@@ -130,21 +133,8 @@ dateElement.addEventListener("change", () => {
     let formattedDate = selectedDate.toISOString().slice(0, 10);
     entryDate = formattedDate;
 
-    // if (formattedDate <= twoDaysAgo) {
-    //   journalInput.disabled = true;
-    //   medInput.disabled = true;
-    //   countInput.disabled = true;
-    //   exerciseInput.disabled = true;
-    //   repCount.disabled = true;
-    //   habitInput.disabled = true;
-
-    //   // let checkboxes = document.querySelectorAll("input[type='checkbox']");
-    // } else {
-    //   console.log("within 2 days");
-    // }
-
     populateForm();
-    console.log(formattedDate);
+    console.log("Formatted date w/i change: ", formattedDate);
   } catch (error) {
     console.error(error);
   }
@@ -657,7 +647,6 @@ form.addEventListener("submit", async (event) => {
 // --------- Lock Down Entries +2 Days Old ---------- //
 
 // ? Things to do
-// disable form for more than 2 days ago
 // Fix weather formatting
 // Figure out why checked habits aren't saving
 // populate flagged entries on cards on other page
