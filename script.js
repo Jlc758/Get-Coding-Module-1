@@ -17,24 +17,6 @@ let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
 console.log("Two Days ago: ", twoDaysAgo);
 
-// let previousDate = new Date(currentDate.getTime());
-// previousDate.setDate(currentDate.getDate() - 2);
-// console.log(
-//   "Dates: ",
-//   currentDate.toISOString().slice(0, 10),
-//   previousDate.toISOString().slice(0, 10)
-// );
-
-// let entryDate;
-// let selectedDate;
-
-// console.log("formatted: ", formattedDate, "prev: ", previousDate);
-
-// dateElement.value = formattedDate;
-// // let entryDate;
-// let selectedDate;
-// // let selectedDate = new Date(dateElement.value);
-
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -158,6 +140,15 @@ dateElement.addEventListener("change", () => {
       habitInput.disabled = true;
       let submit = document.getElementById("submitButton");
       submit.disabled = true;
+    } else {
+      journalInput.disabled = false;
+      medInput.disabled = false;
+      countInput.disabled = false;
+      exerciseInput.disabled = false;
+      repCount.disabled = false;
+      habitInput.disabled = false;
+      let submit = document.getElementById("submitButton");
+      submit.disabled = false;
     }
 
     populateForm(formattedDate);
@@ -627,10 +618,19 @@ form.addEventListener("submit", async (event) => {
     isFlagged: newObjIsFlagged,
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: [],
-    exercises: [],
-    habits: [],
+    medications: medList.innerHTML,
+    exercises: exerciseList.innerHTML,
+    habits: habitList.innerHTML,
   };
+
+  console.log(
+    "MedList: ",
+    medList.innerHTML,
+    "ExerciseList: ",
+    exerciseList.innerHTML,
+    "HabitList: ",
+    habitList.innerHTML
+  );
 
   // !Habit saving in wrong format to show on DOM
 
