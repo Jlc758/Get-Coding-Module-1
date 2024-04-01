@@ -1,21 +1,34 @@
 // localStorage.clear();
 let dateElement = document.getElementById("date");
 let currentDate = new Date();
+
 let timezoneOffset = currentDate.getTimezoneOffset();
 currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
-let previousDate = new Date(currentDate.getTime());
-previousDate.setDate(currentDate.getDate() - 2);
-console.log(
-  "Dates: ",
-  currentDate.toISOString().slice(0, 10),
-  previousDate.toISOString().slice(0, 10)
-);
-let formattedDate = currentDate.toISOString().slice(0, 10);
-dateElement.value = formattedDate;
-let entryDate;
-let selectedDate;
 
-console.log("formatted: ", formattedDate, "prev: ", previousDate);
+let formattedDate = currentDate.toISOString().slice(0, 10);
+
+console.log("Formatted Date: ", formattedDate);
+
+console.log("Date Element: ", dateElement.value);
+
+let previousDate = new Date(currentDate);
+previousDate.setDate(currentDate.getDate() - 2);
+let twoDaysAgo = previousDate.toISOString().slice(0, 10);
+
+console.log("Two Days ago: ", twoDaysAgo);
+
+// let previousDate = new Date(currentDate.getTime());
+// previousDate.setDate(currentDate.getDate() - 2);
+// console.log(
+//   "Dates: ",
+//   currentDate.toISOString().slice(0, 10),
+//   previousDate.toISOString().slice(0, 10)
+// );
+
+// let entryDate;
+// let selectedDate;
+
+// console.log("formatted: ", formattedDate, "prev: ", previousDate);
 
 // dateElement.value = formattedDate;
 // // let entryDate;
@@ -27,8 +40,6 @@ document.addEventListener("keydown", function (event) {
     event.preventDefault();
   }
 });
-
-// currentDate.value = new Date().toISOString().slice(0, 10);
 
 //  ---------- Variables ---------- //
 const journalInput = document.getElementById("fillableEntry");
@@ -88,8 +99,10 @@ let dailyEntryObj = {
 document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
+    populateForm(formattedDate);
 
-    populateForm();
+    // dateElement.value = formattedDate;
+
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
     updateHabitList(habitsArray, habitList, habKey);
@@ -129,17 +142,25 @@ const showPosition = (position) => {
 };
 
 // ------- Date Picker & dailyEntryObj Manipulation ------- //
-// let dateElement = document.getElementById("date");
 
 dateElement.addEventListener("change", () => {
   try {
     // update formattedDate when the user changes the date
     let selectedDate = new Date(dateElement.value);
-    let formattedDate = selectedDate.toISOString().slice(0, 10);
-    entryDate = formattedDate;
+    formattedDate = selectedDate.toISOString().slice(0, 10);
 
-    populateForm();
-    console.log("Formatted date w/i change: ", formattedDate);
+    if (formattedDate <= twoDaysAgo) {
+      journalInput.disabled = true;
+      medInput.disabled = true;
+      countInput.disabled = true;
+      exerciseInput.disabled = true;
+      repCount.disabled = true;
+      habitInput.disabled = true;
+      let submit = document.getElementById("submitButton");
+      submit.disabled = true;
+    }
+
+    populateForm(formattedDate);
   } catch (error) {
     console.error(error);
   }
@@ -150,7 +171,6 @@ accordionItems.forEach((item) => {
   let content = item.querySelector(".accordion-content");
 
   let header = item.querySelector(".accordion-header");
-  // console.log("content", content);
 
   content.style.display = "none";
 
@@ -314,11 +334,11 @@ const updateMedList = (medicationsArray, medList, medKey) => {
       medicationsArray[itemIndex].IsChecked = event.target.checked;
     });
 
-    // if (formattedDate <= twoDaysAgo) {
-    //   checkboxes.forEach(function (checkbox) {
-    //     checkbox.disabled = true;
-    //   });
-    // }
+    if (formattedDate <= twoDaysAgo) {
+      checkbox.forEach(function (checkbox) {
+        checkbox.disabled = true;
+      });
+    }
     // !Read up on dataset
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
@@ -510,19 +530,16 @@ async function fetchData(currentLat, currentLon) {
 }
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
-function populateForm() {
+function populateForm(targetDate) {
   try {
-    let targetDate = dateElement.value;
+    // console.log("type of date: ", typeof targetDate);
+    // console.log("date: ", targetDate);
 
-    console.log("type of date: ", typeof targetDate);
-    console.log("date: ", targetDate);
-
-    let foundEntry = entriesArray.find((entry) => entry.date === entryDate);
+    let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
     console.log("Found Entry", foundEntry);
 
     if (foundEntry) {
       const {
-        date,
         weather,
         journal,
         isFlagged,
@@ -532,10 +549,7 @@ function populateForm() {
         exercises,
         habits,
       } = foundEntry;
-
-      currentDate.value = date;
       journalInput.value = journal;
-
       if (isFlagged) {
         flagButton.classList.add("flagged");
         newObjIsFlagged = true;
@@ -543,9 +557,7 @@ function populateForm() {
         flagButton.classList.remove("flagged");
         newObjIsFlagged = false;
       }
-
       dataWeatherResultsSection.textContent = weather;
-
       reverseRadioValue("emotionTracker", emotionTracker);
       reverseRadioValue("waterTracker", waterTracker);
       updateMedList(medications, medList, medKey);
@@ -561,7 +573,7 @@ function populateForm() {
       flag.classList.remove("flagged");
 
       dailyEntryObj = {
-        date: currentDate.value,
+        date: targetDate,
         weather: dataWeatherResultsSection.textContent,
         journal: "",
         isFlagged: newObjIsFlagged,
@@ -572,6 +584,8 @@ function populateForm() {
         habits: [],
       };
     }
+
+    dateElement.value = targetDate;
   } catch (error) {
     console.error("Error in populating form", error);
   }
@@ -580,8 +594,6 @@ function populateForm() {
 // ---------- Call Functions ---------- //
 
 fetchData(currentLat, currentLon);
-
-populateForm();
 
 addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList, medKey);
 
@@ -608,23 +620,19 @@ form.addEventListener("submit", async (event) => {
 
   await fetchData(currentLat, currentLon);
 
-  const checkedMedications = checkedItems(medicationsArray).map(
-    (item) => item.MedText
-  );
-  const checkedExercises = checkedItems(exercisesArray);
-  const checkedHabits = checkedItems(habitsArray).map((item) => item.Habit);
-
   let dailyEntryObj = {
-    date: entryDate,
+    date: formattedDate,
     weather: dataWeatherResults,
     journal: journalInput.value,
     isFlagged: newObjIsFlagged,
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: checkedMedications,
-    exercises: checkedExercises,
-    habits: checkedHabits,
+    medications: [],
+    exercises: [],
+    habits: [],
   };
+
+  // !Habit saving in wrong format to show on DOM
 
   // ^ this converts the values to strings before storing.
 
@@ -639,11 +647,14 @@ form.addEventListener("submit", async (event) => {
     medicationsArray,
     "Ex",
     dailyEntryObj.exercises,
+    "ExercisesArray",
+    exercisesArray,
     "Hab",
-    dailyEntryObj.habits
+    dailyEntryObj.habits,
+    "HabitsArray",
+    habitsArray
   );
 
-  // form.reset();
   journalInput.value = "Entry Saved";
 
   console.log("Flagged Entries: ");
