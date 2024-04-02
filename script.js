@@ -58,11 +58,10 @@ const habKey = "habitsArray";
 let entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 let medicationsArray = JSON.parse(localStorage.getItem(medKey)) || [];
 let exercisesArray = JSON.parse(localStorage.getItem(exKey)) || [];
-console.log("Exercises:", exercisesArray);
 let habitsArray = JSON.parse(localStorage.getItem(habKey)) || [];
 
 let dailyEntryObj = {
-  date: "", //! Need to update once date issue is fixed
+  date: formattedDate,
   weather: "",
   journal: "",
   isFlagged: newObjIsFlagged,
@@ -83,11 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchLocationData();
     populateForm(formattedDate);
 
-    // dateElement.value = formattedDate;
-
     updateMedList(medicationsArray, medList, medKey);
     updateExerciseList(exercisesArray, exerciseList, exKey);
     updateHabitList(habitsArray, habitList, habKey);
+
+    console.log("Daily Entry Object: ", dailyEntryObj);
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -131,25 +130,25 @@ dateElement.addEventListener("change", () => {
     let selectedDate = new Date(dateElement.value);
     formattedDate = selectedDate.toISOString().slice(0, 10);
 
-    if (formattedDate <= twoDaysAgo) {
-      journalInput.disabled = true;
-      medInput.disabled = true;
-      countInput.disabled = true;
-      exerciseInput.disabled = true;
-      repCount.disabled = true;
-      habitInput.disabled = true;
-      let submit = document.getElementById("submitButton");
-      submit.disabled = true;
-    } else {
-      journalInput.disabled = false;
-      medInput.disabled = false;
-      countInput.disabled = false;
-      exerciseInput.disabled = false;
-      repCount.disabled = false;
-      habitInput.disabled = false;
-      let submit = document.getElementById("submitButton");
-      submit.disabled = false;
-    }
+    // if (formattedDate <= twoDaysAgo) {
+    //   journalInput.disabled = true;
+    //   medInput.disabled = true;
+    //   countInput.disabled = true;
+    //   exerciseInput.disabled = true;
+    //   repCount.disabled = true;
+    //   habitInput.disabled = true;
+    //   let submit = document.getElementById("submitButton");
+    //   submit.disabled = true;
+    // } else {
+    //   journalInput.disabled = false;
+    //   medInput.disabled = false;
+    //   countInput.disabled = false;
+    //   exerciseInput.disabled = false;
+    //   repCount.disabled = false;
+    //   habitInput.disabled = false;
+    //   let submit = document.getElementById("submitButton");
+    //   submit.disabled = false;
+    // }
 
     populateForm(formattedDate);
   } catch (error) {
@@ -325,11 +324,6 @@ const updateMedList = (medicationsArray, medList, medKey) => {
       medicationsArray[itemIndex].IsChecked = event.target.checked;
     });
 
-    if (formattedDate <= twoDaysAgo) {
-      checkbox.forEach(function (checkbox) {
-        checkbox.disabled = true;
-      });
-    }
     // !Read up on dataset
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
@@ -570,7 +564,7 @@ function populateForm(targetDate) {
         isFlagged: newObjIsFlagged,
         emotionTracker: "",
         waterTracker: "",
-        medications: [],
+        medications: "",
         exercises: [],
         habits: [],
       };
@@ -611,27 +605,38 @@ form.addEventListener("submit", async (event) => {
 
   await fetchData(currentLat, currentLon);
 
-  let dailyEntryObj = {
+  let medListItems = [];
+  let exListItems = [];
+  let habListItems = [];
+
+  const compileListItems = (listElement, listArray) => {
+    listElement.querySelectorAll("li").forEach((item) => {
+      let text = item.textContent.trim();
+      let isChecked = item.querySelector(".checkboxes").checked;
+
+      listArray.push({ text: text, isChecked: isChecked });
+    });
+    return listArray;
+  };
+
+  compileListItems(medList, medListItems);
+  compileListItems(exerciseList, exListItems);
+  compileListItems(habitList, habListItems);
+
+  dailyEntryObj = {
     date: formattedDate,
     weather: dataWeatherResults,
     journal: journalInput.value,
     isFlagged: newObjIsFlagged,
     emotionTracker: radioValue("emotionTracker"),
     waterTracker: radioValue("waterTracker"),
-    medications: medList.innerHTML,
-    exercises: exerciseList.innerHTML,
-    habits: habitList.innerHTML,
+    medications: medListItems,
+    exercises: exListItems,
+    habits: habListItems,
   };
 
-  console.log(
-    "MedList: ",
-    medList.innerHTML,
-    "ExerciseList: ",
-    exerciseList.innerHTML,
-    "HabitList: ",
-    habitList.innerHTML
-  );
-
+  // dailyEntryObj.medications.push(newItem);
+  // newItem.append(dailyEntryObj.medications);
   // !Habit saving in wrong format to show on DOM
 
   // ^ this converts the values to strings before storing.
