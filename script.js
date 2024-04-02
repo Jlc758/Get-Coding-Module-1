@@ -71,6 +71,8 @@ let dailyEntryObj = {
   exercises: [],
   habits: [],
 };
+let errorMessage = document.getElementById("errorMessageSection");
+errorMessage.style.display = "none";
 
 // const showPosition = (position) => {
 //   currentLat = position.coords.latitude;
@@ -522,7 +524,9 @@ async function fetchData(currentLat, currentLon) {
 
 function populateForm(targetDate) {
   try {
-    let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+    let foundEntry = entriesArray.find(
+      (entry) => entry.date === targetDate && journal.input.length > 0
+    );
     console.log("Found Entry", foundEntry);
     // console.log("type of date: ", typeof targetDate);
     // console.log("date: ", targetDate);
@@ -563,6 +567,10 @@ function populateForm(targetDate) {
       fetchData(currentLat, currentLon);
       newObjIsFlagged = false;
       flag.classList.remove("flagged");
+      let checkboxes = document.querySelectorAll('input[type = "checkbox"]');
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+      });
 
       dailyEntryObj = {
         date: targetDate,
@@ -610,66 +618,73 @@ flagClick(flag);
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  await fetchData(currentLat, currentLon);
+  if (journalInput.value.length !== 0) {
+    if ((errorMessage.style.display = "block")) {
+      errorMessage.style.display = "none";
+    }
+    await fetchData(currentLat, currentLon);
 
-  let medListItems = [];
-  let exListItems = [];
-  let habListItems = [];
+    let medListItems = [];
+    let exListItems = [];
+    let habListItems = [];
 
-  const compileListItems = (listElement, listArray) => {
-    listElement.querySelectorAll("li").forEach((item) => {
-      let text = item.textContent.trim();
-      let isChecked = item.querySelector(".checkboxes").checked;
+    const compileListItems = (listElement, listArray) => {
+      listElement.querySelectorAll("li").forEach((item) => {
+        let text = item.textContent.trim();
+        let isChecked = item.querySelector(".checkboxes").checked;
 
-      listArray.push({ text: text, isChecked: isChecked });
-    });
-    return listArray;
-  };
+        listArray.push({ text: text, isChecked: isChecked });
+      });
+      return listArray;
+    };
 
-  compileListItems(medList, medListItems);
-  compileListItems(exerciseList, exListItems);
-  compileListItems(habitList, habListItems);
+    compileListItems(medList, medListItems);
+    compileListItems(exerciseList, exListItems);
+    compileListItems(habitList, habListItems);
 
-  dailyEntryObj = {
-    date: formattedDate,
-    weather: dataWeatherResults,
-    journal: journalInput.value,
-    isFlagged: newObjIsFlagged,
-    emotionTracker: radioValue("emotionTracker"),
-    waterTracker: radioValue("waterTracker"),
-    medications: medListItems,
-    exercises: exListItems,
-    habits: habListItems,
-  };
+    dailyEntryObj = {
+      date: formattedDate,
+      weather: dataWeatherResults,
+      journal: journalInput.value,
+      isFlagged: newObjIsFlagged,
+      emotionTracker: radioValue("emotionTracker"),
+      waterTracker: radioValue("waterTracker"),
+      medications: medListItems,
+      exercises: exListItems,
+      habits: habListItems,
+    };
 
-  // dailyEntryObj.medications.push(newItem);
-  // newItem.append(dailyEntryObj.medications);
-  // !Habit saving in wrong format to show on DOM
+    // dailyEntryObj.medications.push(newItem);
+    // newItem.append(dailyEntryObj.medications);
+    // !Habit saving in wrong format to show on DOM
 
-  // ^ this converts the values to strings before storing.
+    // ^ this converts the values to strings before storing.
 
-  entriesArray.push(dailyEntryObj);
-  localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
+    entriesArray.push(dailyEntryObj);
+    localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
-  console.log("Form Submitted: ", dailyEntryObj);
-  console.log(
-    "Meds",
-    dailyEntryObj.medications,
-    "MedArray",
-    medicationsArray,
-    "Ex",
-    dailyEntryObj.exercises,
-    "ExercisesArray",
-    exercisesArray,
-    "Hab",
-    dailyEntryObj.habits,
-    "HabitsArray",
-    habitsArray
-  );
+    console.log("Form Submitted: ", dailyEntryObj);
+    console.log(
+      "Meds",
+      dailyEntryObj.medications,
+      "MedArray",
+      medicationsArray,
+      "Ex",
+      dailyEntryObj.exercises,
+      "ExercisesArray",
+      exercisesArray,
+      "Hab",
+      dailyEntryObj.habits,
+      "HabitsArray",
+      habitsArray
+    );
 
-  journalInput.value = "Entry Saved";
+    journalInput.value = "Entry Saved";
 
-  console.log("Flagged Entries: ");
+    console.log("Flagged Entries: ");
+  } else {
+    errorMessage.style.display = "block";
+  }
 });
 
 // --------- Lock Down Entries +2 Days Old ---------- //
