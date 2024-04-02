@@ -10,17 +10,28 @@ body {
   font-size: small;
 }
 
-/* Media query for devices with a maximum width of 600 pixels */
-@media only screen and (max-width: 600px) {
+/* Media query for devices with a maximum width of 400 pixels */
+@media only screen and (max-width: 400px) {
   body {
     font-size: 14px;
   }
 }
 
-/* Media query for devices with a minimum width of 1200 pixels */
+/* Media query for devices with a minimum width of 500 pixels */
+@media only screen and (min-width: 500px) {
+  body {
+    font-size: 16px;
+    margin-left: 4em;
+    margin-right: 4em;
+  }
+}
+
+/* Media query for devices with a minimum width of 1400 pixels */
 @media only screen and (min-width: 1200px) {
   body {
-    font-size: 18px;
+    font-size: 16px;
+    margin-left: 7em;
+    margin-right: 7em;
   }
 }
 
@@ -51,8 +62,6 @@ body {
 
 .accordion,
 #flaggedItemsContainer {
-  margin-left: 4em;
-  margin-right: 4em;
   min-width: max-content;
 }
 

@@ -130,25 +130,27 @@ dateElement.addEventListener("change", () => {
     let selectedDate = new Date(dateElement.value);
     formattedDate = selectedDate.toISOString().slice(0, 10);
 
-    // if (formattedDate <= twoDaysAgo) {
-    //   journalInput.disabled = true;
-    //   medInput.disabled = true;
-    //   countInput.disabled = true;
-    //   exerciseInput.disabled = true;
-    //   repCount.disabled = true;
-    //   habitInput.disabled = true;
-    //   let submit = document.getElementById("submitButton");
-    //   submit.disabled = true;
-    // } else {
-    //   journalInput.disabled = false;
-    //   medInput.disabled = false;
-    //   countInput.disabled = false;
-    //   exerciseInput.disabled = false;
-    //   repCount.disabled = false;
-    //   habitInput.disabled = false;
-    //   let submit = document.getElementById("submitButton");
-    //   submit.disabled = false;
-    // }
+    if (formattedDate <= twoDaysAgo) {
+      journalInput.disabled = true;
+      medInput.disabled = true;
+      countInput.disabled = true;
+      exerciseInput.disabled = true;
+      repCount.disabled = true;
+      habitInput.disabled = true;
+      let submit = document.getElementById("submitButton");
+      submit.disabled = true;
+    } else {
+      journalInput.disabled = false;
+      medInput.disabled = false;
+      countInput.disabled = false;
+      exerciseInput.disabled = false;
+      repCount.disabled = false;
+      habitInput.disabled = false;
+      let submit = document.getElementById("submitButton");
+      submit.disabled = false;
+      let checkbox = document.getElementsByClassName("checkboxes");
+      document.querySelectorAll(checkbox).isChecked.false;
+    }
 
     populateForm(formattedDate);
   } catch (error) {
@@ -231,6 +233,7 @@ const updateJournalEntry = (input) => {
   const value = journalInput.value.trim();
   dailyEntryObj.journal = value;
 };
+let checkmark = document.createElement("img");
 
 function flagClick(flag) {
   flag.addEventListener("click", () => {
@@ -238,13 +241,14 @@ function flagClick(flag) {
     if (!newObjIsFlagged) {
       flag.classList.add("flagged");
       newObjIsFlagged = true;
-      let checkmark = document.createElement("img");
+
       checkmark.style.border = "none";
       checkmark.src = "./icons_images/checkmark-20.png";
 
       flagButton.append(checkmark);
     } else {
       flag.classList.remove("flagged");
+      flagButton.removeChild(checkmark);
       newObjIsFlagged = false;
     }
     return newObjIsFlagged;
@@ -515,13 +519,16 @@ async function fetchData(currentLat, currentLon) {
 }
 
 // --------- Function Execution, Event Handling, & Form Submission --------- //
+
 function populateForm(targetDate) {
   try {
+    let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+    console.log("Found Entry", foundEntry);
     // console.log("type of date: ", typeof targetDate);
     // console.log("date: ", targetDate);
 
-    let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
-    console.log("Found Entry", foundEntry);
+    // let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
+    // console.log("Found Entry", foundEntry);
 
     if (foundEntry) {
       const {
@@ -565,8 +572,8 @@ function populateForm(targetDate) {
         emotionTracker: "",
         waterTracker: "",
         medications: "",
-        exercises: [],
-        habits: [],
+        exercises: "",
+        habits: "",
       };
     }
 
