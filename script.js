@@ -12,7 +12,7 @@ console.log("Formatted Date: ", formattedDate);
 console.log("Date Element: ", dateElement.value);
 
 let previousDate = new Date(currentDate);
-previousDate.setDate(currentDate.getDate() - 2);
+previousDate.setDate(currentDate.getDate() - 3);
 let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
 console.log("Two Days ago: ", twoDaysAgo);
@@ -151,7 +151,6 @@ dateElement.addEventListener("change", () => {
       let submit = document.getElementById("submitButton");
       submit.disabled = false;
       let checkbox = document.getElementsByClassName("checkboxes");
-      document.querySelectorAll(checkbox).isChecked.false;
     }
 
     populateForm(formattedDate);
@@ -525,7 +524,7 @@ async function fetchData(currentLat, currentLon) {
 function populateForm(targetDate) {
   try {
     let foundEntry = entriesArray.find(
-      (entry) => entry.date === targetDate && journal.input.length > 0
+      (entry) => entry.date === targetDate && journalInput.value.length > 0
     );
     console.log("Found Entry", foundEntry);
     // console.log("type of date: ", typeof targetDate);
@@ -561,6 +560,7 @@ function populateForm(targetDate) {
       updateHabitList(habits, habitList, habKey);
     } else {
       form.reset();
+      console.log("Empty Entry");
       updateMedList(medicationsArray, medList, medKey);
       updateExerciseList(exercisesArray, exerciseList, exKey);
       updateHabitList(habitsArray, habitList, habKey);
