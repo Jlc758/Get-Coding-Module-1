@@ -267,15 +267,9 @@ img {
   background-color: #8e9aaf;
 }
 
+#errorMessageSection,
 .submitButton {
   display: flex;
   justify-content: center;
   padding: 1em;
-}
-
-#errorMessageSection {
-  display: flex;
-  justify-content: center;
-  padding: 1em;
-  background-color: blue;
 }

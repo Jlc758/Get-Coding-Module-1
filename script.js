@@ -42,6 +42,11 @@ const habitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
 
+// // Individual arrays for date-specific dailyEntryObj entries
+// let medListItems = [];
+// let exListItems = [];
+// let habListItems = [];
+
 // ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
@@ -84,11 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchLocationData();
     populateForm(formattedDate);
 
-    updateMedList(medicationsArray, medList, medKey);
-    updateExerciseList(exercisesArray, exerciseList, exKey);
-    updateHabitList(habitsArray, habitList, habKey);
+    // updateMedList(medicationsArray, medList, medKey);
+    // updateExerciseList(exercisesArray, exerciseList, exKey);
+    // updateHabitList(habitsArray, habitList, habKey);
 
     console.log(
+      "Entries Array",
+      entriesArray,
       "Meds DEO",
       dailyEntryObj.medications,
       "MedArray",
@@ -240,6 +247,13 @@ const deleteButton = (sectionArray, index, listElement, key) => {
   return deleteButton;
 };
 
+// const compileListItems = (listElement, listArray) => {
+//   listElement.querySelectorAll("li").forEach((item) => {
+//     listArray.push(listElement.innerHTML);
+//   });
+//   return listArray;
+// };
+
 // ---------- Journal Entry ---------- //
 
 const updateJournalEntry = (input) => {
@@ -339,6 +353,8 @@ const updateMedList = (sectionArray, sectionList, key) => {
     fragment.appendChild(newItem);
   });
   sectionList.appendChild(fragment);
+  dailyEntryObj.medications.push(fragment);
+  console.log("Is this working?", dailyEntryObj.medications);
 };
 
 // ---------- Exercises  ---------- //
@@ -485,18 +501,19 @@ async function fetchData(currentLat, currentLon) {
 
     // Pull city from API key-value pairs
     const dataCity = data.name;
-    const dataTemp = (data.main.temp - 273.15).toFixed(2);
-    const dataFeelsLike = (data.main.feels_like - 273.15).toFixed(2);
+    const dataTemp = Math.round(data.main.temp - 273.15).toFixed(0);
+    const dataFeelsLike = Math.round(data.main.feels_like - 273.15).toFixed(0);
     const dataDescription = data.weather[0].description;
     const dataWeatherIcon = data.weather[0].icon;
     const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
 
     // Handle the retrieved data
-    dataWeatherResults = `Temperature: ${dataTemp}\nFeels Like: ${dataFeelsLike}\n${dataDescription} `;
+    dataWeatherResults = `Temperature: ${dataTemp}\nFeels Like: ${dataFeelsLike}\n`;
 
     // Create img element for the weather icon
     const weatherIconElement = document.createElement("img");
     weatherIconElement.src = dataWeatherUrl;
+    weatherIconElement.setAttribute = ("alt", dataDescription.textContent);
 
     // Update DOM with City from API key-value pairs
     const dataCityElement = document.getElementById("locationResults");
@@ -526,18 +543,16 @@ async function fetchData(currentLat, currentLon) {
 
 function populateForm(targetDate) {
   try {
-    let foundEntry = entriesArray.find(
-      (entry) => entry.date === targetDate && journalInput.value.length > 0
-    );
-    console.log("Found Entry", foundEntry);
-    // console.log("type of date: ", typeof targetDate);
-    // console.log("date: ", targetDate);
+    dateElement.value = targetDate;
+    // let foundEntry = entriesArray.find(
+    //   (entry) => entry.date === targetDate && journalInput.value.length > 0
+    // );
 
-    // let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
-    // console.log("Found Entry", foundEntry);
+    let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
 
     if (foundEntry) {
       const {
+        date,
         weather,
         journal,
         isFlagged,
@@ -547,6 +562,7 @@ function populateForm(targetDate) {
         exercises,
         habits,
       } = foundEntry;
+      targetDate = date;
       journalInput.value = journal;
       if (isFlagged) {
         flagButton.classList.add("flagged");
@@ -561,8 +577,24 @@ function populateForm(targetDate) {
       updateMedList(medications, medList, medKey);
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
+
+      console.log("Found Entry", foundEntry);
+
+      // let restoreCheckmarks = (itemList, sectionList) => {
+      //   itemList.forEach((item) => {
+      //     let checkbox = sectionList.querySelector(".checkboxes");
+      //     if (item.isChecked) {
+      //       checkbox.checked = true;
+      //     }
+      //   });
+      // };
+
+      // restoreCheckmarks(medListItems, medList);
+      // restoreCheckmarks(exListItems, exerciseList);
+      // restoreCheckmarks(habListItems, habitList);
     } else {
       form.reset();
+      dateElement.value = formattedDate;
       console.log("Empty Entry");
       updateMedList(medicationsArray, medList, medKey);
       updateExerciseList(exercisesArray, exerciseList, exKey);
@@ -587,8 +619,6 @@ function populateForm(targetDate) {
         habits: "",
       };
     }
-
-    dateElement.value = targetDate;
   } catch (error) {
     console.error("Error in populating form", error);
   }
@@ -627,23 +657,23 @@ form.addEventListener("submit", async (event) => {
     }
     await fetchData(currentLat, currentLon);
 
-    let medListItems = [];
-    let exListItems = [];
-    let habListItems = [];
+    // let medListItems = [];
+    // let exListItems = [];
+    // let habListItems = [];
 
-    const compileListItems = (listElement, listArray) => {
-      listElement.querySelectorAll("li").forEach((item) => {
-        let text = item.textContent.trim();
-        let isChecked = item.querySelector(".checkboxes").checked;
+    // const compileListItems = (listElement, listArray) => {
+    //   listElement.querySelectorAll("li").forEach((item) => {
+    //     let text = item.textContent.trim();
+    //     let isChecked = item.querySelector(".checkboxes").checked;
 
-        listArray.push({ text: text, isChecked: isChecked });
-      });
-      return listArray;
-    };
+    //     listArray.push({ text: text, isChecked: isChecked });
+    //   });
+    //   return listArray;
+    // };
 
-    compileListItems(medList, medListItems);
-    compileListItems(exerciseList, exListItems);
-    compileListItems(habitList, habListItems);
+    // compileListItems(medList, medListItems);
+    // compileListItems(exerciseList, exListItems);
+    // compileListItems(habitList, habListItems);
 
     dailyEntryObj = {
       date: formattedDate,
@@ -652,9 +682,9 @@ form.addEventListener("submit", async (event) => {
       isFlagged: newObjIsFlagged,
       emotionTracker: radioValue("emotionTracker"),
       waterTracker: radioValue("waterTracker"),
-      medications: medListItems,
-      exercises: exListItems,
-      habits: habListItems,
+      medications: "",
+      exercises: "",
+      habits: "",
     };
 
     // dailyEntryObj.medications.push(newItem);
@@ -668,6 +698,8 @@ form.addEventListener("submit", async (event) => {
 
     console.log("Form Submitted: ", dailyEntryObj);
     console.log(
+      "DEO",
+      dailyEntryObj,
       "Meds",
       dailyEntryObj.medications,
       "MedArray",
