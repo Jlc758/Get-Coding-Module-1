@@ -88,7 +88,20 @@ document.addEventListener("DOMContentLoaded", () => {
     updateExerciseList(exercisesArray, exerciseList, exKey);
     updateHabitList(habitsArray, habitList, habKey);
 
-    console.log("Daily Entry Object: ", dailyEntryObj);
+    console.log(
+      "Meds DEO",
+      dailyEntryObj.medications,
+      "MedArray",
+      medicationsArray,
+      "Ex DEO",
+      dailyEntryObj.exercises,
+      "ExercisesArray",
+      exercisesArray,
+      "Hab DEO",
+      dailyEntryObj.habits,
+      "HabitsArray",
+      habitsArray
+    );
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -132,26 +145,25 @@ dateElement.addEventListener("change", () => {
     let selectedDate = new Date(dateElement.value);
     formattedDate = selectedDate.toISOString().slice(0, 10);
 
-    if (formattedDate <= twoDaysAgo) {
-      journalInput.disabled = true;
-      medInput.disabled = true;
-      countInput.disabled = true;
-      exerciseInput.disabled = true;
-      repCount.disabled = true;
-      habitInput.disabled = true;
-      let submit = document.getElementById("submitButton");
-      submit.disabled = true;
-    } else {
-      journalInput.disabled = false;
-      medInput.disabled = false;
-      countInput.disabled = false;
-      exerciseInput.disabled = false;
-      repCount.disabled = false;
-      habitInput.disabled = false;
-      let submit = document.getElementById("submitButton");
-      submit.disabled = false;
-      let checkbox = document.getElementsByClassName("checkboxes");
-    }
+    // if (formattedDate <= twoDaysAgo) {
+    //   journalInput.disabled = true;
+    //   medInput.disabled = true;
+    //   countInput.disabled = true;
+    //   exerciseInput.disabled = true;
+    //   repCount.disabled = true;
+    //   habitInput.disabled = true;
+    //   let submit = document.getElementById("submitButton");
+    //   submit.disabled = true;
+    // } else {
+    //   journalInput.disabled = false;
+    //   medInput.disabled = false;
+    //   countInput.disabled = false;
+    //   exerciseInput.disabled = false;
+    //   repCount.disabled = false;
+    //   habitInput.disabled = false;
+    //   let submit = document.getElementById("submitButton");
+    //   submit.disabled = false;
+    // }
 
     populateForm(formattedDate);
   } catch (error) {
@@ -280,18 +292,11 @@ const reverseRadioValue = (name, value) => {
 
 // ---------- Medications ---------- //
 
-function addMedItem(
-  medicationsArray,
-  medInput,
-  countInput,
-  addMedBtn,
-  medList,
-  key
-) {
-  addMedBtn.addEventListener("click", (event) => {
+function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
+  addBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    const newMedItemValue = medInput.value.trim();
-    const newMedCountValue = countInput.value;
+    const newMedItemValue = inputItem.value.trim();
+    const newMedCountValue = count.value;
 
     if (newMedItemValue && newMedCountValue > 0) {
       let medObject = {
@@ -299,25 +304,25 @@ function addMedItem(
         MedCount: newMedCountValue,
         IsChecked: false,
       };
-      localStorage.setItem(key, JSON.stringify(medicationsArray));
+      localStorage.setItem(key, JSON.stringify(sectionArray));
 
-      medicationsArray.push(medObject);
+      sectionArray.push(medObject);
 
-      updateMedList(medicationsArray, medList, medKey);
-      medInput.value = "";
-      countInput.value = "";
+      updateMedList(sectionArray, sectionList, key);
+      inputItem.value = "";
+      count.value = "";
     }
   });
 }
 
-const updateMedList = (medicationsArray, medList, medKey) => {
-  medList.textContent = "";
+const updateMedList = (sectionArray, sectionList, key) => {
+  sectionList.textContent = "";
   const fragment = document.createDocumentFragment();
 
-  medicationsArray.forEach((updatedItem, index) => {
+  sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-    let deleteBtn = deleteButton(medicationsArray, index, medList, medKey); //pass index here
+    let deleteBtn = deleteButton(sectionArray, index, sectionList, key); //pass index here
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = `medicationsCheckbox${index}`;
@@ -326,33 +331,30 @@ const updateMedList = (medicationsArray, medList, medKey) => {
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
-      medicationsArray[itemIndex].IsChecked = event.target.checked;
+      sectionArray[itemIndex].IsChecked = event.target.checked;
     });
 
     // !Read up on dataset
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
   });
-  medList.appendChild(fragment);
+  sectionList.appendChild(fragment);
 };
 
 // ---------- Exercises  ---------- //
 
 function addExerciseItem(
-  exercisesArray,
-  exerciseInput,
-  repCount,
-  addExerciseBtn,
-  exerciseList,
+  sectionArray,
+  inputItem,
+  count,
+  addBtn,
+  sectionList,
   key
 ) {
-  addExerciseBtn.addEventListener("click", (event) => {
+  addBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    const newExerciseInput = exerciseInput.value.trim();
-    const newRepCount = repCount.value;
-
-    // console.log("ExInput: ", newExerciseInput);
-    // console.log("RepCount: ", newRepCount);
+    const newExerciseInput = inputItem.value.trim();
+    const newRepCount = count.value;
 
     if (newExerciseInput && newRepCount > 0) {
       let exerciseObject = {
@@ -361,25 +363,25 @@ function addExerciseItem(
         IsChecked: false,
       };
 
-      exercisesArray.push(exerciseObject);
+      sectionArray.push(exerciseObject);
 
-      localStorage.setItem(key, JSON.stringify(exercisesArray));
+      localStorage.setItem(key, JSON.stringify(sectionArray));
 
-      updateExerciseList(exercisesArray, exerciseList, exKey);
-      exerciseInput.value = "";
-      repCount.value = "";
+      updateExerciseList(sectionArray, sectionList, key);
+      inputItem.value = "";
+      count.value = "";
     }
   });
 }
 
-const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
-  exerciseList.textContent = "";
+const updateExerciseList = (sectionArray, sectionList, key) => {
+  sectionList.textContent = "";
   const fragment = document.createDocumentFragment();
 
-  exercisesArray.forEach((updatedItem, index) => {
+  sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
-    let deleteBtn = deleteButton(exercisesArray, index, exerciseList, exKey);
+    let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = `exercisesCheckbox${index}`;
@@ -388,45 +390,46 @@ const updateExerciseList = (exercisesArray, exerciseList, exKey) => {
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
-      exercisesArray[itemIndex].IsChecked = event.target.checked;
+      sectionArray[itemIndex].IsChecked = event.target.checked;
     });
 
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
   });
-  exerciseList.appendChild(fragment);
+  sectionList.appendChild(fragment);
 };
 
 // ---------- Habits ---------- //
 
-function addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, key) {
-  addHabitBtn.addEventListener("click", (event) => {
+function addHabitItem(sectionArray, inputItem, addBtn, sectionList, key) {
+  addBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    const newHabitInput = habitInput.value.trim();
+    const newHabitInput = inputItem.value.trim();
 
     if (newHabitInput) {
       let habitObject = {
         Habit: newHabitInput,
         IsChecked: false,
       };
-      localStorage.setItem(key, JSON.stringify(habitsArray));
 
-      habitsArray.push(habitObject);
+      sectionArray.push(habitObject);
 
-      updateHabitList(habitsArray, habitList, key);
-      habitInput.value = "";
+      localStorage.setItem(key, JSON.stringify(sectionArray));
+
+      updateHabitList(sectionArray, sectionList, key);
+      inputItem.value = "";
     }
   });
 }
 
-const updateHabitList = (habitsArray, habitList, habKey) => {
-  habitList.textContent = "";
+const updateHabitList = (sectionArray, sectionList, key) => {
+  sectionList.textContent = "";
   const fragment = document.createDocumentFragment();
 
-  habitsArray.forEach((updatedItem, index) => {
+  sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.Habit}`;
-    let deleteBtn = deleteButton(habitsArray, index, habitList, habKey);
+    let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = `habitsCheckbox${index}`;
@@ -435,20 +438,20 @@ const updateHabitList = (habitsArray, habitList, habKey) => {
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
-      habitsArray[itemIndex].IsChecked = event.target.checked;
+      sectionArray[itemIndex].IsChecked = event.target.checked;
     });
 
     newItem.append(checkbox, deleteBtn);
     fragment.appendChild(newItem);
   });
-  habitList.appendChild(fragment);
+  sectionList.appendChild(fragment);
 };
 
 // ---------- Checkboxes ---------- //
 
-function checkedItems(sectionArray) {
-  return sectionArray.filter((updatedItem) => updatedItem.IsChecked === true);
-}
+// function checkedItems(sectionArray) {
+//   return sectionArray.filter((updatedItem) => updatedItem.IsChecked === true);
+// }
 
 // ---------- Weather ---------- //
 
