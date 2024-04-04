@@ -313,49 +313,84 @@ function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
     const newMedCountValue = count.value;
 
     if (newMedItemValue && newMedCountValue > 0) {
-      let medObject = {
+      const newMedObject = {
         MedText: newMedItemValue,
         MedCount: newMedCountValue,
         IsChecked: false,
       };
-      localStorage.setItem(key, JSON.stringify(sectionArray));
 
-      sectionArray.push(medObject);
+      //! Update Local Storage state
+      medicationsArray.push({ ...newMedObject, IsChecked: false }); //! Ensure IsChecked is false
+      localStorage.setItem(medKey, JSON.stringify(medicationsArray));
 
-      updateMedList(sectionArray, sectionList, key);
+      //! Reflect changes in the DOM by using the array from D.E.O.
+      updateMedList(dailyEntryObj.medications, medList);
       inputItem.value = "";
       count.value = "";
     }
   });
 }
 
-const updateMedList = (sectionArray, sectionList, key) => {
-  sectionList.textContent = "";
-  const fragment = document.createDocumentFragment();
+const updateMedList = (sectionArray, sectionList) => {
+  sectionList.textContent = ""; // Clear existing list
+  sectionArray.forEach((medication, index) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${medication.MedText} - Count: ${medication.MedCount}`;
 
-  sectionArray.forEach((updatedItem, index) => {
-    let newItem = document.createElement("li");
-    newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-    let deleteBtn = deleteButton(sectionArray, index, sectionList, key); //pass index here
-    let checkbox = document.createElement("input");
+    // Create and append the checkbox
+    const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.checked = medication.IsChecked;
     checkbox.id = `medicationsCheckbox${index}`;
     checkbox.className = "checkboxes";
-    checkbox.checked = updatedItem.IsChecked;
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
 
-    // !Read up on dataset
-    newItem.append(checkbox, deleteBtn);
-    fragment.appendChild(newItem);
+    listItem.appendChild(checkbox);
+
+    // Create and append the delete button
+    const deleteBtn = deleteButton(
+      sectionArray,
+      index,
+      sectionList,
+      "medicationsArray"
+    );
+    listItem.appendChild(deleteBtn);
+
+    sectionList.appendChild(listItem);
   });
-  sectionList.appendChild(fragment);
-  dailyEntryObj.medications.push(fragment);
-  console.log("Is this working?", dailyEntryObj.medications);
 };
+
+// const updateMedList = (sectionArray, sectionList, key) => {
+//   sectionList.textContent = "";
+//   const fragment = document.createDocumentFragment();
+
+//   sectionArray.forEach((updatedItem, index) => {
+//     let newItem = document.createElement("li");
+//     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
+//     let deleteBtn = deleteButton(sectionArray, index, sectionList, key); //pass index here
+//     let checkbox = document.createElement("input");
+//     checkbox.type = "checkbox";
+//     checkbox.id = `medicationsCheckbox${index}`;
+//     checkbox.className = "checkboxes";
+//     checkbox.checked = updatedItem.IsChecked;
+//     checkbox.dataset.index = index;
+//     checkbox.addEventListener("change", (event) => {
+//       const itemIndex = event.target.dataset.index;
+//       sectionArray[itemIndex].IsChecked = event.target.checked;
+//     });
+
+//     // !Read up on dataset
+//     newItem.append(checkbox, deleteBtn);
+//     fragment.appendChild(newItem);
+//   });
+//   sectionList.appendChild(fragment);
+//   dailyEntryObj.medications.push(fragment);
+//   console.log("Is this working?", dailyEntryObj.medications);
+// };
 
 // ---------- Exercises  ---------- //
 
@@ -607,6 +642,7 @@ function populateForm(targetDate) {
         checkbox.checked = false;
       });
 
+      //! initialize the arrays for a new form as the local storage arrays
       dailyEntryObj = {
         date: targetDate,
         weather: dataWeatherResultsSection.textContent,
@@ -614,9 +650,9 @@ function populateForm(targetDate) {
         isFlagged: newObjIsFlagged,
         emotionTracker: "",
         waterTracker: "",
-        medications: "",
-        exercises: "",
-        habits: "",
+        medications: medicationsArray,
+        exercises: exercisesArray,
+        habits: habitsArray,
       };
     }
   } catch (error) {
@@ -675,17 +711,13 @@ form.addEventListener("submit", async (event) => {
     // compileListItems(exerciseList, exListItems);
     // compileListItems(habitList, habListItems);
 
-    dailyEntryObj = {
-      date: formattedDate,
-      weather: dataWeatherResults,
-      journal: journalInput.value,
-      isFlagged: newObjIsFlagged,
-      emotionTracker: radioValue("emotionTracker"),
-      waterTracker: radioValue("waterTracker"),
-      medications: "",
-      exercises: "",
-      habits: "",
-    };
+    //! on submit you can directly assign to the previously set values, note that the arrays are not here as they have already been set in their update functions.
+    dailyEntryObj.date = formattedDate;
+    dailyEntryObj.weather = dataWeatherResults;
+    dailyEntryObj.journal = journalInput.value;
+    dailyEntryObj.isFlagged = newObjIsFlagged;
+    dailyEntryObj.emotionTracker = radioValue("emotionTracker");
+    dailyEntryObj.waterTracker = radioValue("waterTracker");
 
     // dailyEntryObj.medications.push(newItem);
     // newItem.append(dailyEntryObj.medications);
