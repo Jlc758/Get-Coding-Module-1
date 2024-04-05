@@ -340,13 +340,20 @@ const updateMedList = (sectionArray, sectionList) => {
     // Create and append the checkbox
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.checked = medication.IsChecked;
+    checkbox.checked = dailyEntryObj.medications.IsChecked;
     checkbox.id = `medicationsCheckbox${index}`;
     checkbox.className = "checkboxes";
     checkbox.dataset.index = index;
-    checkbox.addEventListener("change", (event) => {
-      const itemIndex = event.target.dataset.index;
-      sectionArray[itemIndex].IsChecked = event.target.checked;
+    // checkbox.addEventListener("change", (event) => {
+    //   const itemIndex = event.target.dataset.index;
+    //   sectionArray[itemIndex].IsChecked = event.target.checked;
+    // });
+
+    document.querySelectorAll(".checkboxes").forEach((checkbox) => {
+      checkbox.addEventListener("change", (event) => {
+        let itemIndex = event.target.dataset.index;
+        sectionArray[itemIndex].IsChecked = event.targed.checked;
+      });
     });
 
     listItem.appendChild(checkbox);
@@ -609,9 +616,17 @@ function populateForm(targetDate) {
       dataWeatherResultsSection.textContent = weather;
       reverseRadioValue("emotionTracker", emotionTracker);
       reverseRadioValue("waterTracker", waterTracker);
-      updateMedList(medications, medList, medKey);
+      updateMedList(dailyEntryObj.medications, medList, medKey);
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
+
+      document.querySelectorAll(".checkboxes").forEach((checkbox, index) => {
+        if (dailyEntryObj.medications[index].IsChecked === true) {
+          checkbox.checked = true;
+        } else {
+          checkbox.checked = false;
+        }
+      });
 
       console.log("Found Entry", foundEntry);
 
