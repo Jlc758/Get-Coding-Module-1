@@ -33,12 +33,31 @@ flaggedEntries.forEach((entry) => {
   flaggedOther.classList = "flagged-content";
   flaggedOther.style.display = "none";
 
+  const entryMedArray = entry.medications.map((medication) => {
+    const medChecked = medication.IsChecked ? "Yes" : "No";
+    return `Medication Name:  ${medication.MedText} Dosage:  ${medication.MedCount} Taken?:  ${medChecked}`;
+  });
+
+  const entryExArray = entry.exercises.map((exercise) => {
+    const exChecked = exercise.IsChecked ? "Yes" : "No";
+    return `Exercise:  ${exercise.Exercise} Reps:  ${exercise.RepCount} Completed?:  ${exChecked}`;
+  });
+
+  const entryHabArray = entry.habits.map((habit) => {
+    const habChecked = habit.IsChecked ? "Yes" : "No";
+    return `Habit:  ${habit.Habit} Completed?:  ${habChecked}`;
+  });
+
+  const savedMedString = entryMedArray.join("\n");
+  const savedExString = entryExArray.join("\n");
+  const savedHabString = entryHabArray.join("\n");
+
   flaggedOther.textContent = ` ${entry.weather}
     ${entry.emotionTracker}
     ${entry.waterTracker}
-    ${entry.medications}
-    ${entry.exercises}
-    ${entry.habits}`;
+    ${savedMedString}
+    ${savedExString}
+    ${savedHabString}`;
 
   flaggedJournal.append(flaggedOther);
   container.appendChild(flaggedJournal);
@@ -50,6 +69,8 @@ flaggedEntries.forEach((entry) => {
     }
   });
 });
+
+// !Go into objects
 
 // container.forEach((item) => {
 //   let content = item.querySelectorAll("flagged-content");

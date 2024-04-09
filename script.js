@@ -255,6 +255,7 @@ const deleteButton = (sectionArray, index, listElement, key) => {
 // };
 
 // ---------- Journal Entry ---------- //
+// !Give journal entry multi-line functionality
 
 const updateJournalEntry = (input) => {
   const value = journalInput.value.trim();
@@ -550,7 +551,7 @@ async function fetchData(currentLat, currentLon) {
     const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
 
     // Handle the retrieved data
-    dataWeatherResults = `Temperature: ${dataTemp}\nFeels Like: ${dataFeelsLike}\n`;
+    dataWeatherResults = `Temperature: ${dataTemp}\u00B0C\nFeels Like: ${dataFeelsLike}\u00B0C\n`;
 
     // Create img element for the weather icon
     const weatherIconElement = document.createElement("img");
@@ -620,28 +621,7 @@ function populateForm(targetDate) {
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
 
-      document.querySelectorAll(".checkboxes").forEach((checkbox, index) => {
-        if (dailyEntryObj.medications[index].IsChecked === true) {
-          checkbox.checked = true;
-        } else {
-          checkbox.checked = false;
-        }
-      });
-
       console.log("Found Entry", foundEntry);
-
-      // let restoreCheckmarks = (itemList, sectionList) => {
-      //   itemList.forEach((item) => {
-      //     let checkbox = sectionList.querySelector(".checkboxes");
-      //     if (item.isChecked) {
-      //       checkbox.checked = true;
-      //     }
-      //   });
-      // };
-
-      // restoreCheckmarks(medListItems, medList);
-      // restoreCheckmarks(exListItems, exerciseList);
-      // restoreCheckmarks(habListItems, habitList);
     } else {
       form.reset();
       dateElement.value = formattedDate;
