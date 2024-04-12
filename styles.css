@@ -98,7 +98,8 @@ body {
 
 input[type="text"],
 input[type="date"],
-input[type="number"] {
+input[type="number"],
+#fillableEntry {
   background-color: rgb(228, 228, 228);
   border-radius: 5px;
   border-color: #acaab1;

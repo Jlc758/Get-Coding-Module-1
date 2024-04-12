@@ -74,19 +74,10 @@ let dailyEntryObj = {
 let errorMessage = document.getElementById("errorMessageSection");
 errorMessage.style.display = "none";
 
-// const showPosition = (position) => {
-//   currentLat = position.coords.latitude;
-//   currentLon = position.coords.longitude;
-// };
-
 document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
     populateForm(formattedDate);
-
-    // updateMedList(medicationsArray, medList, medKey);
-    // updateExerciseList(exercisesArray, exerciseList, exKey);
-    // updateHabitList(habitsArray, habitList, habKey);
 
     console.log(
       "Entries Array",
@@ -110,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ---------- Location ---------- //
-// Need to move location to separate function as it is repopulating & duplicating location results on DOM
 
 let locationDataLoaded = false;
 
@@ -220,10 +210,8 @@ const deleteButton = (sectionArray, index, listElement, key) => {
     localStorage.setItem(key, JSON.stringify(sectionArray));
 
     if (listElement.id === "medList") {
-      // if it's in the medication list, call updateMedList
       updateMedList(sectionArray, listElement);
     } else if (listElement.id === "exerciseList") {
-      // for other lists, call update list
       updateExerciseList(sectionArray, listElement);
     } else if (listElement.id === "habitList") {
       updateHabitList(habitsArray, habitList, habKey);
@@ -234,15 +222,7 @@ const deleteButton = (sectionArray, index, listElement, key) => {
   return deleteButton;
 };
 
-// const compileListItems = (listElement, listArray) => {
-//   listElement.querySelectorAll("li").forEach((item) => {
-//     listArray.push(listElement.innerHTML);
-//   });
-//   return listArray;
-// };
-
 // ---------- Journal Entry ---------- //
-// !Give journal entry multi-line functionality
 
 const updateJournalEntry = (input) => {
   const value = journalInput.value.trim();
@@ -252,7 +232,6 @@ let checkmark = document.createElement("img");
 
 function flagClick(flag) {
   flag.addEventListener("click", () => {
-    // dailyEntryObj.isFlagged = !dailyEntryObj.isFlagged;
     if (!newObjIsFlagged) {
       flag.classList.add("flagged");
       newObjIsFlagged = true;
