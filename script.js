@@ -42,11 +42,6 @@ const habitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
 
-// // Individual arrays for date-specific dailyEntryObj entries
-// let medListItems = [];
-// let exListItems = [];
-// let habListItems = [];
-
 // ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
@@ -321,11 +316,11 @@ function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
       };
 
       //! Update Local Storage state
-      medicationsArray.push({ ...newMedObject, IsChecked: false }); //! Ensure IsChecked is false
-      localStorage.setItem(medKey, JSON.stringify(medicationsArray));
+      sectionArray.push({ ...newMedObject, IsChecked: false }); //! Ensure IsChecked is false
+      localStorage.setItem(key, JSON.stringify(sectionArray));
 
       //! Reflect changes in the DOM by using the array from D.E.O.
-      updateMedList(dailyEntryObj.medications, medList);
+      updateMedList(dailyEntryObj.medications, sectionList);
       inputItem.value = "";
       count.value = "";
     }
@@ -360,12 +355,7 @@ const updateMedList = (sectionArray, sectionList) => {
     listItem.appendChild(checkbox);
 
     // Create and append the delete button
-    const deleteBtn = deleteButton(
-      sectionArray,
-      index,
-      sectionList,
-      "medicationsArray"
-    );
+    const deleteBtn = deleteButton(sectionArray, index, sectionList, key);
     listItem.appendChild(deleteBtn);
 
     sectionList.appendChild(listItem);
@@ -626,12 +616,14 @@ function populateForm(targetDate) {
       form.reset();
       dateElement.value = formattedDate;
       console.log("Empty Entry");
+
       updateMedList(medicationsArray, medList);
       updateExerciseList(exercisesArray, exerciseList, exKey);
       updateHabitList(habitsArray, habitList, habKey);
       fetchData(currentLat, currentLon);
       newObjIsFlagged = false;
       flag.classList.remove("flagged");
+
       let checkboxes = document.querySelectorAll('input[type = "checkbox"]');
       checkboxes.forEach((checkbox) => {
         checkbox.checked = false;
