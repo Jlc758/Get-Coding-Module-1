@@ -186,14 +186,6 @@ accordionItems.forEach((item) => {
       content.style.display =
         content.style.display === "block" ? "none" : "block";
     }
-    accordionItems.forEach((otherItem) => {
-      if (otherItem !== item) {
-        let content = otherItem.querySelector(".accordion-content");
-        if (content.style.display !== "none") {
-          content.style.display = "none";
-        }
-      }
-    });
   });
 });
 
@@ -327,7 +319,7 @@ function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
   });
 }
 
-const updateMedList = (sectionArray, sectionList) => {
+const updateMedList = (sectionArray, sectionList, key) => {
   sectionList.textContent = ""; // Clear existing list
   sectionArray.forEach((medication, index) => {
     const listItem = document.createElement("li");
