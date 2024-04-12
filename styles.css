@@ -87,6 +87,13 @@ body {
   border-bottom-right-radius: 10px;
 }
 
+.modal-body {
+  background-color: #bcbcf4;
+  color: black;
+  border-radius: 10px;
+  text-align: center;
+}
+
 #menu {
   border: none;
 }
@@ -109,13 +116,16 @@ input[type="number"] {
   width: 3rem;
 }
 
-button.flag,
 button.submit {
   background-color: #83c5be;
   font-size: 14px;
   font-weight: bold;
   border-radius: 10px;
   border-color: #1b2043;
+}
+
+#flag {
+  margin-top: 10px;
 }
 
 button.flagged {
@@ -167,9 +177,9 @@ ul {
   top: 4px;
 }
 
-input:checked {
+/* input:checked {
   border: 6px solid #1b2043;
-}
+} */
 
 button:hover,
 button:focus {
@@ -198,13 +208,13 @@ button:active {
 }
 
 .delete-button {
+  display: flexbox;
+  align-items: baseline;
   border: none;
   border-radius: 5px;
   margin-left: 10px;
-  justify-content: center;
   height: 1rem;
   font-size: x-small;
-  text-align: center;
 }
 
 img {
@@ -268,7 +278,6 @@ img {
   background-color: #8e9aaf;
 }
 
-#errorMessageSection,
 .submitButton {
   display: flex;
   justify-content: center;

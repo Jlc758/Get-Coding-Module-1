@@ -71,8 +71,6 @@ let dailyEntryObj = {
   exercises: [],
   habits: [],
 };
-let errorMessage = document.getElementById("errorMessageSection");
-errorMessage.style.display = "none";
 
 document.addEventListener("DOMContentLoaded", () => {
   try {
@@ -304,6 +302,11 @@ const updateMedList = (sectionArray, sectionList, key) => {
     const listItem = document.createElement("li");
     listItem.textContent = `${medication.MedText} - Count: ${medication.MedCount}`;
 
+    // Create wrapper for checkbox to allow for styling
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "inline-flex";
+    wrapper.style.paddingLeft = "10px";
+
     // Create and append the checkbox
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -315,15 +318,8 @@ const updateMedList = (sectionArray, sectionList, key) => {
       const itemIndex = event.target.dataset.index;
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
-
-    // document.querySelectorAll(".checkboxes").forEach((checkbox) => {
-    //   checkbox.addEventListener("change", (event) => {
-    //     let itemIndex = event.target.dataset.index;
-    //     sectionArray[itemIndex].IsChecked = event.target.checked;
-    //   });
-    // });
-
-    listItem.appendChild(checkbox);
+    wrapper.appendChild(checkbox);
+    listItem.appendChild(wrapper);
 
     // Create and append the delete button
     const deleteBtn = deleteButton(sectionArray, index, sectionList, key);
@@ -517,7 +513,8 @@ async function fetchData(currentLat, currentLon) {
     // Create img element for the weather icon
     const weatherIconElement = document.createElement("img");
     weatherIconElement.src = dataWeatherUrl;
-    weatherIconElement.setAttribute = ("alt", dataDescription.textContent);
+    weatherIconElement.className = weatherIconElement;
+    weatherIconElement.title = dataDescription;
 
     // Update DOM with City from API key-value pairs
     const dataCityElement = document.getElementById("locationResults");
@@ -641,14 +638,13 @@ addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
 flagClick(flag);
 
 // ---------- Submit Daily Entry ---------- //
+let modalBody = document.getElementById("modalBody");
+modalBody.textContent = "Entry Successfully Submitted";
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (journalInput.value.length !== 0) {
-    if ((errorMessage.style.display = "block")) {
-      errorMessage.style.display = "none";
-    }
     await fetchData(currentLat, currentLon);
 
     // let medListItems = [];
@@ -704,11 +700,11 @@ form.addEventListener("submit", async (event) => {
       habitsArray
     );
 
-    journalInput.value = "Entry Saved";
+    modalBody.textContent = "Entry Saved!";
 
     console.log("Flagged Entries: ");
   } else {
-    errorMessage.style.display = "block";
+    modalBody.textContent = "Journal Entry Empty - Cannot Submit";
   }
 });
 
