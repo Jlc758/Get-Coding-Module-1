@@ -514,6 +514,12 @@ async function fetchData(currentLat, currentLon) {
     const weatherIconElement = document.createElement("img");
     weatherIconElement.src = dataWeatherUrl;
     weatherIconElement.className = weatherIconElement;
+    weatherIconElement.style.padding = "5px";
+    const radialGradientBackground =
+      "radial-gradient(ellipse, #b298dc, #b298dc, transparent)";
+    weatherIconElement.style.background = radialGradientBackground;
+    weatherIconElement.style.borderTopLeftRadius = "10px";
+    weatherIconElement.style.borderTopRightRadius = "10px";
     weatherIconElement.title = dataDescription;
 
     // Update DOM with City from API key-value pairs
