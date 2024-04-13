@@ -221,7 +221,8 @@ button:active {
   padding: 0.5em;
 }
 
-.expandCollapse {
+.expandCollapse,
+.submitButtonSection {
   display: flex;
   justify-content: center;
   padding: 1em;
@@ -302,10 +303,4 @@ img,
   white-space: pre-line;
 
   background-color: #8e9aaf;
-}
-
-.submitButton {
-  display: flex;
-  justify-content: center;
-  padding: 1em;
 }
