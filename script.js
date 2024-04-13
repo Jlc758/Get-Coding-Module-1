@@ -177,23 +177,27 @@ accordionItems.forEach((item) => {
   });
 });
 
-let expandButton = document.getElementById("expandAll");
+let expandCollapseButton = document.getElementById("expandCollapse");
 
-expandButton.addEventListener("click", () => {
+expandCollapseButton.addEventListener("click", () => {
   accordionItems.forEach((item) => {
     let content = item.querySelector(".accordion-content");
-    content.style.display = "block";
+    if (content.style.display === "none") {
+      content.style.display = "block";
+    } else {
+      content.style.display = "none";
+    }
   });
 });
 
-let collapseButton = document.getElementById("collapseAll");
+// let collapseButton = document.getElementById("collapseAll");
 
-collapseButton.addEventListener("click", () => {
-  accordionItems.forEach((item) => {
-    let content = item.querySelector(".accordion-content");
-    content.style.display = "none";
-  });
-});
+// collapseButton.addEventListener("click", () => {
+//   accordionItems.forEach((item) => {
+//     let content = item.querySelector(".accordion-content");
+//     content.style.display = "none";
+//   });
+// });
 
 // ---------- General Functions ---------- //
 
@@ -520,6 +524,7 @@ async function fetchData(currentLat, currentLon) {
     weatherIconElement.style.background = radialGradientBackground;
     weatherIconElement.style.borderTopLeftRadius = "10px";
     weatherIconElement.style.borderTopRightRadius = "10px";
+
     weatherIconElement.title = dataDescription;
 
     // Update DOM with City from API key-value pairs

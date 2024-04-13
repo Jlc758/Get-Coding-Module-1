@@ -217,7 +217,13 @@ button:active {
   font-size: x-small;
 }
 
-img {
+img,
+#menu {
+  max-height: 2em;
+}
+
+img,
+.weatherIconElement {
   max-height: 3rem;
 }
 
