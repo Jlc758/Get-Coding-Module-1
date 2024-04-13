@@ -72,9 +72,7 @@ body {
   padding: 20px;
 }
 
-.accordion-header,
-.offcanvas-body,
-.offcanvas-header {
+.accordion-header {
   background-color: #bcbcf4;
   border-bottom: 4em;
 }
@@ -87,11 +85,33 @@ body {
   border-bottom-right-radius: 10px;
 }
 
-.modal-body {
-  background-color: #bcbcf4;
+.modal-content,
+.submit-button-modal {
+  background-color: #b8d0eb;
   color: black;
   border-radius: 10px;
+}
+
+.submit-button-modal {
+  padding-top: 2rem;
+  padding-right: 1rem;
+  padding-bottom: 2rem;
+  padding-left: 1rem;
   text-align: center;
+}
+
+a {
+  color: black;
+  text-shadow: #bcbcf4 2px 0 10px;
+}
+
+#pagesContainer {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  align-content: center;
+  padding-left: 0;
+  text-underline-offset: 5px;
 }
 
 #menu {

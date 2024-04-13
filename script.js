@@ -190,15 +190,6 @@ expandCollapseButton.addEventListener("click", () => {
   });
 });
 
-// let collapseButton = document.getElementById("collapseAll");
-
-// collapseButton.addEventListener("click", () => {
-//   accordionItems.forEach((item) => {
-//     let content = item.querySelector(".accordion-content");
-//     content.style.display = "none";
-//   });
-// });
-
 // ---------- General Functions ---------- //
 
 const deleteButton = (sectionArray, index, listElement, key) => {
@@ -522,9 +513,8 @@ async function fetchData(currentLat, currentLon) {
     const radialGradientBackground =
       "radial-gradient(ellipse, #b298dc, #b298dc, transparent)";
     weatherIconElement.style.background = radialGradientBackground;
-    weatherIconElement.style.borderTopLeftRadius = "10px";
-    weatherIconElement.style.borderTopRightRadius = "10px";
-
+    weatherIconElement.style.borderRadius = "100%";
+    weatherIconElement.style.marginTop = "1em";
     weatherIconElement.title = dataDescription;
 
     // Update DOM with City from API key-value pairs
@@ -649,8 +639,7 @@ addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
 flagClick(flag);
 
 // ---------- Submit Daily Entry ---------- //
-let modalBody = document.getElementById("modalBody");
-modalBody.textContent = "Entry Successfully Submitted";
+let submitMessage = document.getElementById("submitMessage");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -684,12 +673,6 @@ form.addEventListener("submit", async (event) => {
     dailyEntryObj.emotionTracker = radioValue("emotionTracker");
     dailyEntryObj.waterTracker = radioValue("waterTracker");
 
-    // dailyEntryObj.medications.push(newItem);
-    // newItem.append(dailyEntryObj.medications);
-    // !Habit saving in wrong format to show on DOM
-
-    // ^ this converts the values to strings before storing.
-
     entriesArray.push(dailyEntryObj);
     localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
@@ -711,11 +694,11 @@ form.addEventListener("submit", async (event) => {
       habitsArray
     );
 
-    modalBody.textContent = "Entry Saved!";
+    submitMessage.innerText = "Entry Saved!";
 
     console.log("Flagged Entries: ");
   } else {
-    modalBody.textContent = "Journal Entry Empty - Cannot Submit";
+    submitMessage.innerText = "Journal Entry Empty - Cannot Submit";
   }
 });
 

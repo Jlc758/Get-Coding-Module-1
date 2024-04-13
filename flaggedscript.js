@@ -87,44 +87,44 @@ flaggedEntries.forEach((entry) => {
   //   }
   // }
 
-  const waterOptions = document.querySelectorAll('input[name="waterTracker"]');
+  // const waterOptions = document.querySelectorAll('input[name="waterTracker"]');
 
-  flaggedOther = ` ${entry.weather}`;
-  const emotionOptions = document.querySelectorAll(
-    'input[name="emotionTracker"]'
-  );
+  // flaggedOther = ` ${entry.weather}`;
+  // const emotionOptions = document.querySelectorAll(
+  //   'input[name="emotionTracker"]'
+  // );
 
-  const selectedEmotion = emotionOptions.querySelector(
-    'input[name="emotionTracker"]:checked'
-  );
+  // const selectedEmotion = emotionOptions.querySelector(
+  //   'input[name="emotionTracker"]:checked'
+  // );
 
-  if (selectedEmotion) {
-    const emotionImg = document.createElement("img");
+  // if (selectedEmotion) {
+  //   const emotionImg = document.createElement("img");
 
-    switch (selectedEmotion.value) {
-      case "one":
-        emotionImg.src = "./icons_images/icons8-disgusting-50.png";
-        break;
-      case "two":
-        emotionImg.src = "./icons_images/icons8-nauseated-face-50.png";
-        break;
-      case "three":
-        emotionImg.src = "./icons_images/icons8-pouting-face-50.png";
-        break;
-      case "four":
-        emotionImg.src = "./icons_images/icons8-blushing-50.png";
-        break;
-      case "five":
-        emotionImg.src =
-          "./icons_images/icons8-grinning-face-with-smiling-eyes-50.png";
-        break;
+  //   switch (selectedEmotion.value) {
+  //     case "one":
+  //       emotionImg.src = "./icons_images/icons8-disgusting-50.png";
+  //       break;
+  //     case "two":
+  //       emotionImg.src = "./icons_images/icons8-nauseated-face-50.png";
+  //       break;
+  //     case "three":
+  //       emotionImg.src = "./icons_images/icons8-pouting-face-50.png";
+  //       break;
+  //     case "four":
+  //       emotionImg.src = "./icons_images/icons8-blushing-50.png";
+  //       break;
+  //     case "five":
+  //       emotionImg.src =
+  //         "./icons_images/icons8-grinning-face-with-smiling-eyes-50.png";
+  //       break;
 
-      default:
-        emotionImg.src = "";
-        break;
-    }
-  }
-  selectedEmotion;
+  //     default:
+  //       emotionImg.src = "";
+  //       break;
+  //   }
+  // }
+  // selectedEmotion;
   `${savedMedString}
     ${savedExString}
     ${savedHabString}`;

@@ -20,41 +20,40 @@
     <header class="main-header">
       <h1 class="main-header-title">Mental Health & Wellbeing Tracker</h1>
       <div class="navAndLocation">
+        <!-- Menu Modal -->
         <button
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-          aria-label="Toggle Navigation Menu"
-          ;
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
         >
           <img src="./icons_images/menu.png" alt="Navigation Menu" id="menu" />
         </button>
-      </div>
 
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
-        <div class="offcanvas-header">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <nav class="offcanvas-body">
-          <div>
-            <ul>
-              <li><a href="index.html">Main</a></li>
-              <li><a href="weeklysum.html">Weekly Summary</a></li>
-              <li><a href="flagged.html">Flagged Entries</a></li>
-              <li><a href="allentries.html">All Entries</a></li>
-            </ul>
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal header -->
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <ul id="pagesContainer">
+                  <li><a href="index.html">Main</a></li>
+                  <li><a href="weeklysum.html">Weekly Summary</a></li>
+                  <li><a href="flagged.html">Flagged Entries</a></li>
+                  <li><a href="allentries.html">All Entries</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </nav>
+        </div>
       </div>
     </header>
 
@@ -272,28 +271,26 @@
             </div>
           </section>
         </div>
-
-        <div class="submitButton">
+        <!-- Submit Button Modal -->
+        <div class="submitButtonSection">
+          <!-- Menu Modal -->
           <button
             type="submit"
-            id="submitButton"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            data-bs-target="#submitButtonModal"
           >
             Submit
           </button>
 
           <div
             class="modal fade"
-            id="exampleModal"
+            id="submitButtonModal"
             tabindex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-body" id="modalBody"></div>
-              </div>
+              <div class="submit-button-modal" id="submitMessage"></div>
             </div>
           </div>
         </div>
