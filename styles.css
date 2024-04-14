@@ -301,7 +301,8 @@ img,
   background-color: #8e9aaf;
 }
 
-fieldset {
+fieldset#emotionTracker,
+fieldset#waterTracker {
   display: flex;
   justify-content: space-evenly;
   min-height: 4rem;
