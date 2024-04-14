@@ -11,9 +11,13 @@ body {
 }
 
 /* Media query for devices with a maximum width of 400 pixels */
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
   body {
     font-size: 14px;
+  }
+
+  .radioImgs {
+    min-height: 40px;
   }
 }
 
@@ -24,14 +28,21 @@ body {
     margin-left: 4em;
     margin-right: 4em;
   }
+
+  .radioImgs {
+    min-height: 40px;
+  }
 }
 
 /* Media query for devices with a minimum width of 1400 pixels */
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 700px) {
   body {
     font-size: 16px;
     margin-left: 7em;
     margin-right: 7em;
+  }
+  .radioImgs {
+    min-height: 50px;
   }
 }
 
@@ -183,23 +194,13 @@ ul {
 /* Radio Buttons */
 
 .radioChoices {
-  /* appearance: none; */
-
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-
-  border: 2px solid #2f2e30;
-  transition: 0.2s all linear;
-  margin-right: 5px;
-
-  position: relative;
-  top: 4px;
+  display: none;
 }
 
-/* input:checked {
-  border: 6px solid #1b2043;
-} */
+.radioChoices:checked + label {
+  border: 2px dotted black;
+  border-radius: 100%;
+}
 
 button:hover,
 button:focus {
@@ -241,11 +242,6 @@ button:active {
 img,
 #menu {
   max-height: 2em;
-}
-
-img,
-.weatherIconElement {
-  max-height: 3rem;
 }
 
 /* Exercise List Section */
@@ -303,4 +299,10 @@ img,
   white-space: pre-line;
 
   background-color: #8e9aaf;
+}
+
+fieldset {
+  display: flex;
+  justify-content: space-evenly;
+  min-height: 4rem;
 }
