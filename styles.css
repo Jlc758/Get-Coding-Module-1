@@ -183,7 +183,7 @@ ul {
 /* Radio Buttons */
 
 .radioChoices {
-  appearance: none;
+  /* appearance: none; */
 
   border-radius: 50%;
   width: 16px;

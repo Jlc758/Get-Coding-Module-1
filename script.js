@@ -639,6 +639,7 @@ addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
 flagClick(flag);
 
 // ---------- Submit Daily Entry ---------- //
+
 let submitMessage = document.getElementById("submitMessage");
 
 form.addEventListener("submit", async (event) => {
@@ -646,24 +647,6 @@ form.addEventListener("submit", async (event) => {
 
   if (journalInput.value.length !== 0) {
     await fetchData(currentLat, currentLon);
-
-    // let medListItems = [];
-    // let exListItems = [];
-    // let habListItems = [];
-
-    // const compileListItems = (listElement, listArray) => {
-    //   listElement.querySelectorAll("li").forEach((item) => {
-    //     let text = item.textContent.trim();
-    //     let isChecked = item.querySelector(".checkboxes").checked;
-
-    //     listArray.push({ text: text, isChecked: isChecked });
-    //   });
-    //   return listArray;
-    // };
-
-    // compileListItems(medList, medListItems);
-    // compileListItems(exerciseList, exListItems);
-    // compileListItems(habitList, habListItems);
 
     //! on submit you can directly assign to the previously set values, note that the arrays are not here as they have already been set in their update functions.
     dailyEntryObj.date = formattedDate;
@@ -703,9 +686,3 @@ form.addEventListener("submit", async (event) => {
 });
 
 // --------- Lock Down Entries +2 Days Old ---------- //
-
-// ? Things to do
-// Fix weather formatting
-// Figure out why checked habits aren't saving
-// populate flagged entries on cards on other page
-// if all this is done, investigate charts
