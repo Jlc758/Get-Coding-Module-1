@@ -135,25 +135,25 @@ dateElement.addEventListener("change", () => {
     let selectedDate = new Date(dateElement.value);
     formattedDate = selectedDate.toISOString().slice(0, 10);
 
-    // if (formattedDate <= twoDaysAgo) {
-    //   journalInput.disabled = true;
-    //   medInput.disabled = true;
-    //   countInput.disabled = true;
-    //   exerciseInput.disabled = true;
-    //   repCount.disabled = true;
-    //   habitInput.disabled = true;
-    //   let submit = document.getElementById("submitButton");
-    //   submit.disabled = true;
-    // } else {
-    //   journalInput.disabled = false;
-    //   medInput.disabled = false;
-    //   countInput.disabled = false;
-    //   exerciseInput.disabled = false;
-    //   repCount.disabled = false;
-    //   habitInput.disabled = false;
-    //   let submit = document.getElementById("submitButton");
-    //   submit.disabled = false;
-    // }
+    if (formattedDate <= twoDaysAgo) {
+      journalInput.disabled = true;
+      medInput.disabled = true;
+      countInput.disabled = true;
+      exerciseInput.disabled = true;
+      repCount.disabled = true;
+      habitInput.disabled = true;
+      let submit = document.getElementById("submitButton");
+      submit.disabled = true;
+    } else {
+      journalInput.disabled = false;
+      medInput.disabled = false;
+      countInput.disabled = false;
+      exerciseInput.disabled = false;
+      repCount.disabled = false;
+      habitInput.disabled = false;
+      let submit = document.getElementById("submitButton");
+      submit.disabled = false;
+    }
 
     populateForm(formattedDate);
   } catch (error) {
