@@ -303,13 +303,18 @@ img,
 .flagged-header,
 .entry-header {
   background-color: #bcbcf4;
+  border-bottom: #2a233b solid 2px;
 }
 
 .flagged-content,
 .other-content {
   white-space: pre-line;
 
-  background-color: #8e9aaf;
+  background: linear-gradient(to bottom, #b8d0eb, transparent);
+  border-top: 4em;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: #2a233b dotted 1px;
 }
 
 fieldset#emotionTracker,
