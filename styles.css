@@ -72,12 +72,16 @@ body {
 }
 
 .accordion,
-#flaggedItemsContainer {
+#flaggedItemsContainer,
+#allItemsContainer {
   min-width: max-content;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .accordion-item,
-#flaggedItemsContainer {
+#flaggedItemsContainer,
+#allItemsContainer {
   background-color: #b8d0eb;
 
   padding: 20px;
@@ -287,15 +291,18 @@ img,
 } */
 
 .flagged-header,
-.flagged-content {
+.flagged-content,
+.entry-header {
   color: #2a233b;
 }
 
-.flagged-header {
+.flagged-header,
+.entry-header {
   background-color: #bcbcf4;
 }
 
-.flagged-content {
+.flagged-content,
+.other-content {
   white-space: pre-line;
 
   background-color: #8e9aaf;
