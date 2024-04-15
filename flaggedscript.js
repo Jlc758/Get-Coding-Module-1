@@ -87,6 +87,11 @@ flaggedEntries.forEach((entry) => {
     selectedWater = "No water documented.";
   }
 
+  // Weather Results
+  const weather = entry.weather;
+  const weatherDiv = document.createElement("div");
+  weatherDiv.textContent = weather;
+
   // Medication Results
   const medications = entry.medications;
   const medDiv = document.createElement("div");
@@ -117,6 +122,7 @@ flaggedEntries.forEach((entry) => {
   // Appending All Results to flaggedOther
   flaggedOther.append(selectedEmotion);
   flaggedOther.append(selectedWater);
+  flaggedOther.append(weatherDiv);
   flaggedOther.append(medDiv);
   flaggedOther.append(exDiv);
   flaggedOther.append(habDiv);

@@ -75,6 +75,10 @@ body {
 #flaggedItemsContainer,
 #allItemsContainer {
   min-width: max-content;
+}
+
+#flaggedItemsContainer,
+#allItemsContainer {
   display: flex;
   flex-direction: column-reverse;
 }

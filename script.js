@@ -324,34 +324,6 @@ const updateMedList = (sectionArray, sectionList, key) => {
   });
 };
 
-// const updateMedList = (sectionArray, sectionList, key) => {
-//   sectionList.textContent = "";
-//   const fragment = document.createDocumentFragment();
-
-//   sectionArray.forEach((updatedItem, index) => {
-//     let newItem = document.createElement("li");
-//     newItem.textContent = `${updatedItem.MedText} - Count: ${updatedItem.MedCount}`;
-//     let deleteBtn = deleteButton(sectionArray, index, sectionList, key); //pass index here
-//     let checkbox = document.createElement("input");
-//     checkbox.type = "checkbox";
-//     checkbox.id = `medicationsCheckbox${index}`;
-//     checkbox.className = "checkboxes";
-//     checkbox.checked = updatedItem.IsChecked;
-//     checkbox.dataset.index = index;
-//     checkbox.addEventListener("change", (event) => {
-//       const itemIndex = event.target.dataset.index;
-//       sectionArray[itemIndex].IsChecked = event.target.checked;
-//     });
-
-//     // !Read up on dataset
-//     newItem.append(checkbox, deleteBtn);
-//     fragment.appendChild(newItem);
-//   });
-//   sectionList.appendChild(fragment);
-//   dailyEntryObj.medications.push(fragment);
-//   console.log("Is this working?", dailyEntryObj.medications);
-// };
-
 // ---------- Exercises  ---------- //
 
 function addExerciseItem(
@@ -387,12 +359,16 @@ function addExerciseItem(
 
 const updateExerciseList = (sectionArray, sectionList, key) => {
   sectionList.textContent = "";
-  const fragment = document.createDocumentFragment();
 
   sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.Exercise} - Reps: ${updatedItem.RepCount}`;
-    let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
+
+    // Create wrapper for checkbox to allow for styling
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "inline-flex";
+    wrapper.style.paddingLeft = "10px";
+
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = `exercisesCheckbox${index}`;
@@ -403,11 +379,14 @@ const updateExerciseList = (sectionArray, sectionList, key) => {
       const itemIndex = event.target.dataset.index;
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
+    wrapper.appendChild(checkbox);
+    newItem.appendChild(wrapper);
 
-    newItem.append(checkbox, deleteBtn);
-    fragment.appendChild(newItem);
+    let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
+    newItem.appendChild(deleteBtn);
+
+    sectionList.appendChild(newItem);
   });
-  sectionList.appendChild(fragment);
 };
 
 // ---------- Habits ---------- //
@@ -435,12 +414,16 @@ function addHabitItem(sectionArray, inputItem, addBtn, sectionList, key) {
 
 const updateHabitList = (sectionArray, sectionList, key) => {
   sectionList.textContent = "";
-  const fragment = document.createDocumentFragment();
 
   sectionArray.forEach((updatedItem, index) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.Habit}`;
-    let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
+
+    // Create wrapper for checkbox to allow for styling
+    const wrapper = document.createElement("div");
+    wrapper.style.display = "inline-flex";
+    wrapper.style.paddingLeft = "10px";
+
     let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = `habitsCheckbox${index}`;
@@ -451,13 +434,15 @@ const updateHabitList = (sectionArray, sectionList, key) => {
       const itemIndex = event.target.dataset.index;
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
+    wrapper.appendChild(checkbox);
+    newItem.appendChild(wrapper);
 
-    newItem.append(checkbox, deleteBtn);
-    fragment.appendChild(newItem);
+    let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
+    newItem.appendChild(deleteBtn);
+
+    sectionList.appendChild(newItem);
   });
-  sectionList.appendChild(fragment);
 };
-
 // ---------- Checkboxes ---------- //
 
 // function checkedItems(sectionArray) {

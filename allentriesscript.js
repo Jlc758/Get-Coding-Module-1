@@ -88,6 +88,12 @@ entriesArray.forEach((entry) => {
     selectedWater = "No water documented.";
   }
 
+  //   Weather Results
+
+  const weather = entry.weather;
+  const weatherDiv = document.createElement("div");
+  weatherDiv.textContent = weather;
+
   // Medication Results
   const medications = entry.medications;
   const medDiv = document.createElement("div");
@@ -118,6 +124,7 @@ entriesArray.forEach((entry) => {
   // Appending All Results to journalOther
   journalOther.append(selectedEmotion);
   journalOther.append(selectedWater);
+  journalOther.append(weatherDiv);
   journalOther.append(medDiv);
   journalOther.append(exDiv);
   journalOther.append(habDiv);
