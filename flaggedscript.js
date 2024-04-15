@@ -15,6 +15,7 @@ flaggedEntries.forEach((entry) => {
   const flaggedJournal = document.createElement("div");
   flaggedJournal.classList = "flagged-header";
   flaggedJournal.textContent = `${entry.date} // ${entry.journal}`;
+
   const flaggedOther = document.createElement("div");
   flaggedOther.classList = "flagged-content";
   flaggedOther.style.display = "none";
@@ -86,8 +87,39 @@ flaggedEntries.forEach((entry) => {
     selectedWater = "No water documented.";
   }
 
+  // Medication Results
+  const medications = entry.medications;
+  const medDiv = document.createElement("div");
+  medications.forEach((medication) => {
+    const savedMedText = document.createElement("p");
+    savedMedText.textContent = `Medication: ${medication.MedText}, Count: ${medication.MedCount}, Checked: ${medication.IsChecked}`;
+    medDiv.appendChild(savedMedText);
+  });
+
+  // Exercises Results
+  const exercises = entry.exercises;
+  const exDiv = document.createElement("div");
+  exercises.forEach((exercise) => {
+    const savedExText = document.createElement("p");
+    savedExText.textContent = `Exercise: ${exercise.newExerciseInput}, Reps: ${exercise.RepCount}, Checked: ${exercise.IsChecked}`;
+    exDiv.appendChild(savedExText);
+  });
+
+  // Habits Results
+  const habits = entry.habits;
+  const habDiv = document.createElement("div");
+  habits.forEach((habit) => {
+    const savedHabText = document.createElement("p");
+    savedHabText.textContent = `Habit: ${habit.Habit}, Checked: ${habit.IsChecked}`;
+    habDiv.appendChild(savedHabText);
+  });
+
+  // Appending All Results to flaggedOther
   flaggedOther.append(selectedEmotion);
   flaggedOther.append(selectedWater);
+  flaggedOther.append(medDiv);
+  flaggedOther.append(exDiv);
+  flaggedOther.append(habDiv);
 
   flaggedJournal.append(flaggedOther);
   container.appendChild(flaggedJournal);
@@ -99,27 +131,5 @@ flaggedEntries.forEach((entry) => {
     }
   });
 });
-
-// container.forEach((item) => {
-//   let content = item.querySelectorAll("flagged-content");
-//   let header = item.querySelectorAll("flagged-header");
-
-//   content.style.display = "none";
-
-//   header.addEventListener("click", (event) => {
-//     if (!event.target.closest("button, a, input")) {
-//       content.style.display =
-//         content.style.display === "block" ? "none" : "block";
-//     }
-//     container.forEach((otherItem) => {
-//       if (otherItem !== item) {
-//         let content = otherItem.querySelector("flagged-content");
-//         if (content.style.display !== "none") {
-//           content.style.display = "none";
-//         }
-//       }
-//     });
-//   });
-// });
 
 console.log(flaggedEntries);
