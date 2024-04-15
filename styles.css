@@ -91,6 +91,21 @@ body {
   padding: 20px;
 }
 
+.ucImgContainer {
+  background-color: #dbdffd;
+  border-radius: 10px;
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+}
+
+#underConstruction {
+  display: flexbox;
+  align-self: center;
+
+  min-height: 20rem;
+}
+
 .accordion-header {
   background-color: #bcbcf4;
   border-bottom: 4em;

@@ -9,52 +9,58 @@
       crossorigin="anonymous"
     />
     <link href="styles.css" rel="stylesheet" />
-    <title>All Entries Flagged for Doctor(s)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Summary</title>
   </head>
 
   <body>
     <header class="main-header">
-      <h1 class="main-header-title">Flagged Entries</h1>
+      <h1 class="main-header-title">Weekly Summary</h1>
+      <div class="navAndLocation">
+        <!-- Button to trigger the modal -->
+        <button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          <img src="./icons_images/menu.png" alt="Navigation Menu" id="menu" />
+        </button>
 
-      <button
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasExample"
-        aria-controls="offcanvasExample"
-        aria-label="Toggle Navigation Menu"
-      >
-        <img src="./icons_images/menu.png" alt="Navigation Menu" />
-      </button>
-
-      <div
-        class="offcanvas offcanvas-top"
-        tabindex="-1"
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel"
-      >
-        <div class="offcanvas-header">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <nav class="offcanvas-body">
-          <div>
-            <ul>
-              <li><a href="index.html">Main</a></li>
-              <li><a href="weeklysum.html">Weekly Summary</a></li>
-              <li><a href="flagged.html">Flagged Entries</a></li>
-              <li><a href="allentries.html">All Entries</a></li>
-            </ul>
+        <!-- Modal structure -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal header -->
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Menu</h5>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <ul id="pagesContainer">
+                  <li><a href="index.html">Main</a></li>
+                  <li><a href="weeklysum.html">Weekly Summary</a></li>
+                  <li><a href="flagged.html">Flagged Entries</a></li>
+                  <li><a href="allentries.html">All Entries</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </nav>
+        </div>
       </div>
     </header>
 
     <main>
-      <div id="cardsContainer">
-        <ul id="cardsList"></ul>
+      <div class="ucImgContainer">
+        <img
+          id="underConstruction"
+          src="./icons_images/UnderConstruction.png"
+        />
       </div>
     </main>
     <script
@@ -62,6 +68,6 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
-    <script src="flaggedscript.js" type="module"></script>
+    <script src="weeklysumscript.js" type="module"></script>
   </body>
 </html>
