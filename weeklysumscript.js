@@ -4,10 +4,11 @@ let timezoneOffset = currentDate.getTimezoneOffset();
 currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
 let formattedDate = currentDate.toISOString().slice(0, 10);
 
-const weeklySumChartDiv = document.getElementById("weeklySumChart");
+const weeklySumChartCanvas = document.getElementById("weeklySumChart");
 
 const entriesKey = "entriesArray";
 const entriesArray = JSON.parse(localStorage.getItem(entriesKey));
+console.log("Entries Array: ", entriesArray);
 
 const data = entriesArray.map((entry) => ({
   date: entry.date,
@@ -56,8 +57,4 @@ const weeklySumChart = new Chart(ctx, {
   type: "line",
   data: chartData,
   options: options,
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  weeklySumChart.appendChild(weeklySumChartDiv);
 });
