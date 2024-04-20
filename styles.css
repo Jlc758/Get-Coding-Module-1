@@ -71,16 +71,13 @@ body {
   padding-right: 4em;
 }
 
-.accordion,
-#flaggedItemsContainer,
-#allItemsContainer {
+.accordion {
   min-width: max-content;
 }
 
 #flaggedItemsContainer,
 #allItemsContainer {
   display: flex;
-  flex-direction: column-reverse;
 }
 
 .accordion-item,
@@ -341,4 +338,9 @@ fieldset#waterTracker {
 
 li {
   display: inline-flex;
+}
+
+.card-body {
+  display: flex;
+  align-items: flex-end;
 }
