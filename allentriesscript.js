@@ -108,7 +108,7 @@ entriesArray.forEach((entry) => {
   const exDiv = document.createElement("div");
   exercises.forEach((exercise) => {
     const savedExText = document.createElement("p");
-    savedExText.textContent = `Exercise: ${exercise.newExerciseInput}, Reps: ${exercise.RepCount}, Checked: ${exercise.IsChecked}`;
+    savedExText.textContent = `Exercise: ${exercise.Exercise}, Reps: ${exercise.RepCount}, Checked: ${exercise.IsChecked}`;
     exDiv.appendChild(savedExText);
   });
 

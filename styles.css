@@ -338,3 +338,7 @@ fieldset#waterTracker {
   justify-content: space-evenly;
   min-height: 4rem;
 }
+
+li {
+  display: inline-flex;
+}
