@@ -7,15 +7,9 @@ currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
 
 let formattedDate = currentDate.toISOString().slice(0, 10);
 
-console.log("Formatted Date: ", formattedDate);
-
-console.log("Date Element: ", dateElement.value);
-
 let previousDate = new Date(currentDate);
 previousDate.setDate(currentDate.getDate() - 3);
 let twoDaysAgo = previousDate.toISOString().slice(0, 10);
-
-console.log("Two Days ago: ", twoDaysAgo);
 
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
@@ -76,23 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
     populateForm(formattedDate);
-
-    console.log(
-      "Entries Array",
-      entriesArray,
-      "Meds DEO",
-      dailyEntryObj.medications,
-      "MedArray",
-      medicationsArray,
-      "Ex DEO",
-      dailyEntryObj.exercises,
-      "ExercisesArray",
-      exercisesArray,
-      "Hab DEO",
-      dailyEntryObj.habits,
-      "HabitsArray",
-      habitsArray
-    );
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -115,7 +92,6 @@ const fetchLocationData = () => {
 const refreshLocationBtn = document.getElementById("refreshLocationBtn");
 refreshLocationBtn.addEventListener("click", () => {
   fetchLocationData();
-  console.log("Refreshed location");
 });
 
 const showPosition = (position) => {
@@ -209,7 +185,6 @@ const deleteButton = (sectionArray, index, listElement, key) => {
   deleteButton.innerText = "X";
   deleteButton.addEventListener("click", () => {
     sectionArray.splice(index, 1); //delete using index
-    console.log("section array spliced:", sectionArray);
 
     localStorage.setItem(key, JSON.stringify(sectionArray));
 
@@ -220,7 +195,6 @@ const deleteButton = (sectionArray, index, listElement, key) => {
     } else if (listElement.id === "habitList") {
       updateHabitList(habitsArray, habitList, habKey);
     }
-    console.log("Item Deleted");
   });
 
   return deleteButton;
@@ -504,37 +478,31 @@ async function fetchData(currentLat, currentLon) {
     dataWeatherResults = `Temperature: ${dataTemp}\u00B0C\nFeels Like: ${dataFeelsLike}\u00B0C\n`;
 
     // Create img element for the weather icon
+    const weatherIconElementDiv = document.createElement("div");
+    weatherIconElementDiv.className = "weather-icon-div";
     const weatherIconElement = document.createElement("img");
     weatherIconElement.src = dataWeatherUrl;
-    weatherIconElement.className = weatherIconElement;
+    weatherIconElement.className = "weatherIconElement";
     weatherIconElement.style.padding = "5px";
     const radialGradientBackground =
       "radial-gradient(ellipse, #b298dc, #b298dc, transparent)";
     weatherIconElement.style.background = radialGradientBackground;
     weatherIconElement.style.borderRadius = "100%";
-    weatherIconElement.style.marginTop = "1em";
+
     weatherIconElement.style.minHeight = "3rem";
     weatherIconElement.title = dataDescription;
 
-    // Update DOM with City from API key-value pairs
     const dataCityElement = document.getElementById("locationResults");
     dataCityElement.textContent = dataCity;
 
-    // const dataWeatherResults = dailyEntryObj.weather;
-
-    // const dataWeatherResultsSection = document.getElementById("weatherResults");
     dataWeatherResultsSection.innerHTML = "";
-    // dataWeatherResultsSection.textContent = dailyEntryObj.weather;
-    // ? dataWeatherResults
-    // : "Past Entry - No Weather Data Available";
 
-    // Append icon img to weather results
+    weatherIconElementDiv.appendChild(weatherIconElement);
     dataWeatherResultsSection.append(dataWeatherResults);
-    dataWeatherResultsSection.append(weatherIconElement);
+    dataWeatherResultsSection.append(weatherIconElementDiv);
 
     return dataWeatherResults;
   } catch (error) {
-    // Handle any errors that occurred during the fetch
     console.error("Fetch error:", error);
     throw error;
   }
@@ -578,12 +546,9 @@ function populateForm(targetDate) {
       updateMedList(medications, medList);
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
-
-      console.log("Found Entry", foundEntry);
     } else {
       form.reset();
       dateElement.value = formattedDate;
-      console.log("Empty Entry");
 
       updateMedList(medicationsArray, medList);
       updateExerciseList(exercisesArray, exerciseList, exKey);
@@ -658,27 +623,7 @@ form.addEventListener("submit", async (event) => {
     entriesArray.push(dailyEntryObj);
     localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
-    console.log("Form Submitted: ", dailyEntryObj);
-    console.log(
-      "DEO",
-      dailyEntryObj,
-      "Meds",
-      dailyEntryObj.medications,
-      "MedArray",
-      medicationsArray,
-      "Ex",
-      dailyEntryObj.exercises,
-      "ExercisesArray",
-      exercisesArray,
-      "Hab",
-      dailyEntryObj.habits,
-      "HabitsArray",
-      habitsArray
-    );
-
     submitMessage.innerText = "Entry Saved!";
-
-    console.log("Flagged Entries: ");
   } else {
     submitMessage.innerText = "Journal Entry Empty - Cannot Submit";
   }

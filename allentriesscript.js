@@ -131,7 +131,7 @@ function createHabitsElement(habits) {
   const completedColumn = document.createElement("div");
   completedColumn.className = "column";
   completedColumn.className = "record-columns";
-  completedColumn.innerHTML = "<h6>Taken</h6>";
+  completedColumn.innerHTML = "<h6>Completed</h6>";
 
   const notCompletedColumn = document.createElement("div");
   notCompletedColumn.className = "column";
@@ -172,9 +172,14 @@ function displayCards() {
 
     let selectedEmotion = createEmotionElement(emotionTracker);
     let selectedWater = createWaterElement(waterTracker);
-    let medicationList = createMedicationsElement(medications);
-    let exerciseList = createExercisesElement(exercises);
-    let habitsList = createHabitsElement(habits);
+
+    const weatherDiv = document.createElement("div");
+    weatherDiv.classList.add("weather-div");
+    weatherDiv.innerHTML = weather;
+
+    const iconsDiv = document.createElement("div");
+    iconsDiv.classList.add("icons-div");
+    iconsDiv.innerHTML = selectedWater.outerHTML + selectedEmotion.outerHTML;
 
     const card = document.createElement("div");
     card.classList.add("card");
@@ -198,9 +203,11 @@ function displayCards() {
 
     cardAccordion.appendChild(cardContentDiv);
     cardBodyTitle.appendChild(cardTitle);
+    cardContentDiv.appendChild(iconsDiv);
     cardContentDiv.appendChild(createMedicationsElement(medications));
     cardContentDiv.appendChild(createExercisesElement(exercises));
     cardContentDiv.append(createHabitsElement(habits));
+    cardContentDiv.append(weatherDiv);
 
     card.appendChild(cardJournal);
     card.appendChild(cardAccordion);
