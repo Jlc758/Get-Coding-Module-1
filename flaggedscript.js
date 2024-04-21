@@ -72,44 +72,97 @@ function createWaterElement(waterTracker) {
 }
 
 function createMedicationsElement(medications) {
-  const medDiv = document.createElement("div");
+  const takenMedsColumn = document.createElement("div");
+  takenMedsColumn.className = "column";
+  takenMedsColumn.className = "record-columns";
+  takenMedsColumn.innerHTML = "<h6>Taken</h6>";
+
+  const notTakenMedsColumn = document.createElement("div");
+  notTakenMedsColumn.className = "column";
+  notTakenMedsColumn.className = "record-columns";
+  notTakenMedsColumn.innerHTML = "<h6>Skipped/Missed</h6>";
 
   medications.forEach((medication) => {
     const medicationElement = document.createElement("div");
-    medicationElement.textContent = `Medication: ${medication.MedText}, Count: ${medication.MedCount}, Checked: ${medication.IsChecked}`;
+    medicationElement.textContent = `${medication.MedText}, Count: ${medication.MedCount}`;
 
-    medDiv.append(medicationElement);
+    if (medication.IsChecked) {
+      takenMedsColumn.appendChild(medicationElement);
+    } else {
+      notTakenMedsColumn.appendChild(medicationElement);
+    }
   });
-  return medDiv;
+
+  const medicationWrapper = document.createElement("div");
+  medicationWrapper.className = "medication-wrapper";
+  medicationWrapper.appendChild(takenMedsColumn);
+  medicationWrapper.appendChild(notTakenMedsColumn);
+
+  return medicationWrapper;
 }
 
 function createExercisesElement(exercises) {
-  const exDiv = document.createElement("div");
+  const completedColumn = document.createElement("div");
+  completedColumn.className = "record-columns";
+  completedColumn.innerHTML = "<h6>Completed</h6>";
+
+  const notCompletedColumn = document.createElement("div");
+  notCompletedColumn.className = "record-columns";
+  notCompletedColumn.innerHTML = "<h6>Skipped/Missed</h6>";
 
   exercises.forEach((exercise) => {
     const exerciseElement = document.createElement("div");
-    exerciseElement.textContent = `Exercise: ${exercise.Exercise}, Reps: ${exercise.RepCount}, Checked: ${exercise.IsChecked}`;
+    exerciseElement.textContent = `${exercise.Exercise}, Reps: ${exercise.RepCount}`;
 
-    exDiv.append(exerciseElement);
+    if (exercise.IsChecked) {
+      completedColumn.appendChild(exerciseElement);
+    } else {
+      notCompletedColumn.appendChild(exerciseElement);
+    }
   });
-  return exDiv;
+
+  const exerciseWrapper = document.createElement("div");
+  exerciseWrapper.className = "exercise-wrapper";
+  exerciseWrapper.appendChild(completedColumn);
+  exerciseWrapper.appendChild(notCompletedColumn);
+
+  return exerciseWrapper;
 }
 
 function createHabitsElement(habits) {
-  const habDiv = document.createElement("div");
+  const completedColumn = document.createElement("div");
+  completedColumn.className = "column";
+  completedColumn.className = "record-columns";
+  completedColumn.innerHTML = "<h6>Taken</h6>";
+
+  const notCompletedColumn = document.createElement("div");
+  notCompletedColumn.className = "column";
+  notCompletedColumn.className = "record-columns";
+  notCompletedColumn.innerHTML = "<h6>Skipped/Missed</h6>";
 
   habits.forEach((habit) => {
     const habitElement = document.createElement("div");
-    habitElement.textContent = `Habit: ${habit.Habit}, Checked: ${habit.IsChecked}`;
+    habitElement.textContent = `${habit.Habit}`;
 
-    habDiv.append(habitElement);
+    if (habit.IsChecked) {
+      completedColumn.appendChild(habitElement);
+    } else {
+      notCompletedColumn.appendChild(habitElement);
+    }
   });
-  return habDiv;
+
+  const habitWrapper = document.createElement("div");
+  habitWrapper.className = "habit-wrapper";
+  habitWrapper.appendChild(completedColumn);
+  habitWrapper.appendChild(notCompletedColumn);
+
+  return habitWrapper;
 }
 
 function displayCards() {
   const cardsContainer = document.getElementById("flaggedItemsContainer");
   cardsContainer.innerHTML = "";
+  cardsContainer.className = "row";
 
   flaggedEntries.forEach((entry) => {
     const weather = entry.weather;
@@ -125,16 +178,8 @@ function displayCards() {
     let exerciseList = createExercisesElement(exercises);
     let habitsList = createHabitsElement(habits);
 
-    let cardContent =
-      weather +
-      selectedEmotion.outerHTML +
-      selectedWater.outerHTML +
-      medicationList.outerHTML +
-      exerciseList.outerHTML +
-      habitsList.outerHTML;
-
     const card = document.createElement("div");
-    card.classList.add("card", "w-50", "p-3");
+    card.classList.add("card");
 
     const cardJournal = document.createElement("p");
     cardJournal.classList.add("card-journal");
@@ -145,7 +190,6 @@ function displayCards() {
 
     const cardContentDiv = document.createElement("div");
     cardContentDiv.classList.add("card-content");
-    cardContentDiv.innerHTML = cardContent;
 
     const cardBodyTitle = document.createElement("div");
     cardBodyTitle.classList.add("card-body");
@@ -156,6 +200,9 @@ function displayCards() {
 
     cardAccordion.appendChild(cardContentDiv);
     cardBodyTitle.appendChild(cardTitle);
+    cardContentDiv.appendChild(createMedicationsElement(medications));
+    cardContentDiv.appendChild(createExercisesElement(exercises));
+    cardContentDiv.append(createHabitsElement(habits));
 
     card.appendChild(cardJournal);
     card.appendChild(cardAccordion);
