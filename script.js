@@ -134,6 +134,10 @@ dateElement.addEventListener("change", () => {
     // update formattedDate when the user changes the date
     let selectedDate = new Date(dateElement.value);
     formattedDate = selectedDate.toISOString().slice(0, 10);
+    let submit = document.getElementById("submitButton");
+    let emotionTracker = document.getElementById("emotionTracker");
+    let waterTracker = document.getElementById("waterTracker");
+    // let checkboxes = document.getElementsByClassName("checkboxes");
 
     if (formattedDate <= twoDaysAgo) {
       journalInput.disabled = true;
@@ -142,8 +146,13 @@ dateElement.addEventListener("change", () => {
       exerciseInput.disabled = true;
       repCount.disabled = true;
       habitInput.disabled = true;
-      let submit = document.getElementById("submitButton");
       submit.disabled = true;
+      flagButton.disabled = true;
+      emotionTracker.disabled = true;
+      waterTracker.disabled = true;
+      // for (let i = 0; i < checkboxes.length; i++) {
+      //   checkboxes[i].style.display = "none";
+      // }
     } else {
       journalInput.disabled = false;
       medInput.disabled = false;
@@ -151,8 +160,10 @@ dateElement.addEventListener("change", () => {
       exerciseInput.disabled = false;
       repCount.disabled = false;
       habitInput.disabled = false;
-      let submit = document.getElementById("submitButton");
       submit.disabled = false;
+      flagButton.disabled = false;
+      emotionTracker.disabled = false;
+      waterTracker.disabled = false;
     }
 
     populateForm(formattedDate);
@@ -230,6 +241,7 @@ function flagClick(flag) {
       newObjIsFlagged = true;
 
       checkmark.style.border = "none";
+      checkmark.style.paddingLeft = "10px";
       checkmark.src = "./icons_images/checkmark-20.png";
 
       flagButton.append(checkmark);
@@ -449,11 +461,6 @@ const updateHabitList = (sectionArray, sectionList, key) => {
     sectionList.appendChild(newItem);
   });
 };
-// ---------- Checkboxes ---------- //
-
-// function checkedItems(sectionArray) {
-//   return sectionArray.filter((updatedItem) => updatedItem.IsChecked === true);
-// }
 
 // ---------- Weather ---------- //
 
