@@ -181,7 +181,7 @@ button.submit {
 
 button.flagged {
   background-color: #b8d0eb;
-  color: white;
+  color: #2a233b;
   font-size: 14px;
   font-weight: bold;
   border-radius: 10px;
@@ -190,7 +190,7 @@ button.flagged {
 
 button {
   background-color: #b298dc;
-  color: white;
+  color: #2a233b;
   font-size: 14px;
   font-weight: bold;
   border-radius: 10px;

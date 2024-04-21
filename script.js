@@ -300,6 +300,7 @@ const updateMedList = (sectionArray, sectionList, key) => {
     // Create wrapper for checkbox to allow for styling
     const wrapper = document.createElement("div");
     wrapper.style.display = "inline-flex";
+    wrapper.style.alignItems = "center";
     wrapper.style.paddingLeft = "10px";
 
     // Create and append the checkbox
@@ -314,11 +315,12 @@ const updateMedList = (sectionArray, sectionList, key) => {
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
     wrapper.appendChild(checkbox);
-    listItem.appendChild(wrapper);
 
     // Create and append the delete button
     const deleteBtn = deleteButton(sectionArray, index, sectionList, key);
-    listItem.appendChild(deleteBtn);
+    wrapper.appendChild(deleteBtn);
+
+    listItem.appendChild(wrapper);
 
     sectionList.appendChild(listItem);
   });
@@ -367,6 +369,7 @@ const updateExerciseList = (sectionArray, sectionList, key) => {
     // Create wrapper for checkbox to allow for styling
     const wrapper = document.createElement("div");
     wrapper.style.display = "inline-flex";
+    wrapper.style.alignItems = "center";
     wrapper.style.paddingLeft = "10px";
 
     let checkbox = document.createElement("input");
@@ -380,10 +383,11 @@ const updateExerciseList = (sectionArray, sectionList, key) => {
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
     wrapper.appendChild(checkbox);
-    newItem.appendChild(wrapper);
 
     let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
-    newItem.appendChild(deleteBtn);
+    wrapper.appendChild(deleteBtn);
+
+    newItem.appendChild(wrapper);
 
     sectionList.appendChild(newItem);
   });
@@ -422,6 +426,7 @@ const updateHabitList = (sectionArray, sectionList, key) => {
     // Create wrapper for checkbox to allow for styling
     const wrapper = document.createElement("div");
     wrapper.style.display = "inline-flex";
+    wrapper.style.alignItems = "center";
     wrapper.style.paddingLeft = "10px";
 
     let checkbox = document.createElement("input");
@@ -435,10 +440,11 @@ const updateHabitList = (sectionArray, sectionList, key) => {
       sectionArray[itemIndex].IsChecked = event.target.checked;
     });
     wrapper.appendChild(checkbox);
-    newItem.appendChild(wrapper);
 
     let deleteBtn = deleteButton(sectionArray, index, sectionList, key);
-    newItem.appendChild(deleteBtn);
+    wrapper.appendChild(deleteBtn);
+
+    newItem.appendChild(wrapper);
 
     sectionList.appendChild(newItem);
   });
