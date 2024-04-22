@@ -11,20 +11,6 @@ const flaggedEntries = entriesArray.filter((entry) => entry.isFlagged);
 
 const cardAccordion = document.querySelectorAll(".card-accordion");
 
-cardAccordion.forEach((card) => {
-  let content = card.querySelector(".card-content");
-  let header = card.querySelector(".card-title");
-
-  content.style.display = "none";
-
-  header.addEventListener("click", (event) => {
-    if (!event.target.closest("button, a, input")) {
-      content.style.display =
-        content.style.display === "block" ? "none" : "block";
-    }
-  });
-});
-
 function createEmotionElement(emotionTracker) {
   const selectedEmotion = document.createElement("div");
   let emotionImg = document.createElement("img");
@@ -195,6 +181,7 @@ function displayCards() {
 
     const cardContentDiv = document.createElement("div");
     cardContentDiv.classList.add("card-content");
+    cardContentDiv.style.display = "none";
 
     const cardBodyTitle = document.createElement("div");
     cardBodyTitle.classList.add("card-body");
@@ -220,3 +207,19 @@ function displayCards() {
 }
 
 displayCards();
+
+document.addEventListener("DOMContentLoaded", () => {
+  cardAccordion.forEach((card) => {
+    let content = card.querySelector(".card-content");
+    let header = card.querySelector(".card-title");
+
+    // content.style.display = "none";
+
+    header.addEventListener("click", (event) => {
+      if (!event.target.closest("button, a, input")) {
+        content.style.display =
+          content.style.display === "block" ? "none" : "block";
+      }
+    });
+  });
+});
