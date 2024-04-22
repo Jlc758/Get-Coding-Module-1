@@ -301,10 +301,11 @@ img,
 }
 
 .weatherResultsSection {
-  display: flexbox;
+  display: block;
   text-align: right;
   white-space: pre-wrap;
   padding-right: 2em;
+  height: 10em;
 }
 
 /* .locationSection {
