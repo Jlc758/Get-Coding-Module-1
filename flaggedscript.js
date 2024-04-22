@@ -9,7 +9,8 @@ const entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 
 const flaggedEntries = entriesArray.filter((entry) => entry.isFlagged);
 
-const cardAccordion = document.querySelectorAll(".card-accordion");
+//! remove this as there is nothing to select
+// const cardAccordion = document.querySelectorAll(".card-accordion");
 
 function createEmotionElement(emotionTracker) {
   const selectedEmotion = document.createElement("div");
@@ -189,6 +190,12 @@ function displayCards() {
     const cardTitle = document.createElement("h5");
     cardTitle.classList.add("card-title");
     cardTitle.textContent = entry.date;
+
+    //! Event listener here should work
+    cardTitle.addEventListener("click", () => {
+      cardContentDiv.style.display =
+        cardContentDiv.style.display === "block" ? "none" : "block";
+    })
 
     cardAccordion.appendChild(cardContentDiv);
     cardBodyTitle.appendChild(cardTitle);
