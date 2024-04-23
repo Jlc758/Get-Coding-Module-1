@@ -9,9 +9,6 @@ const entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 
 const flaggedEntries = entriesArray.filter((entry) => entry.isFlagged);
 
-//! remove this as there is nothing to select
-// const cardAccordion = document.querySelectorAll(".card-accordion");
-
 function createEmotionElement(emotionTracker) {
   const selectedEmotion = document.createElement("div");
   let emotionImg = document.createElement("img");
@@ -165,6 +162,7 @@ function displayCards() {
     const weatherDiv = document.createElement("div");
     weatherDiv.classList.add("weather-div");
     weatherDiv.innerHTML = weather;
+    weatherDiv.style.paddingTop = "10px";
 
     const iconsDiv = document.createElement("div");
     iconsDiv.classList.add("icons-div");
@@ -191,11 +189,10 @@ function displayCards() {
     cardTitle.classList.add("card-title");
     cardTitle.textContent = entry.date;
 
-    //! Event listener here should work
     cardTitle.addEventListener("click", () => {
       cardContentDiv.style.display =
         cardContentDiv.style.display === "block" ? "none" : "block";
-    })
+    });
 
     cardAccordion.appendChild(cardContentDiv);
     cardBodyTitle.appendChild(cardTitle);
@@ -215,18 +212,17 @@ function displayCards() {
 
 displayCards();
 
-document.addEventListener("DOMContentLoaded", () => {
-  cardAccordion.forEach((card) => {
-    let content = card.querySelector(".card-content");
-    let header = card.querySelector(".card-title");
+let expandCollapseButton = document.getElementById("expandCollapse");
 
-    // content.style.display = "none";
+expandCollapseButton.addEventListener("click", () => {
+  const cardsContainer = document.getElementById("allItemsContainer");
+  const cardContents = cardsContainer.querySelectorAll(".card-content");
 
-    header.addEventListener("click", (event) => {
-      if (!event.target.closest("button, a, input")) {
-        content.style.display =
-          content.style.display === "block" ? "none" : "block";
-      }
-    });
+  cardContents.forEach((content) => {
+    if (content.style.display === "none") {
+      content.style.display = "block";
+    } else {
+      content.style.display = "none";
+    }
   });
 });

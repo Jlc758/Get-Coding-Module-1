@@ -25,8 +25,13 @@
           type="button"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
+          id="menu"
         >
-          <img src="./icons_images/menu.png" alt="Navigation Menu" id="menu" />
+          <img
+            src="./icons_images/icons8-menu-50.png"
+            alt="Navigation Menu"
+            id="menu"
+          />
         </button>
 
         <div
@@ -83,6 +88,10 @@
             </button>
           </div>
 
+          <div id="twoDayMessage">
+            Note: Entries older than two days cannot be edited
+          </div>
+
           <section class="accordion-item">
             <header class="accordion-header">Journal Entry</header>
 
@@ -96,7 +105,7 @@
             </div>
           </section>
           <section class="accordion-item">
-            <header class="accordion-header">Emotion Tracker</header>
+            <header class="accordion-header">Mood / Emotions</header>
             <div class="accordion-content">
               <fieldset id="emotionTracker">
                 <input
@@ -174,7 +183,7 @@
           </section>
 
           <section class="accordion-item">
-            <header class="accordion-header">Water Tracker</header>
+            <header class="accordion-header">Water Intake</header>
             <div class="accordion-content">
               <fieldset id="waterTracker">
                 <input
@@ -245,11 +254,17 @@
           </section>
 
           <section class="accordion-item">
-            <header class="accordion-header">Medication Tracker</header>
+            <header class="accordion-header">Medications</header>
             <div class="accordion-content">
               <fieldset id="addMedicationForm">
-                <input type="text" id="newMedication" />
-                <input type="number" id="medCount" />
+                <input type="text" id="newMedication" maxlength="30" />
+                <input
+                  type="number"
+                  id="medCount"
+                  min="0"
+                  max="999"
+                  step="0.25"
+                />
                 <button type="button" id="addMedicationBtn" class="addItem">
                   <img
                     src="./icons_images/plus-64.png"
@@ -263,12 +278,18 @@
           </section>
 
           <section class="accordion-item">
-            <header class="accordion-header">Exercise Tracker</header>
+            <header class="accordion-header">Exercises</header>
             <div class="accordion-content">
               <fieldset id="addExerciseForm">
                 <div>
-                  <input type="text" id="newExercise" />
-                  <input type="number" id="repCount" />
+                  <input type="text" id="newExercise" maxlength="30" />
+                  <input
+                    type="number"
+                    id="repCount"
+                    min="0"
+                    max="999"
+                    step="0.5"
+                  />
                   <button type="button" id="addExerciseBtn">
                     <img
                       src="./icons_images/plus-64.png"
@@ -283,10 +304,10 @@
           </section>
 
           <section class="accordion-item">
-            <header class="accordion-header">Habit Tracker</header>
+            <header class="accordion-header">Habits</header>
             <div class="accordion-content">
               <fieldset id="addHabitForm">
-                <input type="text" id="newHabit" />
+                <input type="text" id="newHabit" maxlength="30" />
                 <button type="button" id="addHabitBtn">
                   <img src="./icons_images/plus-64.png" alt="Add New Habit" />
                 </button>

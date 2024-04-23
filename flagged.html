@@ -22,8 +22,13 @@
           type="button"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
+          id="menu"
         >
-          <img src="./icons_images/menu.png" alt="Navigation Menu" id="menu" />
+          <img
+            src="./icons_images/icons8-menu-50.png"
+            alt="Navigation Menu"
+            id="menu"
+          />
         </button>
 
         <!-- Modal structure -->
@@ -56,8 +61,13 @@
     </header>
 
     <main>
+      <div>
+        <div class="expandCollapse" id="expandCollapse">
+          <button type="button" id="expandCollapse">Expand/Collapse All</button>
+        </div>
+      </div>
       <div class="instructions">
-        Click on journal entry to reveal other details
+        Click on date to reveal or close other details
       </div>
       <div id="flaggedItemsContainer"></div>
     </main>

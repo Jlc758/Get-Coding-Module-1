@@ -7,22 +7,6 @@ let formattedDate = currentDate.toISOString().slice(0, 10);
 const entriesKey = "entriesArray";
 const entriesArray = JSON.parse(localStorage.getItem(entriesKey)) || [];
 
-const cardAccordion = document.querySelectorAll(".card-accordion");
-
-cardAccordion.forEach((card) => {
-  let content = card.querySelector(".card-content");
-  let header = card.querySelector(".card-title");
-
-  content.style.display = "none";
-
-  header.addEventListener("click", (event) => {
-    if (!event.target.closest("button, a, input")) {
-      content.style.display =
-        content.style.display === "block" ? "none" : "block";
-    }
-  });
-});
-
 function createEmotionElement(emotionTracker) {
   const selectedEmotion = document.createElement("div");
   let emotionImg = document.createElement("img");
@@ -176,6 +160,7 @@ function displayCards() {
     const weatherDiv = document.createElement("div");
     weatherDiv.classList.add("weather-div");
     weatherDiv.innerHTML = weather;
+    weatherDiv.style.paddingTop = "10px";
 
     const iconsDiv = document.createElement("div");
     iconsDiv.classList.add("icons-div");
@@ -193,6 +178,7 @@ function displayCards() {
 
     const cardContentDiv = document.createElement("div");
     cardContentDiv.classList.add("card-content");
+    cardContentDiv.style.display = "none";
 
     const cardBodyTitle = document.createElement("div");
     cardBodyTitle.classList.add("card-body");
@@ -200,6 +186,11 @@ function displayCards() {
     const cardTitle = document.createElement("h5");
     cardTitle.classList.add("card-title");
     cardTitle.textContent = entry.date;
+
+    cardTitle.addEventListener("click", () => {
+      cardContentDiv.style.display =
+        cardContentDiv.style.display === "block" ? "none" : "block";
+    });
 
     cardAccordion.appendChild(cardContentDiv);
     cardBodyTitle.appendChild(cardTitle);
@@ -218,3 +209,18 @@ function displayCards() {
 }
 
 displayCards();
+
+let expandCollapseButton = document.getElementById("expandCollapse");
+
+expandCollapseButton.addEventListener("click", () => {
+  const cardsContainer = document.getElementById("allItemsContainer");
+  const cardContents = cardsContainer.querySelectorAll(".card-content");
+
+  cardContents.forEach((content) => {
+    if (content.style.display === "none") {
+      content.style.display = "block";
+    } else {
+      content.style.display = "none";
+    }
+  });
+});

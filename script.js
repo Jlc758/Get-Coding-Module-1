@@ -11,6 +11,8 @@ let previousDate = new Date(currentDate);
 previousDate.setDate(currentDate.getDate() - 3);
 let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
+let submitMessage = document.getElementById("submitMessage");
+
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -107,13 +109,12 @@ const showPosition = (position) => {
 
 dateElement.addEventListener("change", () => {
   try {
-    // update formattedDate when the user changes the date
     let selectedDate = new Date(dateElement.value);
     formattedDate = selectedDate.toISOString().slice(0, 10);
     let submit = document.getElementById("submitButton");
     let emotionTracker = document.getElementById("emotionTracker");
     let waterTracker = document.getElementById("waterTracker");
-    // let checkboxes = document.getElementsByClassName("checkboxes");
+    let twodayMessage = document.getElementById("twoDayMessage");
 
     if (formattedDate <= twoDaysAgo) {
       journalInput.disabled = true;
@@ -126,9 +127,7 @@ dateElement.addEventListener("change", () => {
       flagButton.disabled = true;
       emotionTracker.disabled = true;
       waterTracker.disabled = true;
-      // for (let i = 0; i < checkboxes.length; i++) {
-      //   checkboxes[i].style.display = "none";
-      // }
+      twodayMessage.style.display = "block";
     } else {
       journalInput.disabled = false;
       medInput.disabled = false;
@@ -184,7 +183,7 @@ const deleteButton = (sectionArray, index, listElement, key) => {
   deleteButton.classList.add("delete-button");
   deleteButton.innerText = "X";
   deleteButton.addEventListener("click", () => {
-    sectionArray.splice(index, 1); //delete using index
+    sectionArray.splice(index, 1);
 
     localStorage.setItem(key, JSON.stringify(sectionArray));
 
@@ -199,6 +198,29 @@ const deleteButton = (sectionArray, index, listElement, key) => {
 
   return deleteButton;
 };
+
+const medCountInput = document.getElementById("medCount");
+const repCountInput = document.getElementById("repCount");
+
+if (medCountInput) {
+  medCountInput.addEventListener("input", function () {
+    let currentValue = parseFloat(this.value);
+
+    if (currentValue > parseFloat(this.max)) {
+      this.value = this.max;
+    }
+  });
+}
+
+if (repCountInput) {
+  repCountInput.addEventListener("input", function () {
+    let currentValue = parseFloat(this.value);
+
+    if (currentValue > parseFloat(this.max)) {
+      this.value = this.max;
+    }
+  });
+}
 
 // ---------- Journal Entry ---------- //
 
@@ -265,11 +287,9 @@ function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
         IsChecked: false,
       };
 
-      //! Update Local Storage state
-      sectionArray.push({ ...newMedObject, IsChecked: false }); //! Ensure IsChecked is false
+      sectionArray.push({ ...newMedObject, IsChecked: false });
       localStorage.setItem(key, JSON.stringify(sectionArray));
 
-      //! Reflect changes in the DOM by using the array from D.E.O.
       updateMedList(dailyEntryObj.medications, sectionList);
       inputItem.value = "";
       count.value = "";
@@ -283,13 +303,11 @@ const updateMedList = (sectionArray, sectionList, key) => {
     const listItem = document.createElement("li");
     listItem.textContent = `${medication.MedText} - Count: ${medication.MedCount}`;
 
-    // Create wrapper for checkbox to allow for styling
     const wrapper = document.createElement("div");
     wrapper.style.display = "inline-flex";
     wrapper.style.alignItems = "center";
     wrapper.style.paddingLeft = "10px";
 
-    // Create and append the checkbox
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = medication.IsChecked;
@@ -302,7 +320,6 @@ const updateMedList = (sectionArray, sectionList, key) => {
     });
     wrapper.appendChild(checkbox);
 
-    // Create and append the delete button
     const deleteBtn = deleteButton(sectionArray, index, sectionList, key);
     wrapper.appendChild(deleteBtn);
 
@@ -409,7 +426,6 @@ const updateHabitList = (sectionArray, sectionList, key) => {
     let newItem = document.createElement("li");
     newItem.textContent = `${updatedItem.Habit}`;
 
-    // Create wrapper for checkbox to allow for styling
     const wrapper = document.createElement("div");
     wrapper.style.display = "inline-flex";
     wrapper.style.alignItems = "center";
@@ -444,9 +460,7 @@ let dataWeatherResultsSection = document.getElementById("weatherResults");
 let dataWeatherResults;
 
 async function fetchData(currentLat, currentLon) {
-  // check if currentLat & currentLon are defined
   if (currentLat === undefined || currentLon === undefined) {
-    // if not defined, wait fora  short period and then retry
     setTimeout(() => fetchData(currentLat, currentLon), 1000);
     return;
   }
@@ -455,18 +469,14 @@ async function fetchData(currentLat, currentLon) {
   const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${currentLat}&lon=${currentLon}&appid=${weatherAPIKey}`;
 
   try {
-    // Make a GET request using fetch and await the response
     const response = await fetch(weatherURL);
 
-    // Check if the response status is OK (status code 200-299)
     if (!response.ok) {
       throw new Error(`HTTP error!  Status: ${response.status}`);
     }
 
-    // Parse the response as JSON
     const data = await response.json();
 
-    // Pull city from API key-value pairs
     const dataCity = data.name;
     const dataTemp = Math.round(data.main.temp - 273.15).toFixed(0);
     const dataFeelsLike = Math.round(data.main.feels_like - 273.15).toFixed(0);
@@ -474,10 +484,8 @@ async function fetchData(currentLat, currentLon) {
     const dataWeatherIcon = data.weather[0].icon;
     const dataWeatherUrl = `https://openweathermap.org/img/wn/${dataWeatherIcon}.png`;
 
-    // Handle the retrieved data
     dataWeatherResults = `Temperature: ${dataTemp}\u00B0C\nFeels Like: ${dataFeelsLike}\u00B0C\n`;
 
-    // Create img element for the weather icon
     const weatherIconElementDiv = document.createElement("div");
     weatherIconElementDiv.className = "weather-icon-div";
     const weatherIconElement = document.createElement("img");
@@ -513,9 +521,6 @@ async function fetchData(currentLat, currentLon) {
 function populateForm(targetDate) {
   try {
     dateElement.value = targetDate;
-    // let foundEntry = entriesArray.find(
-    //   (entry) => entry.date === targetDate && journalInput.value.length > 0
-    // );
 
     let foundEntry = entriesArray.find((entry) => entry.date === targetDate);
 
@@ -562,7 +567,6 @@ function populateForm(targetDate) {
         checkbox.checked = false;
       });
 
-      //! initialize the arrays for a new form as the local storage arrays
       dailyEntryObj = {
         date: targetDate,
         weather: dataWeatherResultsSection.textContent,
@@ -604,15 +608,12 @@ flagClick(flag);
 
 // ---------- Submit Daily Entry ---------- //
 
-let submitMessage = document.getElementById("submitMessage");
-
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (journalInput.value.length !== 0) {
     await fetchData(currentLat, currentLon);
 
-    //! on submit you can directly assign to the previously set values, note that the arrays are not here as they have already been set in their update functions.
     dailyEntryObj.date = formattedDate;
     dailyEntryObj.weather = dataWeatherResults;
     dailyEntryObj.journal = journalInput.value;
@@ -628,5 +629,3 @@ form.addEventListener("submit", async (event) => {
     submitMessage.innerText = "Journal Entry Empty - Cannot Submit";
   }
 });
-
-// --------- Lock Down Entries +2 Days Old ---------- //
