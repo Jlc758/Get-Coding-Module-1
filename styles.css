@@ -107,6 +107,7 @@ body {
 .accordion-header {
   background-color: #bcbcf4;
   border-bottom: 4em;
+  cursor: pointer;
 }
 
 .accordion-content {
@@ -159,8 +160,9 @@ a {
 input[type="text"],
 input[type="date"],
 input[type="number"],
-#fillableEntry {
-  background-color: rgb(228, 228, 228);
+#fillableEntry,
+.dosage {
+  background-color: rgb(229, 239, 243);
   border-radius: 5px;
   border-color: #acaab1;
 }
@@ -353,6 +355,7 @@ li {
   display: block;
   height: 2rem;
   background-color: #bcbcf4;
+  cursor: pointer;
 }
 
 .medication-wrapper,

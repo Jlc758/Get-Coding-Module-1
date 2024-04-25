@@ -28,6 +28,7 @@ const medInput = document.getElementById("newMedication");
 const addMedBtn = document.getElementById("addMedicationBtn");
 const medList = document.getElementById("medList");
 const countInput = document.getElementById("medCount");
+const dosageElement = document.getElementById("dosage");
 
 const exerciseInput = document.getElementById("newExercise");
 const addExerciseBtn = document.getElementById("addExerciseBtn");
@@ -274,18 +275,31 @@ const reverseRadioValue = (name, value) => {
 
 // ---------- Medications ---------- //
 
-function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
+function addMedItem(
+  sectionArray,
+  inputItem,
+  count,
+  addBtn,
+  sectionList,
+  key,
+  dosage
+) {
   addBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newMedItemValue = inputItem.value.trim();
     const newMedCountValue = count.value;
+    const selectedOption = dosage.options[dosage.selectedIndex];
+    const selectedDosage = selectedOption.innerText;
 
     if (newMedItemValue && newMedCountValue > 0) {
       const newMedObject = {
         MedText: newMedItemValue,
         MedCount: newMedCountValue,
+        Dosage: selectedDosage,
         IsChecked: false,
       };
+
+      console.log("Dosage:", dosage);
 
       sectionArray.push({ ...newMedObject, IsChecked: false });
       localStorage.setItem(key, JSON.stringify(sectionArray));
@@ -293,6 +307,7 @@ function addMedItem(sectionArray, inputItem, count, addBtn, sectionList, key) {
       updateMedList(dailyEntryObj.medications, sectionList);
       inputItem.value = "";
       count.value = "";
+      dosage.selectedIndex = 0;
     }
   });
 }
@@ -301,7 +316,7 @@ const updateMedList = (sectionArray, sectionList, key) => {
   sectionList.textContent = ""; // Clear existing list
   sectionArray.forEach((medication, index) => {
     const listItem = document.createElement("li");
-    listItem.textContent = `${medication.MedText} - Count: ${medication.MedCount}`;
+    listItem.textContent = `${medication.MedText} - ${medication.MedCount} ${medication.Dosage}`;
 
     const wrapper = document.createElement("div");
     wrapper.style.display = "inline-flex";
@@ -588,7 +603,15 @@ function populateForm(targetDate) {
 
 fetchData(currentLat, currentLon);
 
-addMedItem(medicationsArray, medInput, countInput, addMedBtn, medList, medKey);
+addMedItem(
+  medicationsArray,
+  medInput,
+  countInput,
+  addMedBtn,
+  medList,
+  medKey,
+  dosageElement
+);
 
 // Calling function for adding items to exercise section
 addExerciseItem(

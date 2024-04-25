@@ -60,6 +60,31 @@
           </div>
         </div>
       </div>
+      <div
+        class="modal fade"
+        class="welcome-modal"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog-centered">
+          <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Close
+              </button>
+            </div>
+            <div class="modal-body">Content goes here</div>
+          </div>
+        </div>
+      </div>
     </header>
 
     <main>
@@ -257,14 +282,27 @@
             <header class="accordion-header">Medications</header>
             <div class="accordion-content">
               <fieldset id="addMedicationForm">
-                <input type="text" id="newMedication" maxlength="30" />
+                <input
+                  type="text"
+                  id="newMedication"
+                  maxlength="30"
+                  placeholder="Ex: Ibuprofen"
+                />
                 <input
                   type="number"
                   id="medCount"
                   min="0"
                   max="999"
                   step="0.25"
+                  placeholder="Count"
                 />
+                <select class="dosage" id="dosage">
+                  <option value="mg">mg</option>
+                  <option value="pills">pill(s)</option>
+                  <option value="tablets">tablet(s)</option>
+                  <option value="dosage">dose(es)</option>
+                </select>
+
                 <button type="button" id="addMedicationBtn" class="addItem">
                   <img
                     src="./icons_images/plus-64.png"
@@ -282,13 +320,19 @@
             <div class="accordion-content">
               <fieldset id="addExerciseForm">
                 <div>
-                  <input type="text" id="newExercise" maxlength="30" />
+                  <input
+                    type="text"
+                    id="newExercise"
+                    maxlength="30"
+                    placeholder="Ex: Push-ups"
+                  />
                   <input
                     type="number"
                     id="repCount"
                     min="0"
                     max="999"
                     step="0.5"
+                    placeholder="Reps"
                   />
                   <button type="button" id="addExerciseBtn">
                     <img
@@ -307,7 +351,12 @@
             <header class="accordion-header">Habits</header>
             <div class="accordion-content">
               <fieldset id="addHabitForm">
-                <input type="text" id="newHabit" maxlength="30" />
+                <input
+                  type="text"
+                  id="newHabit"
+                  maxlength="30"
+                  placeholder="Ex: Meditation"
+                />
                 <button type="button" id="addHabitBtn">
                   <img src="./icons_images/plus-64.png" alt="Add New Habit" />
                 </button>
