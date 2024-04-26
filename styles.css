@@ -11,8 +11,15 @@ body {
     font-size: 14px;
   }
 
-  .radioImgs {
+  .radioChoices + label img {
     min-height: 40px;
+    border: 2px dotted transparent;
+    border-radius: 100%;
+  }
+
+  .radioChoices:checked + label::after {
+    height: 40px;
+    width: 40px;
   }
 }
 
@@ -24,8 +31,15 @@ body {
     margin-right: 4em;
   }
 
-  .radioImgs {
+  .radioChoices + label img {
     min-height: 40px;
+    border: 2px dotted transparent;
+    border-radius: 100%;
+  }
+
+  .radioChoices:checked + label::after {
+    height: 40px;
+    width: 40px;
   }
 }
 
@@ -36,8 +50,14 @@ body {
     margin-left: 7em;
     margin-right: 7em;
   }
-  .radioImgs {
+  .radioChoices + label img {
     min-height: 50px;
+    border: 2px dotted transparent;
+    border-radius: 100%;
+  }
+  .radioChoices:checked + label::after {
+    height: 50px;
+    width: 50px;
   }
 
   .instructions {
@@ -221,9 +241,20 @@ ul {
   display: none;
 }
 
-.radioChoices:checked + label {
+.radioChoices + label {
+  display: inline-block;
+  position: relative; /* Ensure proper positioning for absolute elements */
+}
+
+.radioChoices:checked + label::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+
   border: 2px dotted black;
   border-radius: 100%;
+  box-sizing: border-box;
 }
 
 button:hover,

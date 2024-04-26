@@ -68,7 +68,7 @@ function createMedicationsElement(medications) {
 
   medications.forEach((medication) => {
     const medicationElement = document.createElement("div");
-    medicationElement.textContent = `${medication.MedText}, Count: ${medication.MedCount}`;
+    medicationElement.textContent = `${medication.MedText} - ${medication.MedCount} ${medication.Dosage}`;
 
     if (medication.IsChecked) {
       takenMedsColumn.appendChild(medicationElement);

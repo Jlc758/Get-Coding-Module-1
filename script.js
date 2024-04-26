@@ -73,6 +73,22 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
     populateForm(formattedDate);
+    console.log(
+      "MedArray: ",
+      medicationsArray,
+      "DEO Meds: ",
+      dailyEntryObj.medications,
+      "ExArray",
+      exercisesArray,
+      "DEO Exs: ",
+      dailyEntryObj.exercises,
+      "HabArray: ",
+      habitsArray,
+      "DEO Habs: ",
+      dailyEntryObj.habits,
+      "DEO Date: ",
+      dailyEntryObj.date
+    );
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -130,6 +146,8 @@ dateElement.addEventListener("change", () => {
       waterTracker.disabled = true;
       twodayMessage.style.display = "block";
     } else {
+      form.reset();
+      console.log("DEO: ", entriesArray);
       journalInput.disabled = false;
       medInput.disabled = false;
       countInput.disabled = false;
@@ -299,8 +317,6 @@ function addMedItem(
         IsChecked: false,
       };
 
-      console.log("Dosage:", dosage);
-
       sectionArray.push({ ...newMedObject, IsChecked: false });
       localStorage.setItem(key, JSON.stringify(sectionArray));
 
@@ -367,7 +383,6 @@ function addExerciseItem(
       };
 
       sectionArray.push(exerciseObject);
-
       localStorage.setItem(key, JSON.stringify(sectionArray));
 
       updateExerciseList(sectionArray, sectionList, key);
@@ -570,7 +585,7 @@ function populateForm(targetDate) {
       form.reset();
       dateElement.value = formattedDate;
 
-      updateMedList(medicationsArray, medList);
+      updateMedList(medicationsArray, medList, medKey);
       updateExerciseList(exercisesArray, exerciseList, exKey);
       updateHabitList(habitsArray, habitList, habKey);
       fetchData(currentLat, currentLon);
@@ -644,7 +659,20 @@ form.addEventListener("submit", async (event) => {
     dailyEntryObj.emotionTracker = radioValue("emotionTracker");
     dailyEntryObj.waterTracker = radioValue("waterTracker");
 
-    entriesArray.push(dailyEntryObj);
+    // Search for existing entry with the same date
+    const existingEntryIndex = entriesArray.findIndex(
+      (entry) => entry.date === formattedDate
+    );
+
+    if (existingEntryIndex !== -1) {
+      // Replace existing entry with the adjusted one
+      entriesArray[existingEntryIndex] = dailyEntryObj;
+    } else {
+      // Add new entry to entriesArray
+      entriesArray.push(dailyEntryObj);
+    }
+
+    // Save updated entriesArray to local storage
     localStorage.setItem(entriesKey, JSON.stringify(entriesArray));
 
     submitMessage.innerText = "Entry Saved!";
