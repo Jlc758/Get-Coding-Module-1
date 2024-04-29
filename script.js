@@ -368,7 +368,7 @@ function addExerciseItem(
       sectionArray.push(exerciseObject);
       localStorage.setItem(key, JSON.stringify(sectionArray));
 
-      updateExerciseList(sectionArray, sectionList, key);
+      updateExerciseList(dailyEntryObj.exercises, sectionList, key);
       inputItem.value = "";
       count.value = "";
 
