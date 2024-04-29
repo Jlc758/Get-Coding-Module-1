@@ -73,22 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
     populateForm(formattedDate);
-    console.log(
-      "MedArray: ",
-      medicationsArray,
-      "DEO Meds: ",
-      dailyEntryObj.medications,
-      "ExArray",
-      exercisesArray,
-      "DEO Exs: ",
-      dailyEntryObj.exercises,
-      "HabArray: ",
-      habitsArray,
-      "DEO Habs: ",
-      dailyEntryObj.habits,
-      "DEO Date: ",
-      dailyEntryObj.date
-    );
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -147,7 +131,6 @@ dateElement.addEventListener("change", () => {
       twodayMessage.style.display = "block";
     } else {
       form.reset();
-      console.log("DEO: ", entriesArray);
       journalInput.disabled = false;
       medInput.disabled = false;
       countInput.disabled = false;
@@ -388,7 +371,21 @@ function addExerciseItem(
       updateExerciseList(sectionArray, sectionList, key);
       inputItem.value = "";
       count.value = "";
+
+      if (sectionList.length > 0) {
+        sectionList = sectionArray;
+      }
     }
+
+    console.log(
+      "Added Exercise to:",
+      "DEO.ex: ",
+      dailyEntryObj.exercises,
+      "Exercises Array: ",
+      exercisesArray,
+      "Exercise List: ",
+      exerciseList
+    );
   });
 }
 
@@ -410,6 +407,17 @@ const updateExerciseList = (sectionArray, sectionList, key) => {
     checkbox.id = `exercisesCheckbox${index}`;
     checkbox.className = "checkboxes";
     checkbox.checked = updatedItem.IsChecked;
+
+    // Check if dailyEntryObj is available and the current item is in it
+    if (dailyEntryObj && dailyEntryObj.exercises) {
+      const foundItem = dailyEntryObj.exercises.find(
+        (item) => item.Exercise === updatedItem.Exercise
+      );
+      if (foundItem) {
+        checkbox.checked = foundItem.IsChecked;
+      }
+    }
+
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
@@ -443,7 +451,7 @@ function addHabitItem(sectionArray, inputItem, addBtn, sectionList, key) {
 
       localStorage.setItem(key, JSON.stringify(sectionArray));
 
-      updateHabitList(sectionArray, sectionList, key);
+      updateHabitList(dailyEntryObj.habits, sectionList, key);
       inputItem.value = "";
     }
   });
@@ -581,6 +589,11 @@ function populateForm(targetDate) {
       updateMedList(medications, medList);
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
+      dailyEntryObj = foundEntry;
+
+      console.log("Found Entry: ", foundEntry);
+
+      console.log(dailyEntryObj.exercises);
     } else {
       form.reset();
       dateElement.value = formattedDate;
