@@ -366,6 +366,7 @@ function addExerciseItem(
       };
 
       sectionArray.push(exerciseObject);
+      dailyEntryObj.exercises.push(exerciseObject);
       localStorage.setItem(key, JSON.stringify(sectionArray));
 
       updateExerciseList(dailyEntryObj.exercises, sectionList, key);
@@ -590,16 +591,12 @@ function populateForm(targetDate) {
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
       dailyEntryObj = foundEntry;
-
-      console.log("Found Entry: ", foundEntry);
-
-      console.log(dailyEntryObj.exercises);
     } else {
       form.reset();
       dateElement.value = formattedDate;
 
       updateMedList(medicationsArray, medList, medKey);
-      updateExerciseList(exercisesArray, exerciseList, exKey);
+      updateExerciseList([...exercisesArray], exerciseList, exKey);
       updateHabitList(habitsArray, habitList, habKey);
       fetchData(currentLat, currentLon);
       newObjIsFlagged = false;
@@ -618,7 +615,7 @@ function populateForm(targetDate) {
         emotionTracker: "",
         waterTracker: "",
         medications: medicationsArray,
-        exercises: exercisesArray,
+        exercises: [...exercisesArray],
         habits: habitsArray,
       };
     }
