@@ -11,6 +11,12 @@ let previousDate = new Date(currentDate);
 previousDate.setDate(currentDate.getDate() - 3);
 let twoDaysAgo = previousDate.toISOString().slice(0, 10);
 
+let oneDayAhead = new Date(currentDate);
+oneDayAhead.setDate(currentDate.getDate() + 1);
+
+let twoDaysAhead = new Date(currentDate);
+twoDaysAhead.setDate(currentDate.getDate() + 2);
+
 let submitMessage = document.getElementById("submitMessage");
 
 document.addEventListener("keydown", function (event) {
@@ -190,11 +196,11 @@ const deleteButton = (sectionArray, index, listElement, key) => {
     localStorage.setItem(key, JSON.stringify(sectionArray));
 
     if (listElement.id === "medList") {
-      updateMedList(sectionArray, listElement);
+      updateMedList(sectionArray, listElement, key);
     } else if (listElement.id === "exerciseList") {
-      updateExerciseList(sectionArray, listElement);
+      updateExerciseList(sectionArray, listElement, key);
     } else if (listElement.id === "habitList") {
-      updateHabitList(habitsArray, habitList, habKey);
+      updateHabitList(sectionArray, listElement, key);
     }
   });
 
@@ -373,21 +379,7 @@ function addExerciseItem(
       updateExerciseList(dailyEntryObj.exercises, sectionList, key);
       inputItem.value = "";
       count.value = "";
-
-      if (sectionList.length > 0) {
-        sectionList = sectionArray;
-      }
     }
-
-    console.log(
-      "Added Exercise to:",
-      "DEO.ex: ",
-      dailyEntryObj.exercises,
-      "Exercises Array: ",
-      exercisesArray,
-      "Exercise List: ",
-      exerciseList
-    );
   });
 }
 
@@ -691,4 +683,11 @@ form.addEventListener("submit", async (event) => {
   } else {
     submitMessage.innerText = "Journal Entry Empty - Cannot Submit";
   }
+});
+
+let deleteAllExercisesBtn = document.getElementById("deleteAllExercises");
+
+deleteAllExercisesBtn.addEventListener("click", () => {
+  exerciseList.length = 0;
+  updateExerciseList(exercisesArray, exerciseList, exKey);
 });
