@@ -35,15 +35,18 @@ const addMedBtn = document.getElementById("addMedicationBtn");
 const medList = document.getElementById("medList");
 const countInput = document.getElementById("medCount");
 const dosageElement = document.getElementById("dosage");
+const deleteAllMeds = document.getElementById("deleteAllMeds");
 
 const exerciseInput = document.getElementById("newExercise");
 const addExerciseBtn = document.getElementById("addExerciseBtn");
 const exerciseList = document.getElementById("exerciseList");
 const repCount = document.getElementById("repCount");
+const deleteAllExercises = document.getElementById("deleteAllExercises");
 
 const habitInput = document.getElementById("newHabit");
 const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
+const deleteAllHabits = document.getElementById("deleteAllHabits");
 
 // ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
@@ -79,6 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
   try {
     fetchLocationData();
     populateForm(formattedDate);
+    console.log(
+      "Exercises Array: ",
+      exercisesArray,
+      " Exercise List: ",
+      exerciseList
+    );
   } catch (error) {
     console.log("DomContentLoaded not working");
   }
@@ -685,9 +694,44 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-let deleteAllExercisesBtn = document.getElementById("deleteAllExercises");
+function clearList(sectionArray, listId, key) {
+  let list = document.getElementById(listId);
 
-deleteAllExercisesBtn.addEventListener("click", () => {
-  exerciseList.length = 0;
-  updateExerciseList(exercisesArray, exerciseList, exKey);
+  if (list) {
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
+    sectionArray.splice(0, sectionArray.length);
+
+    localStorage.setItem(key, JSON.stringify(sectionArray));
+
+    if (listId === "medList") {
+      updateMedList([...medicationsArray], medList, medKey);
+    } else if (listId === "exerciseList") {
+      updateExerciseList([...exercisesArray], exerciseList, exKey);
+    } else if (listId === "habitList") {
+      updateHabitList([...habitsArray], habitList, habKey);
+    } else {
+      console.log("List ID not recognized");
+    }
+    console.log("Section Array: ", sectionArray);
+  } else {
+    console.error("List with ID " + listId + " not found.");
+  }
+}
+
+document.getElementById("deleteAllMeds").addEventListener("click", function () {
+  clearList(medicationsArray, "medList", medKey);
 });
+
+document
+  .getElementById("deleteAllExercises")
+  .addEventListener("click", function () {
+    clearList(exercisesArray, "exerciseList", exKey);
+  });
+
+document
+  .getElementById("deleteAllHabits")
+  .addEventListener("click", function () {
+    clearList(habitsArray, "habitList", habKey);
+  });
