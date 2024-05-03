@@ -48,6 +48,8 @@ const addHabitBtn = document.getElementById("addHabitBtn");
 const habitList = document.getElementById("habitList");
 const deleteAllHabits = document.getElementById("deleteAllHabits");
 
+let isEditing = false;
+
 // ---------- DOM Variables ---------- //
 const form = document.getElementById("dailyEntry");
 const accordionItems = document.querySelectorAll(".accordion-item");
@@ -291,15 +293,7 @@ const reverseRadioValue = (name, value) => {
 
 // ---------- Medications ---------- //
 
-function addMedItem(
-  sectionArray,
-  inputItem,
-  count,
-  addBtn,
-  sectionList,
-  key,
-  dosage
-) {
+function addMedItem(inputItem, count, addBtn, sectionList, key, dosage) {
   addBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newMedItemValue = inputItem.value.trim();
@@ -315,11 +309,11 @@ function addMedItem(
         IsChecked: false,
       };
 
-      sectionArray.push({ ...newMedObject, IsChecked: false });
+      medicationsArray.push({ ...newMedObject, IsChecked: false });
       dailyEntryObj.medications.push(newMedObject);
-      localStorage.setItem(key, JSON.stringify(sectionArray));
+      localStorage.setItem(key, JSON.stringify(medicationsArray));
 
-      updateMedList(dailyEntryObj.medications, sectionList);
+      updateMedList(dailyEntryObj.medications, sectionList, key);
       inputItem.value = "";
       count.value = "";
       dosage.selectedIndex = 0;
@@ -328,7 +322,8 @@ function addMedItem(
 }
 
 const updateMedList = (sectionArray, sectionList, key) => {
-  sectionList.textContent = ""; // Clear existing list
+  sectionList.textContent = "";
+
   sectionArray.forEach((medication, index) => {
     const listItem = document.createElement("li");
     listItem.textContent = `${medication.MedText} - ${medication.MedCount} ${medication.Dosage}`;
@@ -338,11 +333,22 @@ const updateMedList = (sectionArray, sectionList, key) => {
     wrapper.style.alignItems = "center";
     wrapper.style.paddingLeft = "10px";
 
-    const checkbox = document.createElement("input");
+    let checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.checked = medication.IsChecked;
     checkbox.id = `medicationsCheckbox${index}`;
     checkbox.className = "checkboxes";
+    checkbox.checked = medication.IsChecked;
+
+    // Check id dailyEntryObj is available and the current item is in it
+    if (dailyEntryObj && dailyEntryObj.medications) {
+      const foundItem = dailyEntryObj.medications.find(
+        (item) => item.MedText === medication.MedText
+      );
+      if (foundItem) {
+        checkbox.checked = foundItem.IsChecked;
+      }
+    }
+
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
@@ -361,14 +367,7 @@ const updateMedList = (sectionArray, sectionList, key) => {
 
 // ---------- Exercises  ---------- //
 
-function addExerciseItem(
-  sectionArray,
-  inputItem,
-  count,
-  addBtn,
-  sectionList,
-  key
-) {
+function addExerciseItem(inputItem, count, addBtn, sectionList, key) {
   addBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newExerciseInput = inputItem.value.trim();
@@ -381,9 +380,9 @@ function addExerciseItem(
         IsChecked: false,
       };
 
-      sectionArray.push(exerciseObject);
+      exercisesArray.push(exerciseObject);
       dailyEntryObj.exercises.push(exerciseObject);
-      localStorage.setItem(key, JSON.stringify(sectionArray));
+      localStorage.setItem(key, JSON.stringify(exercisesArray));
 
       updateExerciseList(dailyEntryObj.exercises, sectionList, key);
       inputItem.value = "";
@@ -439,7 +438,7 @@ const updateExerciseList = (sectionArray, sectionList, key) => {
 
 // ---------- Habits ---------- //
 
-function addHabitItem(sectionArray, inputItem, addBtn, sectionList, key) {
+function addHabitItem(inputItem, addBtn, sectionList, key) {
   addBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const newHabitInput = inputItem.value.trim();
@@ -450,10 +449,10 @@ function addHabitItem(sectionArray, inputItem, addBtn, sectionList, key) {
         IsChecked: false,
       };
 
-      sectionArray.push(habitObject);
+      habitsArray.push(habitObject);
       dailyEntryObj.habits.push(habitObject);
 
-      localStorage.setItem(key, JSON.stringify(sectionArray));
+      localStorage.setItem(key, JSON.stringify(habitsArray));
 
       updateHabitList(dailyEntryObj.habits, sectionList, key);
       inputItem.value = "";
@@ -478,6 +477,17 @@ const updateHabitList = (sectionArray, sectionList, key) => {
     checkbox.id = `habitsCheckbox${index}`;
     checkbox.className = "checkboxes";
     checkbox.checked = updatedItem.IsChecked;
+
+    // Check if dailyEntryObj is available and the current item is in it
+    if (dailyEntryObj && dailyEntryObj.habits) {
+      const foundItem = dailyEntryObj.habits.find(
+        (item) => item.Habit === updatedItem.Habit
+      );
+      if (foundItem) {
+        checkbox.checked = foundItem.IsChecked;
+      }
+    }
+
     checkbox.dataset.index = index;
     checkbox.addEventListener("change", (event) => {
       const itemIndex = event.target.dataset.index;
@@ -594,6 +604,7 @@ function populateForm(targetDate) {
       updateExerciseList(exercises, exerciseList, exKey);
       updateHabitList(habits, habitList, habKey);
       dailyEntryObj = foundEntry;
+      isEditing = true;
     } else {
       form.reset();
       dateElement.value = formattedDate;
@@ -621,6 +632,7 @@ function populateForm(targetDate) {
         exercises: [...exercisesArray],
         habits: [...habitsArray],
       };
+      isEditing = true;
     }
   } catch (error) {
     console.error("Error in populating form", error);
@@ -631,28 +643,13 @@ function populateForm(targetDate) {
 
 fetchData(currentLat, currentLon);
 
-addMedItem(
-  medicationsArray,
-  medInput,
-  countInput,
-  addMedBtn,
-  medList,
-  medKey,
-  dosageElement
-);
+addMedItem(medInput, countInput, addMedBtn, medList, medKey, dosageElement);
 
 // Calling function for adding items to exercise section
-addExerciseItem(
-  exercisesArray,
-  exerciseInput,
-  repCount,
-  addExerciseBtn,
-  exerciseList,
-  exKey
-);
+addExerciseItem(exerciseInput, repCount, addExerciseBtn, exerciseList, exKey);
 
 // Calling function for adding items to habit section
-addHabitItem(habitsArray, habitInput, addHabitBtn, habitList, habKey);
+addHabitItem(habitInput, addHabitBtn, habitList, habKey);
 
 // Listening for flag click
 flagClick(flag);
@@ -694,44 +691,73 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-function clearList(sectionArray, listId, key) {
+function clearList(listId, key) {
   let list = document.getElementById(listId);
 
   if (list) {
-    while (list.firstChild) {
-      list.removeChild(list.firstChild);
-    }
-    sectionArray.splice(0, sectionArray.length);
-
-    localStorage.setItem(key, JSON.stringify(sectionArray));
+    localStorage.setItem(key, JSON.stringify([]));
 
     if (listId === "medList") {
-      updateMedList([...medicationsArray], medList, medKey);
+      dailyEntryObj.medications = [];
+      medicationsArray = [];
+      updateMedList(dailyEntryObj.medications, medList, medKey);
+      if (isEditing) {
+        updateObjectArrayForDate(formattedDate, "medications", []);
+      }
     } else if (listId === "exerciseList") {
-      updateExerciseList([...exercisesArray], exerciseList, exKey);
+      dailyEntryObj.exercises = [];
+      exercisesArray = [];
+      updateExerciseList(dailyEntryObj.exercises, exerciseList, exKey);
+      if (isEditing) {
+        updateObjectArrayForDate(formattedDate, "exercises", []);
+      }
     } else if (listId === "habitList") {
-      updateHabitList([...habitsArray], habitList, habKey);
+      dailyEntryObj.habits = [];
+      habitsArray = [];
+      updateHabitList(dailyEntryObj.habits, habitList, habKey);
+      if (isEditing) {
+        updateObjectArrayForDate(formattedDate, "habits", []);
+      }
     } else {
       console.log("List ID not recognized");
     }
-    console.log("Section Array: ", sectionArray);
   } else {
     console.error("List with ID " + listId + " not found.");
   }
 }
 
+// Function to update an object array for a specific date in local storage
+// This will allow you to clear the array in local storage for the specific date without having to click submit
+
+const updateObjectArrayForDate = (date, objectName, newArr) => {
+  const entriesJSON = localStorage.getItem("entriesArray");
+  if (entriesJSON) {
+    let entries = JSON.parse(entriesJSON);
+
+    // Find the entry with the specific date
+    const entryIndex = entries.findIndex((entry) => entry.date === date);
+    if (entryIndex !== -1) {
+      // Update the exercises array for this specific entry
+      entries[entryIndex][objectName] = newArr;
+
+      // Save the updated entries array back to local storage
+      localStorage.setItem("entriesArray", JSON.stringify(entries));
+    }
+  }
+};
+
 document.getElementById("deleteAllMeds").addEventListener("click", function () {
-  clearList(medicationsArray, "medList", medKey);
+  clearList("medList", medKey);
 });
 
 document
   .getElementById("deleteAllExercises")
   .addEventListener("click", function () {
-    clearList(exercisesArray, "exerciseList", exKey);
+    clearList("exerciseList", exKey);
   });
 
 document
   .getElementById("deleteAllHabits")
   .addEventListener("click", function () {
-    clearList(habitsArray, "habitList", habKey);
+    clearList("habitList", habKey);
   });
