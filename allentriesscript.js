@@ -146,7 +146,11 @@ function displayCards() {
   cardsContainer.innerHTML = "";
   cardsContainer.className = "row";
 
-  entriesArray.forEach((entry) => {
+  const sortedEntries = entriesArray.slice().sort((a, b) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  sortedEntries.forEach((entry) => {
     const weather = entry.weather;
     let emotionTracker = entry.emotionTracker;
     let waterTracker = entry.waterTracker;

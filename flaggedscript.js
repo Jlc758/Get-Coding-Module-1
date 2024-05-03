@@ -148,7 +148,11 @@ function displayCards() {
   cardsContainer.innerHTML = "";
   cardsContainer.className = "row";
 
-  flaggedEntries.forEach((entry) => {
+  const sortedEntries = flaggedEntries.slice().sort((a, b) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  sortedEntries.forEach((entry) => {
     const weather = entry.weather;
     let emotionTracker = entry.emotionTracker;
     let waterTracker = entry.waterTracker;
@@ -215,7 +219,7 @@ displayCards();
 let expandCollapseButton = document.getElementById("expandCollapse");
 
 expandCollapseButton.addEventListener("click", () => {
-  const cardsContainer = document.getElementById("allItemsContainer");
+  const cardsContainer = document.getElementById("flaggedItemsContainer");
   const cardContents = cardsContainer.querySelectorAll(".card-content");
 
   cardContents.forEach((content) => {
