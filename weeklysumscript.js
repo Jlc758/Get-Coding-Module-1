@@ -1,60 +1,30 @@
-let dateElement = document.getElementById("date");
-let currentDate = new Date();
-let timezoneOffset = currentDate.getTimezoneOffset();
-currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
-let formattedDate = currentDate.toISOString().slice(0, 10);
+// let dateElement = document.getElementById("date");
+// let currentDate = new Date();
+// let timezoneOffset = currentDate.getTimezoneOffset();
+// currentDate.setMinutes(currentDate.getMinutes() - timezoneOffset);
+// let formattedDate = currentDate.toISOString().slice(0, 10);
 
-const weeklySumChartCanvas = document.getElementById("weeklySumChart");
+// const weeklySumChartCanvas = document.getElementById("weeklySumChart");
 
-const entriesKey = "entriesArray";
-const entriesArray = JSON.parse(localStorage.getItem(entriesKey));
-console.log("Entries Array: ", entriesArray);
+// const entriesKey = "entriesArray";
+// const entriesArray = JSON.parse(localStorage.getItem(entriesKey));
+// console.log("Entries Array: ", entriesArray);
+const ctx = document.getElementById("myChart");
 
-const data = entriesArray.map((entry) => ({
-  date: entry.date,
-  emotionTracker: entry.emotiontracker,
-  waterTracker: entry.waterTracker,
-}));
-
-const labels = data.map((entry) => entry.date);
-const emotionsData = data.map((entry) => entry.emotionTracker);
-const waterData = data.map((entry) => entry.waterTracker);
-
-const chartData = {
-  labels: labels,
-  datasets: [
-    {
-      label: "Emotion Tracker",
-      data: emotionsData,
-      backgroundColor: "rgba(255, 99, 132, 0.2)",
-      borderColor: "rgba(255, 99, 132, 1)",
-      borderWidth: 1,
-    },
-    {
-      label: "Water Tracker",
-      data: waterData,
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-      borderColor: "rgba(54, 162, 235, 1)",
-      borderWidth: 1,
-    },
-  ],
-};
-
-const ctx = weeklySumChartCanvas.getContext("2d");
-
-const options = {
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 1,
+new Chart(ctx, {
+  data: {
+    datasets: [
+      {
+        type: "bar",
+        label: "Moodlet",
+        data: [1, 2, 3, 4, 5],
       },
-    },
+      {
+        type: "line",
+        label: "Water Level",
+        data: [8, 16, 24, 32, 50],
+      },
+    ],
+    labels: ["8oz", "16oz", "24oz", "32oz", "30oz+"],
   },
-};
-
-const weeklySumChart = new Chart(ctx, {
-  type: "line",
-  data: chartData,
-  options: options,
 });
